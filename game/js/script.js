@@ -76,13 +76,19 @@ function checkSignIn() {
         document.getElementById('signin-password').value = '';
         document.getElementById('error-message').style.display = 'none';
         document.getElementById('sign-in-popup').style.display = 'none';
+        
+        // Wait for the fading effect to complete before redirecting
+        setTimeout(() => {
+            // Redirect to the prelude HTML
+            window.location.href = './assets/prelude.html';
+        }, 3000);
     } else {
         // Show error message
         document.getElementById('error-message').style.display = 'block';
         // Hide the success message after 3 seconds
         setTimeout(() => {
             document.getElementById('error-message').style.display = 'none';
-        }, 3000);
+        }, 2000);
         // Reset and close the Sign In Popup
         document.getElementById('signin-username').value = '';
         document.getElementById('signin-password').value = '';
