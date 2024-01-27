@@ -27,27 +27,31 @@
         <div id="dialog-text">Loading...</div>
     </div>
 
+    <!-- dialog for reviving -->
+    <div id="reviveScript" class="reviveScript">Reviving...</div>
+    <div id="click-to-continue" class="click-to-continue">Click to Continue...</div>
+
     <!-- Character Grid -->
     <div class="character-grid">
         <div class="character" id="character1" onclick="toggleHighlight('character1')">
             <img src="https://media.tenor.com/WugWpCOeHOQAAAAi/ricardo-ricardo-flick.gif" 
             alt="Character 1">
-            <h3>bruuhhhhh</h3>
+            <p>bruuhhhhh</p>
         </div>
         <div class="character" id="character2" onclick="toggleHighlight('character2')">
             <img src="https://media.tenor.com/FVEraBahI0AAAAAi/squidward-squidward-meme.gif" 
             alt="Character 2">
-            <h3>NA UGH!</h3>
+            <p>NA UGH!</p>
         </div>
         <div class="character" id="character3" onclick="toggleHighlight('character3')">
             <img src="https://media.tenor.com/Cj3sLJg6mo0AAAAi/rickroll.gif" 
             alt="Character 3">
-            <h3>U JST GOT - RICK ROLLED</h3>
+            <p>U JST GOT - RICK ROLLED</p>
         </div>
         <div class="character" id="character4" onclick="toggleHighlight('character4')">
             <img src="https://media.tenor.com/Jtb1GET_Wq8AAAAi/huh-cat-gif.gif" 
             alt="Character 4">
-            <h3>HUH?</h3>
+            <p>HUH?</p>
         </div>
     </div>
 
@@ -62,6 +66,34 @@
         </div>
     </div>
     
+    <!-- show enemy a -->
+    <div class="show-enemy-a">
+        <!-- details or questions -->
+        <img src="https://cdn.discordapp.com/attachments/1200058397236666378/1200729650150789130/enemy-box-rotate-a.png?ex=65c73da1&is=65b4c8a1&hm=b3b9419b2384d2ff513fc9fe5d0a5cd532dc667000156d988c39ea0aad9cd872&" 
+        alt="ques-a" class="enemy-a-ques-a">
+
+        <!-- enemycon -->
+        <img src="https://media1.tenor.com/m/aLc7c9puW4sAAAAC/black-man.gif" 
+        alt="enemey prelude" class="enemy-a">
+    </div>
+    
+    <!-- show character -->
+    <div class="show-char-a">
+        <img src="https://media.tenor.com/3rvy5dfUPlsAAAAj/among-us-twerking.gif" 
+        alt="char a" class="char-battle-a">
+
+        <img src="https://cdn.discordapp.com/attachments/1200058397236666378/1200729054173741126/user-box.png?ex=65c73d12&is=65b4c812&hm=5b0cb5174f074f5a334879bd2c23c0a088891f7cc99590154c87d485c2c27180&" 
+        alt="char-skills" class="char-skills-a">
+    </div>
+
+    <!-- questions -->
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+
+    <!-- character and enemy hp -->
+    <div class="enemy-hp" id="enemyHp">Enemy HP: 100</div>
+    <div class="character-hp" id="characterHp">Your HP: 100</div>
 
     <script src="../js/prelude.js"></script>
 </body>

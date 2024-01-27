@@ -3,7 +3,6 @@ body, html {
     margin: 0;
     overflow: hidden;
 }
-
 .background {
     position: fixed;
     top: 0;
@@ -31,7 +30,6 @@ body, html {
     width: 1000px;
     height: auto;
 }
-
 .dialog-script {
     position: absolute;
     left: 330px;
@@ -39,7 +37,6 @@ body, html {
     color: white;
     font-size: 30px;
 }
-
 .dialog-bbox-s2 {
     position: absolute;
     width: 1000px;
@@ -47,13 +44,39 @@ body, html {
     bottom: -15px;
     left: 250px;
 }
-
 .dialog-script-s2 {
     position: absolute;
     left: 400px;
     bottom: 100px;
     color: white;
     font-size: 30px;
+}
+.reviveScript {
+    position: absolute;
+    left: 500px;
+    top: 150px;
+    color: white;
+    font-size: 30px;
+    border: 1px solid #000;
+}
+.click-to-continue {
+    position: absolute;
+    right: 200px;
+    top: 255px;
+    color: white;
+    font-size: 15px;
+    border: 1px solid #000;
+}
+.click-to-continue-s2 {
+    position: absolute;
+    right: 210px;
+    bottom: 40px;
+    color: white;
+    font-size: 15px;
+    border: 1px solid #000;
+}
+.move-up {
+    z-index: 3;
 }
 
 /* character selection */
@@ -65,7 +88,6 @@ body, html {
     gap: 10px;
     margin: 20px;
 }
-
 .character {
     position: relative;
     width: 200px;
@@ -73,20 +95,17 @@ body, html {
     color: white;
     cursor: pointer;
 }
-
 .character img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
-.character h3 {
+.character p {
     max-width: 100%; /* Set maximum width for the text */
     overflow: hidden;
     white-space: normal;
     text-align: center;
 }
-
 .highlight {
     border: 3px solid #00f; /* Highlight color */
 }
@@ -104,22 +123,19 @@ body, html {
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.7);
 }
-
 .modal-content {
     background-color: #fefefe;
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 800px;
 }
-
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
     color: black;
@@ -127,4 +143,97 @@ body, html {
     cursor: pointer;
 }
 
-/* selected character move to the center */
+/* show enemy a */
+.enemy-a-ques-a {
+    position: absolute;
+    top: 18px;
+    left: 10px;
+    width: 990px;
+    height: 172px;
+}
+.enemy-a {
+    position: absolute;
+    width: 100%;
+    height: 100%; 
+}
+.enemy-a-battle {
+    top: 20px;
+    left: 1000px;
+    width: 300px;
+    height: auto;
+}
+
+/* show character */
+.char-battle-a {
+    /* however i cant move the the character anywhere i want */
+    position: absolute;
+    top: 0;
+    left: 100px;
+    bottom: 15px;
+    width: 200px;
+    height: 178px;
+}
+.char-skills-a {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    width: 1010px;
+    height: 220px;
+}
+
+/* questions */
+.question {
+    position: absolute;
+    width: 680px;
+    top: 65px;
+    left: 40px;
+    margin-bottom: 10px;
+    text-align: center;
+    border: 1px solid #000;
+}
+.choices {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 650px;
+    bottom: 35px;
+    right: 70px;
+    margin: auto;
+    border: 1px solid #000;
+}
+.choice {
+    margin: 5px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+.choices-row {
+    display: flex;
+    justify-content: space-between;
+}
+.feedback {
+    text-align: center;
+    position: absolute;
+    width: 650px;
+    bottom: 170px;
+    right: 70px;
+    margin: auto;
+    border: 1px solid #000;
+}
+
+/* character and enemy hp */
+.enemy-hp {
+    position: absolute;
+    top: 65px;
+    right: 435px;
+    color: white;
+    border: 1px solid #ffffff;
+}
+.character-hp {
+    position: absolute;
+    bottom: 70px;
+    left: 420px;
+    border: 1px solid #000;
+}
