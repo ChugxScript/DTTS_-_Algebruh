@@ -1,0 +1,169 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place the background behind other content */
+    background: url('https://media1.tenor.com/m/zKedQzm-07MAAAAd/sword.gif') center/cover no-repeat; /* Replace 'your-background.gif' with your GIF file */
+}
+
+/* journey button */
+.journey-button {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 200px;
+    height: 200px;
+    color: black;
+    border-radius: 10%; /* Make it a circle by setting border-radius to 50% */
+    cursor: pointer;
+    background: url('https://media1.tenor.com/m/ZQndYO4NwBcAAAAC/gojo-satoru.gif') center center no-repeat; /* Set the path to your GIF */
+    background-size: cover;
+    border: 1px solid #000;
+    transition: background 0.3s ease;
+}
+/* background for the text */
+.journey-button-overlay {
+    position: absolute;
+    display: flex;
+    width: 90%;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the overlay */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    background: rgba(48, 46, 46, 0.5); 
+    border-radius: 1%; 
+}
+/* Hover effect */
+.journey-button:hover {
+    background: url('https://media1.tenor.com/m/oIuJXBhq4MwAAAAC/aesthetic-skull.gif') center center no-repeat; /* Set the path to your hover GIF */
+    background-size: cover; /* Ensure the hover background covers the entire button */
+    color: white;
+}
+
+
+/* stages popup */
+.popup {
+    display: none;
+    position: fixed;
+    width: 800px;
+    max-height: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #000000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+    overflow-y: auto;
+}
+.popup h2 {
+    border: 1px solid #000;
+}
+/* Style for the overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+}
+/* Style for the stages */
+.stage {
+    cursor: pointer;
+    margin-bottom: 10px;
+    border: 1px solid #000;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: black;
+    transition: background-image 0.5s ease;
+}
+.stage-overlay {
+    position: fixed;
+    background-color: rgba(29, 29, 29, 0.7); /* Adjust the color and opacity as needed */
+    width: 300px;
+}
+/* Style for the close icon */
+.close-icon {
+    float: right;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+
+
+/* view profile button */
+.profile-button {
+    position: absolute;
+    cursor: pointer;
+    padding: 5px;
+    top: 10px;
+    left: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: black;
+    background: url('https://media.tenor.com/UY1gxyywjAMAAAAM/rgb.gif');
+    border: 1px solid #000;
+}
+.profile-button:hover {
+    color: white;
+}
+/* Style for the profile avatar */
+.profile-avatar {
+    width: 100px;
+    height: 70px;
+    margin-right: 10px;
+    border: 1px solid #000;
+}
+.profile-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile-content h3 {
+    position: relative;
+    font-size: 20px;
+    padding: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.profile-button span {
+    height: 70px;
+    border: 1px solid #000;
+}
+/* Style for the user details */
+#userDetailsTable {
+    width: 100%;
+    height: 200px;
+    text-align: left;
+    border: 1px solid #000;
+}
+.profile-avatar-inside {
+    width: 300px;
+    height: 200px;
+    margin-right: 10px;
+    border: 1px solid #000;
+}

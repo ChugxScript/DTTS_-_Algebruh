@@ -8,7 +8,48 @@
     <title>Your Game Title</title>
 </head>
 <body>
-    <h1>yoyoyoyoyoyo</h1>
+    <div class="background"></div>
+
+    <!-- journey button -->
+    <div class="journey-button" onclick="openJourneyPopup()">
+        <div class="journey-button-overlay">
+            Journey
+        </div>
+    </div>
+    <!-- profile button -->
+    <div class="profile-button" onclick="openProfilePopup()">
+        <div class="profile-content">
+            <img src="https://media.tenor.com/UaSwNgmtriMAAAAM/shrek-shreck.gif" 
+            alt="profile avatar" class="profile-avatar" id="avatar">
+            <span>
+                <h3>Profile</h3>
+            </span>
+        </div>
+    </div>
+
+    <!-- Popup container -->
+    <!-- journey popup -->
+    <div class="popup" id="journeyPopup">
+        <h2>Stages of the Journey
+            <span class="close-icon" onclick="closeJourneyPopup()">×</span>
+        </h2>
+        <div class="stages" id="stages"></div>
+    </div>
+    <!-- view profile popup -->
+    <div class="popup" id="profilePopup">
+        <h2>User Profile
+            <span class="close-icon" onclick="closeProfilePopup()">×</span>
+        </h2>
+        <div class="profile-content">
+            <img src="https://media.tenor.com/UaSwNgmtriMAAAAM/shrek-shreck.gif" 
+            alt="profile avatar" class="profile-avatar-inside" id="avatar">
+            <table id="userDetailsTable"></table>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeJourneyPopup()"></div>
+
     <script src="../js/dashboard.js"></script>
 </body>
 </html>
