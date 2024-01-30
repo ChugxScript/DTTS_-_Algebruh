@@ -26,6 +26,18 @@
             </span>
         </div>
     </div>
+    <!-- shop button -->
+    <div class="shop-button" onclick="openShopPopup()">
+        <div class="shop-button-overlay">
+            shop
+        </div>
+    </div>
+    <!-- inventory button -->
+    <div class="inventory-button" onclick="openShopPopup()">
+        <div class="inventory-button-overlay">
+            inventory
+        </div>
+    </div>
 
     <!-- Popup container -->
     <!-- journey popup -->
@@ -45,6 +57,48 @@
             alt="profile avatar" class="profile-avatar-inside" id="avatar">
             <table id="userDetailsTable"></table>
         </div>
+    </div>
+    <!-- Shop popup -->
+    <div class="popup" id="shopPopup">
+        <h2>Available Purchasable Items
+            <span class="close-icon" onclick="closeShopPopup()">×</span>
+        </h2>
+
+        <!-- Categories -->
+        <div class="shop-categories">
+            <span onclick="showCategory('promoSale')">Promo Sale</span>
+            <span onclick="showCategory('characters')">Characters</span>
+            <span onclick="showCategory('items')">Items</span>
+            <span onclick="showCategory('specials')">Specials</span>
+        </div>
+
+        <!-- Items container -->
+        <div class="shop-items-container" id="shopItemsContainer">
+            <!-- Content will be dynamically populated here -->
+        </div>
+    </div>
+    <!-- Shop item details popup -->
+    <div class="popup" id="itemDetailsPopup">
+        <h2>Item Details
+            <span class="close-icon" onclick="closeItemDetailsPopup()">×</span>
+        </h2>
+        <div id="itemDetailsContent" class="shop-item-details-content">
+            <div class="shop-item-details-img">
+                <!-- Image will be dynamically populated here -->
+            </div>
+            <div class="shop-item-details-content">
+                <!-- Content will be dynamically populated here -->
+            </div>
+        </div>
+    </div>
+    <!-- Confirmation popup -->
+    <div class="popup" id="confirmationPopup">
+        <h2>Confirmation
+            <span class="close-icon" onclick="closeConfirmationPopup()">×</span>
+        </h2>
+        <p>Are you sure you want to buy this item?</p>
+        <button onclick="confirmPurchase()">Continue</button>
+        <button onclick="closeConfirmationPopup()">Cancel</button>
     </div>
 
     <!-- Overlay -->

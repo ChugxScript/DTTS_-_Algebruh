@@ -510,7 +510,6 @@ function handleCharacterDefeat() {
     }
 }
 
-// hp kemerut
 // Initialize HP values
 let enemyHp = 10;
 let characterHp = 10;

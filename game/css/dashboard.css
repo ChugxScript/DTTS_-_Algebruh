@@ -58,6 +58,7 @@ body, html {
     display: none;
     position: fixed;
     width: 800px;
+    height: 500px;
     max-height: 500px;
     top: 50%;
     left: 50%;
@@ -166,4 +167,177 @@ body, html {
     height: 200px;
     margin-right: 10px;
     border: 1px solid #000;
+}
+
+
+/* shop button */
+.shop-button {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    width: 200px;
+    height: 200px;
+    color: black;
+    border-radius: 10%; /* Make it a circle by setting border-radius to 50% */
+    cursor: pointer;
+    background: url('https://media.tenor.com/f32GdWM2otEAAAAj/burning-money.gif') center center no-repeat; /* Set the path to your GIF */
+    background-size: cover;
+    border: 1px solid #000;
+    transition: background 0.3s ease;
+}
+/* background for the text */
+.shop-button-overlay {
+    position: absolute;
+    display: flex;
+    width: 90%;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the overlay */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    background: rgba(48, 46, 46, 0.5); 
+    border-radius: 1%; 
+}
+/* Hover effect */
+.shop-button:hover {
+    background: url('https://media.tenor.com/noQy6HSBoZ4AAAAM/poor-no-money.gif') center center no-repeat; /* Set the path to your hover GIF */
+    background-size: cover; /* Ensure the hover background covers the entire button */
+    color: white;
+}
+/* shop categories */
+.shop-categories {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #000;
+}
+.shop-categories span {
+    display: inline-block;
+    cursor: pointer;
+    width: 200px;
+    padding: 10px; /* Add padding to increase clickable area */
+    color: #ffffff; /* Set the color to make it distinct */
+    background-color: black;
+    border: 1px solid #000;
+}
+.shop-categories span:hover {
+    color: #000000;
+    background-color: rgb(202, 202, 202);
+    border: 1px solid #000;
+}
+/* shop items */
+.shop-item {
+    display: block; /* Ensure each item is a block element */
+    width: 150px;
+    height: 150px;
+    border: 1px solid #000;
+}
+/* shop items container */
+.shop-items-container {
+    display: flex; /* Use flexbox to create a row layout */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: left;
+    max-height: 359px;
+    overflow-y: auto;
+    border: 3px solid #ff0000;
+}
+/* Customize the scrollbar */
+.shop-items-container::-webkit-scrollbar,
+.shop-item-details-details::-webkit-scrollbar {
+    width: 1px; /* Adjust the width as needed */
+}
+/* Customize the scrollbar track */
+.shop-items-container::-webkit-scrollbar-track,
+.shop-item-details-details::-webkit-scrollbar-track {
+    background-color: #15ff00;
+}
+/* Customize the scrollbar thumb (the draggable part) */
+.shop-items-container::-webkit-scrollbar-thumb,
+.shop-item-details-details::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}
+/* item details */
+.shop-item-details-content {
+    display: flex;
+    flex-direction: column; /* Horizontal arrangement */
+    border: 2px solid #000;
+}
+/* container to put img and details together and button in the buttom*/
+.shop-item-details-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Center items horizontally */
+    border: 2px solid #66ff00;
+}
+/* Part 1 - Image */
+.shop-item-details-img {
+    flex: 0 0 auto; /* Do not grow or shrink; size based on content */
+    padding: 10px; /* Adjust as needed */
+    border: 1px solid #000000;
+}
+/* Part 2 - Dynamic Content */
+.shop-item-details-details {
+    flex: 1; /* Grow to fill available space */
+    padding: 10px;
+    height: 359px;
+    max-height: 359px;
+    overflow-y: auto;
+    border: 1px solid #ff0000;
+}
+/* table */
+.shop-item-details-details table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #000;
+}
+.shop-item-details-details td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+.shop-item-details-details tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+/* inventory button */
+.inventory-button {
+    position: absolute;
+    bottom: 220px;
+    left: 20px;
+    width: 200px;
+    height: 100px;
+    color: black;
+    border-radius: 10%; /* Make it a circle by setting border-radius to 50% */
+    cursor: pointer;
+    background: url('https://media.tenor.com/f32GdWM2otEAAAAj/burning-money.gif') center center no-repeat; /* Set the path to your GIF */
+    background-size: cover;
+    border: 1px solid #000;
+    transition: background 0.3s ease;
+}
+/* background for the text */
+.inventory-button-overlay {
+    position: absolute;
+    display: flex;
+    width: 90%;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the overlay */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    background: rgba(48, 46, 46, 0.5); 
+    border-radius: 1%; 
+}
+/* Hover effect */
+.inventory-button:hover {
+    background: url('https://media.tenor.com/noQy6HSBoZ4AAAAM/poor-no-money.gif') center center no-repeat; /* Set the path to your hover GIF */
+    background-size: cover; /* Ensure the hover background covers the entire button */
+    color: white;
 }
