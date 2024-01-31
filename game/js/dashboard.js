@@ -36,10 +36,10 @@ function openJourneyPopup() {
         // Create an overlay for the stage name
         const overlay = document.createElement('div');
         overlay.className = 'stage-overlay';
-        overlay.textContent = stage.name;
-
+        
         // Append the overlay to the stage
         stageElement.appendChild(overlay);
+        overlay.textContent = stage.name;
 
         // Set click event for the stage
         stageElement.onclick = () => handleStageClick(stage);
