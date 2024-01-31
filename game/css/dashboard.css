@@ -118,18 +118,6 @@ body, html {
     height: 100px;
     border: 5px solid #000;
 }
-/* Customize the scrollbar */
-.stages::-webkit-scrollbar {
-    width: 1px; /* Adjust the width as needed */
-}
-/* Customize the scrollbar track */
-.stages::-webkit-scrollbar-track {
-    background-color: #15ff00;
-}
-/* Customize the scrollbar thumb (the draggable part) */
-.stages::-webkit-scrollbar-thumb {
-    background-color: #000000;
-}
 /* Style for the close icon */
 .close-icon {
     float: right;
@@ -179,17 +167,48 @@ body, html {
     border: 1px solid #000;
 }
 /* Style for the user details */
-#userDetailsTable {
-    width: 100%;
-    height: 200px;
-    text-align: left;
+.profile-content-popup {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    border: 2px solid #000;
+}
+/* part 1 img */
+.profile-avatar-inside {
+    flex: 0 0 auto;
+    padding: 10px;
+    border: 2px solid #ff0000;
+}
+/* part 2 - details */
+.user-content-container {
+    border: 5px solid #726fff;
+}
+.user-details-table-details {
+    flex: 1; /* Grow to fill available space */
+    padding: 10px;
+    height: 359px;
+    max-height: 359px;
+    overflow-y: auto;
+    border: 1px solid #ff0000;
+}
+.user-details-table {
+    flex: 1;
+    overflow-y: auto;
     border: 1px solid #000;
 }
-.profile-avatar-inside {
-    width: 300px;
-    height: 200px;
-    margin-right: 10px;
-    border: 1px solid #000;
+/* table */
+.user-details-table-details table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #000;
+}
+.user-details-table-details td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+.user-details-table-details tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 
@@ -266,21 +285,6 @@ body, html {
     max-height: 359px;
     overflow-y: auto;
     border: 3px solid #ff0000;
-}
-/* Customize the scrollbar */
-.shop-items-container::-webkit-scrollbar,
-.shop-item-details-details::-webkit-scrollbar {
-    width: 1px; /* Adjust the width as needed */
-}
-/* Customize the scrollbar track */
-.shop-items-container::-webkit-scrollbar-track,
-.shop-item-details-details::-webkit-scrollbar-track {
-    background-color: #15ff00;
-}
-/* Customize the scrollbar thumb (the draggable part) */
-.shop-items-container::-webkit-scrollbar-thumb,
-.shop-item-details-details::-webkit-scrollbar-thumb {
-    background-color: #000000;
 }
 /* item details */
 .shop-item-details-content {
@@ -400,21 +404,6 @@ body, html {
     overflow-y: auto;
     border: 3px solid #ff0000;
 }
-/* Customize the scrollbar */
-.inventory-items-container::-webkit-scrollbar,
-.inventory-item-details-details::-webkit-scrollbar {
-    width: 1px; /* Adjust the width as needed */
-}
-/* Customize the scrollbar track */
-.inventory-items-container::-webkit-scrollbar-track,
-.inventory-item-details-details::-webkit-scrollbar-track {
-    background-color: #15ff00;
-}
-/* Customize the scrollbar thumb (the draggable part) */
-.inventory-items-container::-webkit-scrollbar-thumb,
-.inventory-item-details-details::-webkit-scrollbar-thumb {
-    background-color: #000000;
-}
 /* item details */
 .inventory-item-details-content {
     display: flex;
@@ -456,4 +445,34 @@ body, html {
 }
 .inventory-item-details-details tr:nth-child(even) {
     background-color: #f2f2f2;
+}
+
+
+/* webkit */
+/* Customize the scrollbar */
+.stages::-webkit-scrollbar,
+.user-details-table-details::-webkit-scrollbar,
+.shop-items-container::-webkit-scrollbar,
+.shop-item-details-details::-webkit-scrollbar,
+.inventory-items-container::-webkit-scrollbar,
+.inventory-item-details-details::-webkit-scrollbar {
+    width: 1px; /* Adjust the width as needed */
+}
+/* Customize the scrollbar track */
+.stages::-webkit-scrollbar-track,
+.user-details-table-details::-webkit-scrollbar-track,
+.shop-items-container::-webkit-scrollbar-track,
+.shop-item-details-details::-webkit-scrollbar-track,
+.inventory-items-container::-webkit-scrollbar-track,
+.inventory-item-details-details::-webkit-scrollbar-track {
+    background-color: #15ff00;
+}
+/* Customize the scrollbar thumb (the draggable part) */
+.stages::-webkit-scrollbar-thumb,
+.user-details-table-details::-webkit-scrollbar-thumb,
+.shop-items-container::-webkit-scrollbar-thumb,
+.shop-item-details-details::-webkit-scrollbar-thumb,
+.inventory-items-container::-webkit-scrollbar-thumb,
+.inventory-item-details-details::-webkit-scrollbar-thumb {
+    background-color: #000000;
 }

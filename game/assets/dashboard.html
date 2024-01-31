@@ -19,8 +19,7 @@
     <!-- profile button -->
     <div class="profile-button" onclick="openProfilePopup()">
         <div class="profile-content">
-            <img src="https://media.tenor.com/UaSwNgmtriMAAAAM/shrek-shreck.gif" 
-            alt="profile avatar" class="profile-avatar" id="avatar">
+            <img class="profile-avatar" id="avatar"></img>
             <span>
                 <h3>Profile</h3>
             </span>
@@ -52,10 +51,14 @@
         <h2>User Profile
             <span class="close-icon" onclick="closeProfilePopup()">×</span>
         </h2>
-        <div class="profile-content">
-            <img src="https://media.tenor.com/UaSwNgmtriMAAAAM/shrek-shreck.gif" 
-            alt="profile avatar" class="profile-avatar-inside" id="avatar">
-            <table id="userDetailsTable"></table>
+        <div id="profileContent" class="profile-content-popup">
+            <!-- container of img and user details -->
+            <div id="profileAvatarInside" class="profile-avatar-inside">
+                <!-- picture -->
+            </div>
+            <div id="userDetailsTable" class="user-content-container">
+                <!-- user details -->
+            </div>
         </div>
     </div>
     <!-- Shop popup -->

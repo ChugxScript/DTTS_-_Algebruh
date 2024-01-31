@@ -87,46 +87,79 @@ function closeJourneyPopup() {
 
 
 // Function to open the profile popup
+const getUserDetails = {
+    user: [
+        {
+            userAvatar: 'https://media.tenor.com/UaSwNgmtriMAAAAM/shrek-shreck.gif',
+            userAvatarWidth: '300px',
+            userAvatarHeight: '200px',
+            userDetailsContent:
+            {
+                userName: 'Bruh',
+                level: 'beyond bounderies',
+                age: 'secret',
+                email: 'bruh@email.com'
+            }
+        }
+    ]
+}
+// Set the avatar onload page dynamically 
+const avatarElement = document.getElementById('avatar');
+avatarElement.src = getUserDetails['user'][0].userAvatar;
+// function to open profile popup
 function openProfilePopup() {
-    // Your logic to fetch and add user details dynamically goes here
-    const userDetails = getUserDetails(); // Replace this with your function to fetch user details
-    document.getElementById('userDetailsTable').innerHTML = userDetails;
+    const profilePopup = document.getElementById('profilePopup');
+    const profileContent = document.getElementById('profileContent');
+    // clear previous content
+    profileContent.innerHTML = '';
 
-    document.getElementById('profilePopup').style.display = 'block';
+    // get instance of the user data
+    const userDetails = getUserDetails['user'];
+
+    // Create container for image 
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'profile-content-container';
+    // create img element to fetch the user avatar
+    const userAvatarImg = document.createElement('img');
+    userAvatarImg.src = userDetails[0].userAvatar; 
+    userAvatarImg.alt = 'User Avatar';
+    userAvatarImg.className = 'profile-avatar-inside';
+    imageContainer.appendChild(userAvatarImg);
+
+    // Create container for details
+    const detailsContainer = document.createElement('div');
+    detailsContainer.className = 'user-details-table-details';
+    // Create details element as a table
+    const detailsElement = document.createElement('table');
+    detailsElement.className = 'user-details-table-details';
+    // Populate details as rows in the table
+    for (const userKey in userDetails[0].userDetailsContent) {
+        if (userDetails[0].userDetailsContent.hasOwnProperty(userKey)) {
+            const row = document.createElement('tr');
+            const cell1 = document.createElement('td');
+            const cell2 = document.createElement('td');
+            cell1.textContent = userKey;
+            cell2.textContent = userDetails[0].userDetailsContent[userKey];
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            detailsElement.appendChild(row);
+        }
+    }
+    // append details to the div
+    detailsContainer.appendChild(detailsElement);
+
+    // Append image and details div to container 
+    profileContent.appendChild(imageContainer);
+    profileContent.appendChild(detailsContainer);
+
+    // Show the popup
+    profilePopup.style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
 }
 // Function to close the profile popup
 function closeProfilePopup() {
     document.getElementById('profilePopup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
-}
-// Set the avatar background dynamically (replace 'path/to/avatar.jpg' with the actual path)
-document.getElementById('avatar').style.backgroundImage = 'url(path/to/avatar.jpg)';
-// Function to fetch user details (replace this with your actual data)
-function getUserDetails() {
-    const user = {
-        name: 'John Doe',
-        age: 25,
-        email: 'john@example.com'
-    };
-
-    // Build HTML for user details table
-    const userDetailsHTML = `
-        <tr>
-            <td>Name:</td>
-            <td>${user.name}</td>
-        </tr>
-        <tr>
-            <td>Age:</td>
-            <td>${user.age}</td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td>${user.email}</td>
-        </tr>
-    `;
-
-    return userDetailsHTML;
 }
 
 
