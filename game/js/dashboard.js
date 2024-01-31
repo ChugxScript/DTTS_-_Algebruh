@@ -1191,6 +1191,7 @@ function openConfirmationPopup(item) {
 // Function to confirm the purchase
 function confirmPurchase() {
     // Handle the purchase logic here using the selectedItem variable
+    alert('Item purchased:', selectedItem);
     console.log('Item purchased:', selectedItem);
 
     // Close the confirmation popup
@@ -1203,5 +1204,118 @@ function closeConfirmationPopup() {
 // Function to close the item details popup
 function closeItemDetailsPopup() {
     document.getElementById('itemDetailsPopup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+
+// inventory functions
+function openInventoryPopup() {
+    // Populate the items for the default category
+    showInventoryCategory('characters');
+    document.getElementById('inventoryPopup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+function closeInventoryPopup() {
+    document.getElementById('inventoryPopup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+function showInventoryCategory(category) {
+    const inventoryItemsContainer = document.getElementById('inventoryItemsContainer');
+    inventoryItemsContainer.innerHTML = ''; // Clear previous items
+
+    const categoryItems = shopItems[category];
+
+    let rowCounter = 0;
+    let currentRow;
+
+    categoryItems.forEach(item => {
+        if (rowCounter % 5 === 0) {
+            // Create a new row every 5 items
+            currentRow = document.createElement('div');
+            currentRow.className = 'inventory-item-row';
+            inventoryItemsContainer.appendChild(currentRow);
+        }
+
+        const itemElement = document.createElement('div');
+        itemElement.className = 'inventory-item';
+
+        itemElement.onclick = () => openInventoryItemDetailsPopup(item);
+
+        const imageElement = document.createElement('img');
+        imageElement.src = item.image;
+        imageElement.alt = 'Inventory Item';
+        imageElement.style.width = item.imgWidth;
+        imageElement.style.height = item.imgWidth;
+
+        const textElement = document.createElement('div');
+        textElement.textContent = category === 'characters' ? item.details.name : item.text;
+
+        itemElement.appendChild(imageElement);
+        itemElement.appendChild(textElement);
+
+        inventoryItemsContainer.appendChild(itemElement);
+        rowCounter++;
+    });
+}
+// Function to open the item details popup
+function openInventoryItemDetailsPopup(item) {
+    const itemInventoryDetailsPopup = document.getElementById('itemInventoryDetailsPopup');
+    const itemInventoryDetailsContent = document.getElementById('itemInventoryDetailsContent');
+    
+    // Clear previous content
+    itemInventoryDetailsContent.innerHTML = '';
+
+    // Create container for image and details
+    const imageDDetailsContainer = document.createElement('div');
+    imageDDetailsContainer.className = 'inventory-item-details-container';
+
+    // Create container for image 
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'inventory-item-details-container';
+
+    // Create image element
+    const imageElement = document.createElement('img');
+    imageElement.src = item.image;
+    imageElement.alt = 'Item Details';
+    imageElement.className = 'inventory-item-details-img';
+    imageContainer.appendChild(imageElement);
+
+    // Create container for details
+    const detailsContainer = document.createElement('div');
+    detailsContainer.className = 'inventory-item-details-details';
+
+    // Create details element as a table
+    const detailsElement = document.createElement('table');
+    detailsElement.className = 'inventory-item-details-details';
+
+    // Populate details as rows in the table
+    for (const detailKey in item.details) {
+        if (item.details.hasOwnProperty(detailKey)) {
+            const row = document.createElement('tr');
+            const cell1 = document.createElement('td');
+            const cell2 = document.createElement('td');
+            cell1.textContent = detailKey;
+            cell2.textContent = item.details[detailKey];
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            detailsElement.appendChild(row);
+        }
+    }
+    // append details to the div
+    detailsContainer.appendChild(detailsElement);
+
+    // Append image and details div to container 
+    imageDDetailsContainer.appendChild(imageContainer);
+    imageDDetailsContainer.appendChild(detailsContainer);
+    itemInventoryDetailsContent.appendChild(imageDDetailsContainer);
+
+    // Show the popup
+    itemInventoryDetailsPopup.style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+// Function to close the item details popup
+function closeItemInventoryDetailsPopup() {
+    document.getElementById('itemInventoryDetailsPopup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
 }

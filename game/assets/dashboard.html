@@ -33,7 +33,7 @@
         </div>
     </div>
     <!-- inventory button -->
-    <div class="inventory-button" onclick="openShopPopup()">
+    <div class="inventory-button" onclick="openInventoryPopup()">
         <div class="inventory-button-overlay">
             inventory
         </div>
@@ -99,6 +99,37 @@
         <p>Are you sure you want to buy this item?</p>
         <button onclick="confirmPurchase()">Continue</button>
         <button onclick="closeConfirmationPopup()">Cancel</button>
+    </div>
+    <!-- inventory popup -->
+    <div class="popup" id="inventoryPopup">
+        <h2>Inventory Items
+            <span class="close-icon" onclick="closeInventoryPopup()">×</span>
+        </h2>
+
+        <!-- Categories -->
+        <div class="inventory-categories">
+            <span onclick="showInventoryCategory('characters')">Characters</span>
+            <span onclick="showInventoryCategory('items')">Items</span>
+        </div>
+
+        <!-- inventory Items container -->
+        <div class="inventory-items-container" id="inventoryItemsContainer">
+            <!-- Content will be dynamically populated here -->
+        </div>
+    </div>
+    <!-- inventory item details popup -->
+    <div class="popup" id="itemInventoryDetailsPopup">
+        <h2>Item Details
+            <span class="close-icon" onclick="closeItemInventoryDetailsPopup()">×</span>
+        </h2>
+        <div id="itemInventoryDetailsContent" class="inventory-item-details-content">
+            <div class="inventory-item-details-img">
+                <!-- Image will be dynamically populated here -->
+            </div>
+            <div class="inventory-item-details-content">
+                <!-- Content will be dynamically populated here -->
+            </div>
+        </div>
     </div>
 
     <!-- Overlay -->
