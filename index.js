@@ -77,11 +77,7 @@ function checkSignIn() {
         document.getElementById('error-message').style.display = 'none';
         document.getElementById('sign-in-popup').style.display = 'none';
         
-        // Wait for the fading effect to complete before redirecting
-        setTimeout(() => {
-            // Redirect to the prelude HTML
-            window.location.href = './assets/prelude.html';
-        }, 3000);
+        window.location.href = './html/prelude.html';
     } else {
         // Show error message
         document.getElementById('error-message').style.display = 'block';
