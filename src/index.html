@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Firestore Example</title>
+</head>
+<body>
+    <h1>Firebase Firestore Example</h1>
+
+    <!-- Form to write data -->
+    <form id="writeForm">
+        <label for="message">Message:</label>
+        <input type="text" id="message" required>
+        <button type="submit">Write to Firestore</button>
+    </form>
+
+    <hr>
+
+    <h2>Messages from Firestore</h2>
+    <ul id="messageList"></ul>
+
+    <!-- Include Firebase SDK -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
+
+    <!-- Include your Firebase configuration -->
+    <script type="module" src="firebase-config.js"></script>
+
+    <!-- Include your main JavaScript file -->
+    <script type="module" src="index.js"></script>
+
+</body>
+</html>
