@@ -3,32 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=YourChosenFont&display=swap"> -->
     <title>Firebase Firestore Example</title>
 </head>
 <body>
-    <h1>Firebase Firestore Example</h1>
+    <div class="page-background">
+        <video autoplay muted loop id="bg-video">
+            Your browser does not support the video tag.
+        </video>
+        <!-- <div class="click-to-continue" onclick="showLoginPopup()">Click to Continue</div> -->
+    </div>
 
-    <!-- Form to write data -->
-    <form id="writeForm">
-        <label for="message">Message:</label>
-        <input type="text" id="message" required>
-        <button type="submit">Write to Firestore</button>
-    </form>
+    <div class="container">
+        <h1>Firebase Authentication Demo</h1>
+        <button id="loginBtn">Log In with Google</button>
+        <div id="userDataContainer" style="display: none;">
+            <h2>User Data:</h2>
+            <p id="userName"></p>
+            <p id="userEmail"></p>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </div>
 
-    <hr>
 
-    <h2>Messages from Firestore</h2>
-    <ul id="messageList"></ul>
+    <!-- start with fading effect -->
+    <div class="fade-out-start"></div>
 
     <!-- Include Firebase SDK -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"></script>
 
     <!-- Include your Firebase configuration -->
     <script type="module" src="firebase-config.js"></script>
 
     <!-- Include your main JavaScript file -->
     <script type="module" src="index.js"></script>
-
+    <script src="popupFunctions.js"></script>
 </body>
 </html>
