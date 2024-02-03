@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/prelude.css">
+    <title>prelude firebase</title>
+</head>
+<body>
+    <div class="background" id="background"></div>
+
+    <div class="prelude-content" id="preludeContent">
+        <img class="giga-guide" id="gigaGuide" src="" alt="giga-guide">
+        <img class="giga-guide-textBox" id="gigaGuideTextBox" src="" alt="giga-guide-textBox">
+        <div class="giga-guide-textBox-script" id="gigaGuideTextBoxScript"></div>
+
+        <!-- scene 3 show prelude characters -->
+        <div class="show-prelude-characters" id="showPreludeCharacters"> 
+            prelude characters shows here
+            <!-- characters will be dynamically populated here -->
+        </div>
+        <!-- scene 3 show prelude characters details and confirmation-->
+        <div class="prelude-characters-details-popup" id="preludeCharactersDetailsPopup">
+            <h2 class="prelude-characters-details-popup-prompt">
+                Are you sure you want to take this as your bruh?
+                <span class="close-icon" onclick="closePreludeCharactersDetailsPopup()">×</span>
+            </h2>
+            <div class="prelude-characters-details-container">
+                <div class="prelude-characters-details-img" id="preludeCharactersDetailsImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+                <div class="prelude-characters-details-contents" id="preludeCharactersDetailsContents">
+                    ::: selected character details will show here :::
+                    <!-- character details content will be populated here -->
+                </div>
+            </div>
+            <div class="preludeCharactersConfirmationButton">
+                <span id="confirmPreludeCharacter">Continue</span>
+                <span onclick="closePreludeCharactersDetailsPopup()">Cancel</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="prelude-unknown-pokemin-enemy-bulaga" id="preludeUnknownPokeminEnemyBulaga"></div>
+
+    <div class="prelude-content-battle" id="preludeContentBattle">
+        <img class="giga-guide" id="gigaGuideBattle" src="" alt="giga-guide">
+        <img class="giga-guide-textBox" id="gigaGuideTextBoxBattle" src="" alt="giga-guide-textBox">
+        <div class="giga-guide-textBox-script" id="gigaGuideTextBoxScriptBattle"></div>
+
+        <!-- div for enemy -->
+        <div class="prelude-unknown-pokemin-enemy-container" id="preludeUnknownPokeminEnemyContainer">
+            <img class="unknown-pokemin-img" id="unknownPokeminImg" src="" alt="unknown pokemin img">
+            <img class="unknown-pokemin-textBox" id="unknownPokeminTextBox" src="" alt="unknown pokemin text box">
+            <div class="unknown-pokemin-textBox-question" id="unknownPokeminTextBoxQuestion">
+                ::: bunch of question will appear here :::
+                <!-- questions will be dynamically populated here -->
+            </div>
+            <div class="unknown-pokemin-details" id="unknownPokeminDetails">
+                <!-- enemys' details will be updated here 
+                    such us hp, atk, level, etc.
+                -->
+            </div>
+        </div>
+
+        <!-- div for user -->
+        <div class="prelude-user-battle-container" id="preludeUserBattleContainer">
+            <div class="prelude-user-selected-character" id="preludeUserSelectedCharacter">
+                ::: selected character image will show here :::
+                <!-- selected character img will be dynamically show here -->
+            </div>
+            <img class="prelude-user-skillBox" id="preludeUserSkillBox"></i>
+            <div class="prelude-user-random-script" id="preludeUserRandomScript">
+                <!-- random scripts will be generated here -->
+            </div>
+            <div class="prelude-user-skill-options" id="preludeUserSkillOptions">
+                <!-- possible answers or skills will show here -->
+            </div>
+            <div class="prelude-user-character-details" id="preludeUserCharacterDetails">
+                <!-- characters' details will be updated here 
+                    such us hp, atk, level, etc.
+                -->
+            </div>
+            <div class="prelude-user-stage-score" id="preludeUserStageScore">
+                <!-- 
+                    users' stage score will show here
+                    it is different to the 'currentScore' of the user
+                 -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Include Firebase SDK -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"></script>
+
+    <!-- Include your Firebase configuration -->
+    <script type="module" src="../firebase-config.js"></script>
+
+    <!-- Include your main JavaScript file -->
+    <script type="module" src="../js/prelude.js"></script>
+    <script src="../js/preludeDesignFunctions.js"></script>
+</body>
+</html>

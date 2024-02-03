@@ -1,4 +1,4 @@
-// Initialize Firebase\
+// Initialize Firebase
 import { 
     initializeApp 
 } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
@@ -47,44 +47,6 @@ const loginBtn = document.getElementById('loginBtn');
 const userName = document.getElementById('userName');
 const userEmail = document.getElementById('userEmail');
 
-// // flag to check if account is updated in fields
-// const  checkUserAccountVersion = 2;
-
-// // init function to check all users have updated fields
-// const init = async () => {
-//     const usersCollection = collection(db, 'users');
-//     const usersSnapshot = await getDocs(usersCollection);
-
-//     usersSnapshot.forEach(async (userDoc) => {
-//         const userRef = doc(db, 'users', userDoc.id);
-//         const userData = userDoc.data();
-
-//         // Check if userAccountVersion is null or different
-//         if (
-//             userData.userAccountVersion === null ||
-//             userData.userAccountVersion !== checkUserAccountVersion
-//         ) {
-//             // Update the user document with new fields
-//             await updateDoc(userRef, {
-//                 /// NOTE please dont leave this one open our databse will be ugly as fkk
-//                 userLevel: 1,
-//                 userDaysActive: 0,
-//                 userStageCleared: [],
-//                 userAverageAnswerTime: 0,
-//                 userCorrectAnswerRate: 0,
-//                 userWrongAnswerRate: 0,
-//                 userConfidentialFund: 0,
-//                 userScore: 0,
-//                 userInventoryItems: [],
-//                 userAccountVersion: checkUserAccountVersion // Update the userAccountVersion
-//             });
-//             console.log(`User ${userDoc.id} updated.`);
-//         }
-//     });
-// };
-// // Call the init function to update users
-// init();
-
 // Function to handle login
 const login = async() => {
     try {
@@ -99,16 +61,13 @@ const login = async() => {
             await addUserToFirestore(user.uid, user.displayName, user.email);
             // Display user data from Firestore
             const userData = await displayUserData(user.uid);
-            // Save user data to local storage
-            localStorage.setItem('userData', JSON.stringify(userData));
-            // redirect to html for new users
-            window.location.href = '../html/prelude.html';
+            // Redirecting with query parameter
+            const queryParams = `?uid=${user.uid}&userData=${encodeURIComponent(JSON.stringify(userData))}`;
+            window.location.href = `./html/prelude.html${queryParams}`;
         } else {
             const userData = await displayUserData(user.uid);
-            // Save user data to local storage
-            localStorage.setItem('userData', JSON.stringify(userData));
-            // redirect to html for existing users
-            window.location.href = '../html/dashboard.html';
+            const queryParams = `?uid=${user.uid}&userData=${encodeURIComponent(JSON.stringify(userData))}`;
+            window.location.href = `./html/prelude.html${queryParams}`;
         }
 
     } catch (error) {
@@ -122,8 +81,9 @@ const getUserFromFirestore = async (uid) => {
     return await getDoc(doc(db, 'users', uid));
 };
 // Function to add user to Firestore
-const addUserToFirestore = async (uid, displayName, email) => {
+const addUserToFirestore = async (uid, displayName, email, UnID) => {
     const userRef = doc(db, 'users', uid);
+
     await setDoc(userRef, {
         userDisplayName: displayName,
         userEmail: email,
@@ -131,12 +91,16 @@ const addUserToFirestore = async (uid, displayName, email) => {
         userLevel: 1,
         userDaysActive: 0,
         userStageCleared: [],
+        userTotalQuestionTaken: 0,
+        userTotalAnswerTime: 0,
         userAverageAnswerTime: 0,
+        userTotalCorrectAnswer: 0,
         userCorrectAnswerRate: 0,
+        userTotalWrongAnswer: 0,
         userWrongAnswerRate: 0,
-        userConfidentialFund: 0,
+        userConfidentialFund: 0, // coins
         userScore: 0,
-        userInventoryItems: []
+        userInventoryItems: [],
     });
     console.log('User added to Firestore');
 };
@@ -158,42 +122,13 @@ const displayUserData = async (uid) => {
         console.log('User Confidential Fund:', userData.userConfidentialFund);
         console.log('User Score:', userData.userScore);
         console.log('User Inventory Items:', userData.userInventoryItems);
+        return userData;
     } else {
         console.log('User data not found');
+        return null;
     }
 };
-// Function to update existing user documents
-const updateExistingUsers = async () => {
-    const usersCollection = collection(db, 'users');
-    const usersSnapshot = await getDocs(usersCollection);
 
-    usersSnapshot.forEach(async (doc) => {
-        const userRef = doc(db, 'users', doc.id);
-        await updateDoc(userRef, {
-            newField1: 'new_value',
-            newField2: 42,
-            // ... update more new fields
-        });
-    });
-
-    console.log('Existing users updated');
-};
-
-// Function to acquire a new character
-function acquireNewCharacter(uid, characterId) {
-    const userRef = doc(db, 'users', uid);
-    const arrayUnion = firebase.firestore.FieldValue.arrayUnion(characterId);
-
-    updateDoc(userRef, {
-        characterOwned: arrayUnion
-    })
-        .then(() => {
-            console.log('Character added to characterOwned');
-        })
-        .catch((error) => {
-            console.error('Error updating characterOwned: ', error);
-        });
-}
 const logout = async() => {
     signOut(auth).then(() => {
         alert("You have signed out successfully!");
