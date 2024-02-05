@@ -230,6 +230,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%; 
+    z-index: 10;
     border: 1px solid #ccc;
 }
 
@@ -238,9 +239,161 @@ body {
     position: relative;
     width: 2000px;
     height: 100%;
+    border: 10px solid #020074;
+}
+/* enemy */
+.prelude-unknown-pokemin-enemy-container {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    border: 1px solid #ccc;
+}
+.prelude-enemy-skill-set-container {
+    display: flex;
+    justify-content: right;
+    border: 1px solid #1100ff;
+}
+.prelude-enemy-skill-set-container span {
+    display: inline-block;
+    width: 270px;
+    border: 1px solid #bbff00;
+}
+.unknown-pokemin-textBox {
+    width: 100%;
+    height: 150px;
+    border: 1px solid #ccc;
+}
+.unknown-pokemin-img {
+    width: 270px;
+    height: auto;
+    border: 1px solid #ccc;
+}
+.unknown-pokemin-textBox-question {
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    width: 720px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+.unknown-pokemin-details {
+    position: absolute;
+    top: 40px;
+    right: 315px;
+    width: 200px;
+    color: white;
     border: 1px solid #ccc;
 }
 
+/* user skill box */
+.prelude-user-battle-container {
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    border: 1px solid #ff0000;
+}
+.prelude-user-skill-set-container {
+    display: flex;
+    justify-content: left;
+    border: 1px solid #ccc;
+}
+.prelude-user-skill-set-container span {
+    display: inline-block;
+    width: 200px;
+    border: 1px solid #ccc;
+}
+.prelude-user-selected-character {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ccc;
+}
+.prelude-user-skillBox {
+    width: 100%;
+    height: 205px;
+    border: 1px solid #ccc;
+}
+.prelude-user-random-script {
+    position: absolute;
+    top: 30px;
+    right: 60px;
+    width: 730px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+.prelude-user-skill-options {
+    position: absolute;
+    right: 60px;
+    top: 110px;
+    width: 730px;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #ccc;
+}
+.prelude-user-skill-options span {
+    display: inline-block;
+    width: 400px;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.459);
+    border: 1px solid #ccc;
+}
+.prelude-user-character-details {
+    position: absolute;
+    left: 240px;
+    top: 110px;
+    width: 220px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+.prelude-user-stage-score {
+    position: absolute;
+    top: 30px;
+    left: 240px;
+    width: 220px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+/* popup stuff */
+.fight-that-pokememe {
+    position: absolute;
+    width: 500px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+}
+.fight-that-pokememe span {
+    text-align: center;
+    color: #000000;
+    border: 1px solid #ccc;
+}
+.move-to-dashboard {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    border: 1px solid #ccc;
+}
+.move-to-dashboard span {
+    text-align: center;
+    color: #ffffff;
+    border: 1px solid #ccc;
+}
+
+
+/* other studd utilities and something */
 /* Flip horizontally */
 .flip-horizontal {
     transform: scaleX(-1) scaleY(1);
@@ -253,4 +406,41 @@ body {
     float: right;
     cursor: pointer;
     border: 1px solid #000;
+}
+.bring-top {
+    z-index: 10;
+}
+
+/* tables */
+.unknown-pokemin-details table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ff0000;
+}
+.unknown-pokemin-details tr:nth-child(1) {
+    background-color: #a00000;
+}
+.unknown-pokemin-details tr:nth-child(2),
+.unknown-pokemin-details tr:nth-child(3) {
+    background-color: #7e18185b;
+}
+.prelude-user-character-details table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border: 1px solid #22b14c;
+}
+.prelude-user-character-details tr:nth-child(1) {
+    background-color: #22b14c;
+}
+.prelude-user-character-details tr:nth-child(2),
+.prelude-user-character-details tr:nth-child(3) {
+    background-color: #22b14d34;
+}
+/* tr */
+.unknown-pokemin-details td,
+.prelude-user-character-details td {
+    text-align: center;
+    /* border: 1px solid #a00000; */
 }

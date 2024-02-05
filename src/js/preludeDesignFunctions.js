@@ -40,16 +40,44 @@ const gigaGuidePreludeScripts = [
             "pang-apat na script",
             "who's that pokemin? ",
             "it's chanting curses! Defeat it with the correct 'counter-chant'! ",
+            "filler script",
+        ],
+        imageSrc:'https://cdn.discordapp.com/attachments/1200058397236666378/1203202514162548796/simplier-textbox.png?ex=65d03ca9&is=65bdc7a9&hm=5b5ae5be58ff5e5c3f84ab13f0e96e39f402808fef8774d8505a92fc5999d36f&',
+    },
+    {
+        texts: [
+            "Congrats script! ",
+            "Congrats! ",
+            "Congrats! Congrats! ",
+            "Congrats! Congrats! Congrats! ",
+            "Congrats! Congrats! Congrats! Congrats! ",
         ],
         imageSrc:'https://cdn.discordapp.com/attachments/1200058397236666378/1203202514162548796/simplier-textbox.png?ex=65d03ca9&is=65bdc7a9&hm=5b5ae5be58ff5e5c3f84ab13f0e96e39f402808fef8774d8505a92fc5999d36f&',
     },
     // Add more scripts as needed
 ];
-let currentScenarioIndex = 3;
+const displayFeedbackScript = {
+    inGame: [
+        'good luck!',
+        'fight!',
+    ],
+    correctAns: [
+        'nice!',
+        'great!',
+    ],
+    wrongAns: [
+        'oh no!',
+        'Im not done yet!',
+    ],
+};
+let currentScenarioIndex = 0;
 let currentDialogIndex = 0;
 let allowNextDialog = true;
 const enemyPokemin = 'https://media1.tenor.com/m/aLc7c9puW4sAAAAC/black-man.gif';
 const gigaGuideImg = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.noelshack.com%2Ffichiers%2F2019%2F41%2F7%2F1571000104-chad2.png&f=1&nofb=1&ipt=0eb377992866e6086127a914e26503e8a1101ad88638b49febb767a43211e778&ipo=images';
+const enemyTextBox = 'https://cdn.discordapp.com/attachments/1200058397236666378/1200729650150789130/enemy-box-rotate-a.png?ex=65d07821&is=65be0321&hm=9d15b11aa3f5ad6b5034878cd161ed67858dcf5df9263e79a732f2c803f6ed6c&';
+const selectedUserSkillBox = 'https://cdn.discordapp.com/attachments/1200058397236666378/1200729054173741126/user-box.png?ex=65d07792&is=65be0292&hm=445515eb7e3582e508b7893de87df069e236509a52b789cb57bdfe3d3aae357e&';
+const fightThatPokememeIMG = 'https://media.tenor.com/KXE2S4-PlnUAAAAj/anime-baka.gif';
 // Function to handle clicks anywhere on the screen
 document.addEventListener('DOMContentLoaded', function () {
     updateDialog();
@@ -85,18 +113,13 @@ function updateDialog() {
     const gigaGuideTextBoxScriptBattle = document.getElementById('gigaGuideTextBoxScriptBattle');
 
     const preludeUnknownPokeminEnemyContainer = document.getElementById('preludeUnknownPokeminEnemyContainer');
-    const unknownPokeminImg = document.getElementById('unknownPokeminImg');
     const unknownPokeminTextBox = document.getElementById('unknownPokeminTextBox');
-    const unknownPokeminTextBoxQuestion = document.getElementById('unknownPokeminTextBoxQuestion');
-    const unknownPokeminDetails = document.getElementById('unknownPokeminDetails');
     
     const preludeUserBattleContainer = document.getElementById('preludeUserBattleContainer');
-    const preludeUserSelectedCharacter = document.getElementById('preludeUserSelectedCharacter');
     const preludeUserSkillBox = document.getElementById('preludeUserSkillBox');
-    const preludeUserRandomScript = document.getElementById('preludeUserRandomScript');
-    const preludeUserSkillOptions = document.getElementById('preludeUserSkillOptions');
-    const preludeUserCharacterDetails = document.getElementById('preludeUserCharacterDetails');
-    const preludeUserStageScore = document.getElementById('preludeUserStageScore');
+
+    const fightThatPokememe = document.getElementById('fightThatPokememe');
+    const moveToDashboard = document.getElementById('moveToDashboard');
 
     // giga guide
     gigaGuideBattle.src = gigaGuideImg;
@@ -110,9 +133,20 @@ function updateDialog() {
     // Changing contents and bboxes
     if (currentScenarioIndex == 0) {
         // display elements introductions
+        preludeContent.style.display = 'block';
         gigaGuide.style.display = 'block';
         gigaGuideTextBox.style.display = 'block';
         gigaGuideTextBoxScript.style.display = 'block';
+
+        // hide other elements
+        showPreludeCharacters.style.display = 'none';
+        preludeCharactersDetailsPopup.style.display = 'none';
+        preludeUnknownPokeminEnemyBulaga.style.display = 'none';
+        preludeContentBattle.style.display = 'none';
+        preludeUnknownPokeminEnemyContainer.style.display = 'none';
+        preludeUserBattleContainer.style.display = 'none';
+        fightThatPokememe.style.display = 'none';
+        moveToDashboard.style.display = 'none';
     } else if (currentScenarioIndex == 1) {
         if (currentDialogIndex % 2 == 0) {
             gigaGuide.classList.add('giga-guide-right');
@@ -155,7 +189,6 @@ function updateDialog() {
     } else if (currentScenarioIndex == 3) {
         // hide contents and show enemy 
         preludeContent.style.display = 'none';
-        preludeContentBattle.style.display = 'none';
 
         preludeUnknownPokeminEnemyBulaga.style.display = 'block'; 
         preludeUnknownPokeminEnemyBulaga.style.backgroundImage = `url('${enemyPokemin}')`;
@@ -172,6 +205,12 @@ function updateDialog() {
                 gigaGuideBattle.style.display = 'none';
                 gigaGuideTextBoxBattle.style.display = 'none';
                 gigaGuideTextBoxScriptBattle.style.display = 'none';
+                unknownPokeminTextBox.src = enemyTextBox;
+                preludeUserSkillBox.src = selectedUserSkillBox;
+                fightThatPokememe.style.backgroundImage = `url('${fightThatPokememeIMG}')`;
+                fightThatPokememe.style.backgroundSize = 'cover';
+                fightThatPokememe.style.display = 'block';
+                allowNextDialog = false;
             }, 6000);
             
         } else {
@@ -182,7 +221,13 @@ function updateDialog() {
             }, 3000);
         }
     } else if  (currentScenarioIndex == 4) {
-        // Additional logic for other scenarios
+        preludeUnknownPokeminEnemyContainer.style.display = 'none';
+        preludeUserBattleContainer.style.display = 'none';
+
+        gigaGuideBattle.style.display = 'block';
+        gigaGuideTextBoxBattle.style.display = 'block';
+        gigaGuideTextBoxScriptBattle.style.display = 'block';
+        allowNextDialog = true;
     }
 }
 function nextScene() {
@@ -193,10 +238,37 @@ function nextScene() {
         updateDialog();
 
     } else {
-        // No more gigaGuidePreludeScripts, game end or loop back to the beginning
-        // Redirect to the prelude HTML
-        // window.location.href = 'dashboard.html';
-        alert('forward html to dashboard');
+        const moveToDashboard = document.getElementById('moveToDashboard');
+        moveToDashboard.style.display = 'block';
+        gigaGuideBattle.style.display = 'none';
+        gigaGuideTextBoxBattle.style.display = 'none';
+        gigaGuideTextBoxScriptBattle.style.display = 'none';
+    }
+}
+
+function getRandomScript(scriptArray) {
+    const randomIndex = Math.floor(Math.random() * scriptArray.length);
+    return scriptArray[randomIndex];
+}
+function displayFeedbackScriptFunction(x) {
+    const preludeUserRandomScript = document.getElementById('preludeUserRandomScript');
+    preludeUserRandomScript.innerHTML = '';
+
+    switch (x) {
+        case 0:
+            // in-game script
+            preludeUserRandomScript.textContent = getRandomScript(displayFeedbackScript.inGame);
+            break;
+        case 1:
+            // correct answer script
+            preludeUserRandomScript.textContent = getRandomScript(displayFeedbackScript.correctAns);
+            break;
+        case 2:
+            // wrong answer script
+            preludeUserRandomScript.textContent = getRandomScript(displayFeedbackScript.wrongAns);
+            break;
+        default:
+            preludeUserRandomScript.textContent = '[error] wrong parameter.';
     }
 }
 

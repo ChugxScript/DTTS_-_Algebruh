@@ -51,13 +51,16 @@
 
         <!-- div for enemy -->
         <div class="prelude-unknown-pokemin-enemy-container" id="preludeUnknownPokeminEnemyContainer">
-            <img class="unknown-pokemin-img" id="unknownPokeminImg" src="" alt="unknown pokemin img">
-            <img class="unknown-pokemin-textBox" id="unknownPokeminTextBox" src="" alt="unknown pokemin text box">
+            <div class="prelude-enemy-skill-set-container" id="preludeEnemySkillSetContainer">
+                <img class="unknown-pokemin-textBox" id="unknownPokeminTextBox" src="" alt="unknown pokemin text box">
+                <span><img class="unknown-pokemin-img" id="unknownPokeminImg" src="" alt="unknown pokemin img"></span>
+            </div>
             <div class="unknown-pokemin-textBox-question" id="unknownPokeminTextBoxQuestion">
                 ::: bunch of question will appear here :::
                 <!-- questions will be dynamically populated here -->
             </div>
             <div class="unknown-pokemin-details" id="unknownPokeminDetails">
+                ::: enemies' details :::
                 <!-- enemys' details will be updated here 
                     such us hp, atk, level, etc.
                 -->
@@ -66,28 +69,46 @@
 
         <!-- div for user -->
         <div class="prelude-user-battle-container" id="preludeUserBattleContainer">
-            <div class="prelude-user-selected-character" id="preludeUserSelectedCharacter">
-                ::: selected character image will show here :::
-                <!-- selected character img will be dynamically show here -->
+            <div class="prelude-user-skill-set-container" id="preludeUserSkillSetContainer">
+                <span><img class="prelude-user-selected-character" id="preludeUserSelectedCharacter" src="" alt="user selected character"></img></span>
+                <img class="prelude-user-skillBox" id="preludeUserSkillBox" src="" alt="user skillbox"></img>
             </div>
-            <img class="prelude-user-skillBox" id="preludeUserSkillBox"></i>
+            
             <div class="prelude-user-random-script" id="preludeUserRandomScript">
+                ::: bunch of random script will appear here :::
                 <!-- random scripts will be generated here -->
             </div>
             <div class="prelude-user-skill-options" id="preludeUserSkillOptions">
+                ::: bunch of skill options or answers will appear here :::
                 <!-- possible answers or skills will show here -->
             </div>
             <div class="prelude-user-character-details" id="preludeUserCharacterDetails">
+                ::: users' selected character details :::
                 <!-- characters' details will be updated here 
                     such us hp, atk, level, etc.
                 -->
             </div>
             <div class="prelude-user-stage-score" id="preludeUserStageScore">
+                ::: users' stage score :::
                 <!-- 
                     users' stage score will show here
                     it is different to the 'currentScore' of the user
                  -->
             </div>
+        </div>
+
+        <div class="fight-that-pokememe" id="fightThatPokememe">
+            <span>
+                <h1>FIGHT THAT POKEMEME!</h1>
+                <p>Click to continue...</p>
+            </span>
+        </div>
+
+        <div class="move-to-dashboard" id="moveToDashboard">
+            <span>
+                <h1>YOUR JOURNEY BEGINS BRUH!</h1>
+                <p>Click to continue...</p>
+            </span>
         </div>
     </div>
 
