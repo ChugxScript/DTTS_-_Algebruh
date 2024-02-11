@@ -101,6 +101,7 @@ const addUserToFirestore = async (uid, displayName, email, UnID) => {
         userConfidentialFund: 0, // coins
         userScore: 0,
         userInventoryItems: [],
+        userAvatar: 'https://media.tenor.com/iuoG1q_2oYUAAAAM/shrek-smirk-shrek-horny.gif', // initial avatar
     });
     console.log('User added to Firestore');
 };

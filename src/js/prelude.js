@@ -49,33 +49,46 @@ const getCurrentUserFromFirestore = async () => {
     console.log('getCurrentUserFromFirestore: ', users);
     return users;
 };
-// Characters
 const getCharactersFromFirestore = async () => {
-    const charactersCollection = collection(db, 'characters');
-    const charactersSnapshot = await getDocs(charactersCollection);
-    const characters = [];
+    const charactersDocRef = doc(db, 'characters', 'prelude-chars');
+    const charactersDocSnapshot = await getDoc(charactersDocRef);
 
-    charactersSnapshot.forEach((doc) => {
-        const characterData = doc.data();
-        const char_uid = doc.id;
-        characters.push({ char_uid, ...characterData });
-    });
-    console.log('getCharactersFromFirestore: ', characters);
-    return characters;
+    if (charactersDocSnapshot.exists()) {
+        const charactersData = charactersDocSnapshot.data();
+        const characters = [];
+
+        // Iterate over each character in the document
+        Object.entries(charactersData).forEach(([char_uid, charData]) => {
+            characters.push({ char_uid, ...charData }); // Push character data along with its ID to the array
+        });
+
+        console.log('Characters from Firestore:', characters);
+        return characters;
+    } else {
+        console.log('Document "prelude-chars" does not exist');
+        return []; // Return an empty array if the document doesn't exist
+    }
 };
 // Enemies
 const getEnemyFromFirestore = async () => {
-    const enemyCollection = collection(db, 'enemy');
-    const enemySnapshot = await getDocs(enemyCollection);
-    const enemy = [];
+    const enemyDocRef = doc(db, 'enemy', 'prelude-enemy');
+    const enemyDocSnapshot = await getDoc(enemyDocRef);
 
-    enemySnapshot.forEach((doc) => {
-        const enemyData = doc.data();
-        const enemy_uid = doc.id; // Get the document ID
-        enemy.push({ enemy_uid, ...enemyData });
-    });
-    console.log('getEnemyFromFirestore: ', enemy);
-    return enemy;
+    if (enemyDocSnapshot.exists()) {
+        const enemyData = enemyDocSnapshot.data();
+        const enemy = [];
+
+        // Iterate over each character in the document
+        Object.entries(enemyData).forEach(([enemy_uid, enemyData]) => {
+            enemy.push({ enemy_uid, ...enemyData }); // Push character data along with its ID to the array
+        });
+
+        console.log('enemy from Firestore:', enemy);
+        return enemy;
+    } else {
+        console.log('Document "prelude-chars" does not exist');
+        return []; // Return an empty array if the document doesn't exist
+    }
 };
 // Prelude Questions
 const getPreludeEasyQuestionsFromFirestore = async () => {
@@ -178,7 +191,7 @@ const showCharacterDetails = (character) => {
     // create table element for the character details then append to the div
     const characterDetailTable = document.createElement('table');
     const excludeDetails = ['char_img_src']; // Add details to exclude
-    const orderDetails = ['char_name', 'char_health', 'char_atk'];
+    const orderDetails = ['char_name', 'char_hp', 'char_atk'];
     // Populate details as rows in the table based on the specified order
     orderDetails.forEach((detailKey) => {
         if (character.hasOwnProperty(detailKey) && !excludeDetails.includes(detailKey)) {
@@ -299,7 +312,7 @@ const displayPreludeSelectedCharacter = (currUser) => {
 
     // create table element for the selectedCharacter details then append to the div
     const selectedCharacterDetailTable = document.createElement('table');
-    const orderDetails = ['char_name', 'char_health', 'char_atk'];
+    const orderDetails = ['char_name', 'char_hp', 'char_atk'];
     let selectedCharacter_hp = 'hp';
     let selectedCharacter_atk = 'atk';
     
@@ -317,7 +330,7 @@ const displayPreludeSelectedCharacter = (currUser) => {
         const cell1 = document.createElement('td');
         const cell2 = document.createElement('td');
 
-        if (orderDetails[i] == 'char_health') {
+        if (orderDetails[i] == 'char_hp') {
             cell1.textContent = selectedCharacter_hp;
         } else if (orderDetails[i] == 'char_atk') {
             cell1.textContent = selectedCharacter_atk;
@@ -330,7 +343,6 @@ const displayPreludeSelectedCharacter = (currUser) => {
     }
     preludeUserCharacterDetails.appendChild(selectedCharacterDetailTable);
 }
-displayPreludeSelectedCharacter(currentUser);
 
 
 // simple implementation of DTTS algorithm in javascript
@@ -345,6 +357,7 @@ const decisionTreeThompsonSampling = async () => {
     unknownPokeminTextBoxQuestion.innerHTML = '';
     preludeUserSkillOptions.innerHTML = '';
     preludeUserStageScore.innerHTML = '';
+    displayPreludeSelectedCharacter(currentUser);
 
     // get instance of enemy and userChar details
     let currEnemy = enemy;
@@ -362,7 +375,7 @@ const decisionTreeThompsonSampling = async () => {
         unknownPokeminTextBoxQuestion.textContent = question.question;
         preludeUserStageScore.textContent = userChar[0].userScore;
         preludeUserSkillOptions.innerHTML = '';
-        startTime = new Date();
+        startTime = new Date().getTime() / 1000;
         displayFeedbackScriptFunction(0);
 
         question.choices.forEach((choice) => {
@@ -381,11 +394,11 @@ const decisionTreeThompsonSampling = async () => {
         if (scriptRunning) {
             return; // Do nothing if the script is running
         }
-
+        
         console.log(`You clicked on choice: ${choice}`);
         let correctAnswerChecker = 0;
         let wrongAnswerChecker = 0;
-        endTime = new Date();
+        endTime = new Date().getTime() / 1000;
         timeDifference = endTime - startTime;
 
         if (choice === question.answer) {
@@ -396,7 +409,7 @@ const decisionTreeThompsonSampling = async () => {
         } else {
             correctAnswerChecker = 0;
             wrongAnswerChecker = 1;
-            userChar[0].userCharacterOwned[0].char_health -= currEnemy[0].enemy_atk;
+            userChar[0].userCharacterOwned[0].char_hp -= currEnemy[0].enemy_atk;
             displayFeedbackScriptFunction(2);
         }
 
@@ -404,25 +417,23 @@ const decisionTreeThompsonSampling = async () => {
         displayPreludeEnemyBattle(currEnemy);
         displayPreludeSelectedCharacter(userChar);
 
-        if (userChar[0].userCharacterOwned[0].char_health <= 0) {
+        if (userChar[0].userCharacterOwned[0].char_hp <= 0) {
             scriptRunning = true;
             displayReviveScript(() => {
                 // Reset the flag once the script is done
                 scriptRunning = false;
-                userChar[0].userCharacterOwned[0].char_health = 10;
+                userChar[0].userCharacterOwned[0].char_hp = 10;
                 displayPreludeSelectedCharacter(userChar);
                 console.log('script is finished');
             });
         } else if (currEnemy[0].enemy_hp <= 0) {
+            await updateUserDataStageCleared(userChar, 'prelude');
             nextScene();
         }
         nextQuestion();
     };
 
     const nextQuestion = () => {
-        // Implement logic for moving to the next question or end of the game
-        // You can update currEnemy, userChar, or any other variables accordingly
-        // Then call displayQuestion() with the new question
         startTime = 0;
         endTime = 0;
         displayQuestion(simulateDTTS(userChar, easyQuestions, difficultQuestions));
@@ -530,7 +541,7 @@ const updateUserData = async (currUser, timeDifference, correctAnswerChecker, wr
     let currUserCorrectAnswerRate = currUserTotalCorrectAnswer / currUserTotalQuestionTaken;
     let currUserWrongAnswerRate = currUserTotalWrongAnswer / currUserTotalQuestionTaken;
 
-    let currUserScore = currUser[0].userScore + correctAnswerChecker * 2;
+    let currUserScore = currUser[0].userScore += (correctAnswerChecker * 2);
 
     await updateDoc(currUserRef, { 
         userTotalQuestionTaken: currUserTotalQuestionTaken,
@@ -545,6 +556,22 @@ const updateUserData = async (currUser, timeDifference, correctAnswerChecker, wr
         userScore: currUserScore,
     });
     console.log('User data updated to Firestore');
+}
+const updateUserDataStageCleared = async (currUser, stageCleared) => {
+    // get user document from the firebase
+    const currUserRef = doc(db, 'users', currUser[0].currUser_uid);
+    const userDoc = await getDoc(currUserRef);
+
+    if (userDoc.exists()) {
+        // Get the current user data
+        const userData = userDoc.data();
+        const updatedUserStageCleared = [...userData.userStageCleared, stageCleared];
+
+        await updateDoc(currUserRef, { 
+            userStageCleared: updatedUserStageCleared,
+        });
+        console.log('User stageCleared updated to Firestore');
+    }
 }
 // Add a confirm button click event
 const fightThatPokememe = document.getElementById('fightThatPokememe');
@@ -586,6 +613,7 @@ const displayReviveScript = (callback) => {
     let reviveIndex = 0;
     let reviveTextIndex = 0;
     gigaGuideTextBoxBattle.src = reviveScripts[reviveIndex].imageSrc;
+    gigaGuideTextBoxScriptBattle.textContent = reviveScripts[reviveIndex].texts[reviveTextIndex];
 
     const nextReviveScript = () => {
         if (reviveTextIndex < reviveScripts[reviveIndex].texts.length - 1) {

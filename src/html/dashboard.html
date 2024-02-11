@@ -7,8 +7,103 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>YOOOOOOOOOOOOOOOOOOO!</h1>
+    <div class="sidebar">
+        <div class="sidebar-top">
+            <div class="logo">Your Logo</div>
+            <div class="name">Your Name</div>
+        </div>
+
+        <div class="menu" id="menu">
+            <p class="menu-item" id="profileMenuItem" data-content="profileContentContainer">Profile</p>
+            <p class="menu-item" id="inventoryMenuItem" data-content="inventoryContentContainer">Inventory</p>
+            <p class="menu-item" id="journeyMenuItem">Journey</p>
+            <p class="menu-item" id="shopMenuItem">Shop</p>
+            <p class="menu-item" id="settingsMenuItem">Settings</p>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="social-media">
+                <!-- Add social media links or icons here -->
+                <a href="#" class="social-link">Twitter</a>
+                <a href="#" class="social-link">Facebook</a>
+                <!-- Add more social media links or icons -->
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+
+        <!-- profile contents -->
+        <div class="profile-content" id="profileContentContainer">
+            <h2 class="profile-content-title">Profile</h2>
+            <div class="profile-content-container" id="profileContentContainer">
+                <div class="profile-user-avatar-container" id="profileUserAvatarContainer">
+                    <div class="profile-user-avatar" id="profileUserAvatar">
+                        ::: user profile avatar will show here :::
+                    </div>
+                    <div class="profile-user-avatar-selection" id="profileUserAvatarSelection">
+                        Edit Profile
+                    </div>
+                </div>
+                <div class="profile-user-details-table" id="profileUserDetailsTable">
+                    ::: user details in table format :::
+                </div>
+            </div>
+            <div class="profile-user-show-stats" id="profileUserShowStats">
+                <h2 class="profile-stats-title">STATS</h2>
+                <div id="totalQuestionsCorrectAnswersChart" class="stats-chart"></div>
+                <div id="answerRateChart" class="stats-chart"></div>
+                <div id="answerTimeChart" class="stats-chart"></div>
+                <div id="stageClearedChart" class="stats-chart"></div>
+            </div>
+            <div class="profile-user-show-characters" id="profileUserShowCharacters">
+                <!-- <h2 class="owned-chars-title">Characters Owned</h2> -->
+            </div>
+        </div>
+        <div class="profile-characters-details-popup" id="profileCharactersDetailsPopup">
+            <h2 class="profile-characters-details-title">
+                Character Details
+                <span class="close-icon" onclick="closeProfileCharactersDetailsPopup()">×</span>
+            </h2>
+            <div class="profile-characters-details-container">
+                <div class="profile-characters-details-img" id="profileCharactersDetailsImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+                <div class="profile-characters-details-contents" id="profileCharactersDetailsContents">
+                    ::: selected character details will show here :::
+                    <!-- character details content will be populated here -->
+                </div>
+            </div>
+        </div>
+        <div class="edit-profile-popup" id="editProfilePopup">
+            <h2 class="edit-profile-title">Confirm Edit Profile?
+                <span class="close-icon" onclick="closeEditProfilePopup()">×</span>
+            </h2>
+            <div class="edit-userDisplayName" id="editUserDisplayName">
+                <!-- <h2 class="edit-user-display-name-title">Edit User Display Name</h2> -->
+                <!-- dynamically add form here -->
+            </div>
+            <div class="edit-profile-avatar" id="editProfileAvatar">
+                <h2 class="edit-profile-avatar-title">Edit Profile Avatar</h2>
+                <div class="display-user-avatars" id="displayUserAvatars">
+                    ::: display character owned as a selection for user avatar ::: 
+                </div>
+            </div>
+            <div class="edit-profile-confirmation" id="editProfileConfirmation">
+                <span id="confirmEditProfileButton">Save</span>
+                <span onclick="closeEditProfilePopup()" id="cancelEditProfilePopup">Cancel</span>
+            </div>
+        </div>
+
+        <!-- inventory contents -->
+        <div class="inventory-content" id="inventoryContentContainer">
+            <h2 class="inventory-content-title">Inventory</h2>
+        </div>
+    </div>
     
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <!-- Include Firebase SDK -->
     <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
@@ -21,6 +116,6 @@
 
     <!-- Include your main JavaScript file -->
     <script type="module" src="../js/dashboard.js"></script>
-    <!-- <script src="../js/preludeDesignFunctions.js"></script> -->
+    <script src="../js/dashboardDesignFunctions.js"></script>
 </body>
 </html>
