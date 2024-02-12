@@ -47,6 +47,48 @@ const getCurrentUserFromFirestore = async () => {
     console.log('getCurrentUserFromFirestore: ', users);
     return users;
 };
+// shop chars
+const getShopCharsFromFirestore = async () => {
+    const shopCharsDocRef = doc(db, 'shop', 'shopCharacters');
+    const shopCharsDocSnapshot = await getDoc(shopCharsDocRef);
+
+    if (shopCharsDocSnapshot.exists()) {
+        const shopCharsData = shopCharsDocSnapshot.data();
+        const shopCharacters = [];
+
+        // Iterate over each shop characters in the document
+        Object.entries(shopCharsData).forEach(([char_uid, charData]) => {
+            shopCharacters.push({ char_uid, ...charData });
+        });
+
+        console.log('shopCharacters from Firestore:', shopCharacters);
+        return shopCharacters;
+    } else {
+        console.log('Document "shopCharacters" does not exist');
+        return []; 
+    }
+};
+// shop items
+const getShopItemsFromFirestore = async () => {
+    const shopItemsDocRef = doc(db, 'shop', 'shopItems');
+    const shopItemsDocSnapshot = await getDoc(shopItemsDocRef);
+
+    if (shopItemsDocSnapshot.exists()) {
+        const shopItemsData = shopItemsDocSnapshot.data();
+        const shopItem = [];
+
+        // Iterate over each shop characters in the document
+        Object.entries(shopItemsData).forEach(([item_uid, itemData]) => {
+            shopItem.push({ item_uid, ...itemData });
+        });
+
+        console.log('shopItem from Firestore:', shopItem);
+        return shopItem;
+    } else {
+        console.log('Document "shopItems" does not exist');
+        return []; 
+    }
+};
 
 
 // asigning of vars
@@ -462,6 +504,394 @@ profileUserAvatarSelection.addEventListener('click', function() {
     editProfile();
 })
 
+
+
+const userShowInventoryChars = async () => {
+    const inventoryItemsContainer = document.getElementById('inventoryItemsContainer');
+    inventoryItemsContainer.innerHTML = '';
+
+    // get the latest user inventory items
+    const currentUserData = await getCurrentUserFromFirestore();
+    const currUserCharactersOwned = currentUserData[0].userCharacterOwned;
+
+    let rowCounter = 0;
+    let currentRow;
+
+    currUserCharactersOwned.forEach((character) => {
+        if (rowCounter % 5 === 0) {
+            // Create a new row every 5 items
+            currentRow = document.createElement('div');
+            inventoryItemsContainer.appendChild(currentRow);
+        }
+        const currOwnedCharsElement = document.createElement('div');
+        currOwnedCharsElement.className = 'inventory-display-owned-charsNitems';
+
+        // Add click event to show character details
+        currOwnedCharsElement.addEventListener('click', () => showCharacterDetails(character));
+
+        const currOwnedCharsImg = document.createElement('img');
+        currOwnedCharsImg.src = character.char_img_src;
+        currOwnedCharsImg.alt = character.char_name;
+
+        const currOwnedCharsNameTextElement = document.createElement('p');
+        currOwnedCharsNameTextElement.textContent = character.char_name;
+
+        currOwnedCharsElement.appendChild(currOwnedCharsImg);
+        currOwnedCharsElement.appendChild(currOwnedCharsNameTextElement);
+        inventoryItemsContainer.appendChild(currOwnedCharsElement);
+        rowCounter++;
+    });
+}
+const invCatCharacters = document.getElementById('invCatCharacters');
+invCatCharacters.addEventListener('click', function() {
+    userShowInventoryChars();
+})
+
+const userShowInventoryItems = async () => {
+    const inventoryItemsContainer = document.getElementById('inventoryItemsContainer');
+    inventoryItemsContainer.innerHTML = '';
+
+    // get the latest user inventory items
+    const currentUserData = await getCurrentUserFromFirestore();
+    const currUserInvItems = currentUserData[0].userInventoryItems;
+
+    let rowCounter = 0;
+    let currentRow;
+
+    currUserInvItems.forEach((item) => {
+        if (rowCounter % 5 === 0) {
+            // Create a new row every 5 items
+            currentRow = document.createElement('div');
+            inventoryItemsContainer.appendChild(currentRow);
+        }
+        const currOwnedItemsElement = document.createElement('div');
+        currOwnedItemsElement.className = 'inventory-display-owned-charsNitems';
+
+        // Add click event to show item details
+        currOwnedItemsElement.addEventListener('click', () => showItemDetails(item));
+
+        const currOwnedItemsImg = document.createElement('img');
+        currOwnedItemsImg.src = item.item_img_src;
+        currOwnedItemsImg.alt = item.item_name;
+
+        const currOwnedItemNameTextElement = document.createElement('p');
+        currOwnedItemNameTextElement.textContent = item.item_name;
+
+        currOwnedItemsElement.appendChild(currOwnedItemsImg);
+        currOwnedItemsElement.appendChild(currOwnedItemNameTextElement);
+        inventoryItemsContainer.appendChild(currOwnedItemsElement);
+        rowCounter++;
+    });
+}
+const showItemDetails = (item) => {
+    const inventoryItemDetailsPopup = document.getElementById('inventoryItemDetailsPopup');
+    const inventoryItemDetailsImg = document.getElementById('inventoryItemDetailsImg');
+    const inventoryItemDetailsContents = document.getElementById('inventoryItemDetailsContents');
+    inventoryItemDetailsPopup.style.display = 'block';
+    inventoryItemDetailsImg.innerHTML = '';
+    inventoryItemDetailsContents.innerHTML = '';
+    
+    // create img element then append to the div
+    const itemElement = document.createElement('div');
+    const itemImg = document.createElement('img');
+    itemImg.src = item.item_img_src;
+    itemImg.alt = item.item_name;
+
+    const itemNameTextElement = document.createElement('p');
+    itemNameTextElement.textContent = item.item_name;
+
+    itemElement.appendChild(itemImg);
+    itemElement.appendChild(itemNameTextElement);
+    inventoryItemDetailsImg.appendChild(itemElement);
+
+    // create table element for the item details then append to the div
+    const itemDetailTable = document.createElement('table');
+    const orderDetails = ['item_name', 'item_description'];
+    // Populate details as rows in the table based on the specified order
+    orderDetails.forEach((detailKey) => {
+        if (item.hasOwnProperty(detailKey)) {
+            const row = document.createElement('tr');
+            const cell1 = document.createElement('td');
+            const cell2 = document.createElement('td');
+            cell1.textContent = detailKey;
+            cell2.textContent = item[detailKey];
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            itemDetailTable.appendChild(row);
+        }
+    });
+    inventoryItemDetailsContents.appendChild(itemDetailTable);
+}
+const invCatItems = document.getElementById('invCatItems');
+invCatItems.addEventListener('click', function() {
+    userShowInventoryItems();
+})
+
+
+
+
+
+
+
+
+
+const showUserConfidentialFund = async () => {
+    const shopUserConfidentialFund = document.getElementById('shopUserConfidentialFund');
+    shopUserConfidentialFund.innerHTML = '';
+
+    // create p element for the label
+    const userConfFundLabel = document.createElement('p');
+    userConfFundLabel.textContent = 'Current Confidential Fund: ';
+
+    // get the latest user conf fund
+    const userLatestConfFund = await getCurrentUserFromFirestore();
+    // create span element to display the latest user conf fund
+    const userLatestConfFundElement = document.createElement('span');
+    userLatestConfFundElement.textContent = userLatestConfFund[0].userConfidentialFund;
+
+    userConfFundLabel.appendChild(userLatestConfFundElement);
+    shopUserConfidentialFund.appendChild(userConfFundLabel);
+}
+const showShopChars = async () => {
+    const shopItemsContainer = document.getElementById('shopItemsContainer');
+    shopItemsContainer.innerHTML = '';
+
+    // get the latest shop characters from firebase
+    const currentShopChars = await getShopCharsFromFirestore();
+
+    let rowCounter = 0;
+    let currentRow;
+
+    currentShopChars.forEach((character) => {
+        if (rowCounter % 5 === 0) {
+            // Create a new row every 5 items
+            currentRow = document.createElement('div');
+            shopItemsContainer.appendChild(currentRow);
+        }
+        const currOwnedCharsElement = document.createElement('div');
+        currOwnedCharsElement.className = 'shop-display-owned-charsNitems';
+
+        // Add click event to show character details
+        currOwnedCharsElement.addEventListener('click', () => showCharacterDetails(character));
+
+        const currOwnedCharsImg = document.createElement('img');
+        currOwnedCharsImg.src = character.char_img_src;
+        currOwnedCharsImg.alt = character.char_name;
+
+        const currOwnedCharsNameTextElement = document.createElement('p');
+        currOwnedCharsNameTextElement.textContent = character.char_name;
+
+        currOwnedCharsElement.appendChild(currOwnedCharsImg);
+        currOwnedCharsElement.appendChild(currOwnedCharsNameTextElement);
+        shopItemsContainer.appendChild(currOwnedCharsElement);
+        rowCounter++;
+    });
+}
+const shopCatCharacters = document.getElementById('shopCatCharacters');
+shopCatCharacters.addEventListener('click', function() {
+    showShopChars();
+})
+
+const showShopItems = async () => {
+    const shopItemsContainer = document.getElementById('shopItemsContainer');
+    shopItemsContainer.innerHTML = '';
+
+    // get the latest user shop items
+    const currentShopItems = await getShopItemsFromFirestore();
+
+    let rowCounter = 0;
+    let currentRow;
+
+    currentShopItems.forEach((item) => {
+        if (rowCounter % 5 === 0) {
+            // Create a new row every 5 items
+            currentRow = document.createElement('div');
+            shopItemsContainer.appendChild(currentRow);
+        }
+        const currOwnedItemsElement = document.createElement('div');
+        currOwnedItemsElement.className = 'shop-display-owned-charsNitems';
+
+        // Add click event to show item details
+        currOwnedItemsElement.addEventListener('click', () => showShopItemDetails(item));
+
+        const currOwnedItemsImg = document.createElement('img');
+        currOwnedItemsImg.src = item.item_img_src;
+        currOwnedItemsImg.alt = item.item_name;
+
+        const currOwnedItemNameTextElement = document.createElement('p');
+        currOwnedItemNameTextElement.textContent = item.item_name;
+
+        currOwnedItemsElement.appendChild(currOwnedItemsImg);
+        currOwnedItemsElement.appendChild(currOwnedItemNameTextElement);
+        shopItemsContainer.appendChild(currOwnedItemsElement);
+        rowCounter++;
+    });
+}
+const shopCatItems = document.getElementById('shopCatItems');
+shopCatItems.addEventListener('click', function() {
+    showShopItems();
+})
+
+const showShopItemDetails = (item) => {
+    const shopItemDetailsPopup = document.getElementById('shopItemDetailsPopup');
+    const shopItemDetailsImg = document.getElementById('shopItemDetailsImg');
+    const shopItemDetailsContents = document.getElementById('shopItemDetailsContents');
+    shopItemDetailsPopup.style.display = 'block';
+    shopItemDetailsImg.innerHTML = '';
+    shopItemDetailsContents.innerHTML = '';
+    
+    // create img element then append to the div
+    const itemElement = document.createElement('div');
+    const itemImg = document.createElement('img');
+    itemImg.src = item.item_img_src;
+    itemImg.alt = item.item_name;
+
+    const itemNameTextElement = document.createElement('p');
+    itemNameTextElement.textContent = item.item_name;
+    const itemPriceTextElement = document.createElement('p');
+    itemPriceTextElement.textContent = item.item_price;
+
+    itemElement.appendChild(itemImg);
+    itemElement.appendChild(itemNameTextElement);
+    itemElement.appendChild(itemPriceTextElement);
+    shopItemDetailsImg.appendChild(itemElement);
+
+    // create table element for the item details then append to the div
+    const itemDetailTable = document.createElement('table');
+    const orderDetails = ['item_name', 'item_description'];
+    // Populate details as rows in the table based on the specified order
+    orderDetails.forEach((detailKey) => {
+        if (item.hasOwnProperty(detailKey)) {
+            const row = document.createElement('tr');
+            const cell1 = document.createElement('td');
+            const cell2 = document.createElement('td');
+            cell1.textContent = detailKey;
+            cell2.textContent = item[detailKey];
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            itemDetailTable.appendChild(row);
+        }
+    });
+    shopItemDetailsContents.appendChild(itemDetailTable);
+
+    const buyItemButton = document.getElementById('buyItemButton');
+    buyItemButton.addEventListener('click', function() {
+        checkUserFund(item);
+    })
+}
+const checkUserFund = async (item) => {
+    const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
+    shopConfirmationPopup.style.display = 'block';
+
+    // show user latest funds
+    const shopUserConfidentialFund = document.getElementById('shopUserConfidentialFund');
+    shopUserConfidentialFund.innerHTML = '';
+    // create p element for the label
+    const userConfFundLabel = document.createElement('p');
+    userConfFundLabel.textContent = 'Current Confidential Fund: ';
+    // get the latest user conf fund
+    const userLatestConfFund = await getCurrentUserFromFirestore();
+    // create span element to display the latest user conf fund
+    const userLatestConfFundElement = document.createElement('span');
+    userLatestConfFundElement.textContent = userLatestConfFund[0].userConfidentialFund;
+    userConfFundLabel.appendChild(userLatestConfFundElement);
+    shopUserConfidentialFund.appendChild(userConfFundLabel);
+
+    // show item clicked without detail table
+    const shopConfirmationImg = document.getElementById('shopConfirmationImg');
+    shopConfirmationImg.innerHTML = '';
+    // create img element then append to the div
+    const itemElement = document.createElement('div');
+    const itemImg = document.createElement('img');
+    itemImg.src = item.item_img_src;
+    itemImg.alt = item.item_name;
+    const itemNameTextElement = document.createElement('p');
+    itemNameTextElement.textContent = item.item_name;
+    const itemPriceTextElement = document.createElement('p');
+    itemPriceTextElement.textContent = item.item_price;
+    itemElement.appendChild(itemImg);
+    itemElement.appendChild(itemNameTextElement);
+    itemElement.appendChild(itemPriceTextElement);
+    shopConfirmationImg.appendChild(itemElement);
+
+    // if user click buy
+    const confirmBuyButton = document.getElementById('confirmBuyButton');
+    confirmBuyButton.addEventListener('click', async function() {
+        const currentUserDataItem = await getCurrentUserFromFirestore();
+        const checkUserConfidentialFund = currentUserDataItem[0].userConfidentialFund;
+        if (checkUserConfidentialFund >= item.item_price) {
+            // Retrieve the user document from Firestore
+            const userRef = doc(db, 'users', currentUserDataItem[0].currUser_uid);
+            const userDoc = await getDoc(userRef);
+
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                const updatedUserInventoryItems = [...userData.userInventoryItems, item];
+                await updateDoc(userRef, {
+                    userInventoryItems: updatedUserInventoryItems,
+                });
+                console.log('Item appended to userInventoryItems:', item);
+
+                const latestUserInventoryItems = await getCurrentUserFromFirestore();
+                const checkLatestUserInventoryItems = latestUserInventoryItems[0].userInventoryItems;
+                let isItemFound = false;
+                checkLatestUserInventoryItems.forEach(inventoryItems => {
+                    if (inventoryItems.item_uid == item_uid) {
+                        const shopSuccessPopup = document.getElementById('shopSuccessPopup');
+                        shopSuccessPopup.style.display = 'block';
+        
+                        // show item purchase 
+                        const shopSuccessImg = document.getElementById('shopSuccessImg');
+                        shopSuccessImg.innerHTML = '';
+                        // create img element then append to the div
+                        const sucessItemElement = document.createElement('div');
+                        const sucessItemImg = document.createElement('img');
+                        sucessItemImg.src = inventoryItems.item_img_src;
+                        sucessItemImg.alt = inventoryItems.item_name;
+                        const sucessItemNameTextElement = document.createElement('p');
+                        sucessItemNameTextElement.textContent = inventoryItems.item_name;
+                        const sucessItemPriceTextElement = document.createElement('p');
+                        sucessItemPriceTextElement.textContent = inventoryItems.item_price;
+                        sucessItemElement.appendChild(sucessItemImg);
+                        sucessItemElement.appendChild(sucessItemNameTextElement);
+                        sucessItemElement.appendChild(sucessItemPriceTextElement);
+                        shopSuccessImg.appendChild(sucessItemElement);
+                        isItemFound = true;
+                    }
+                })
+                if (!isItemFound) {
+                    console.log('Item not found in userData');
+                }
+            } else {
+                console.log('User document not found');
+            }
+        } else {
+            const shopNotEnoughFundsPopup = document.getElementById('shopNotEnoughFundsPopup');
+            shopNotEnoughFundsPopup.style.display = 'block';
+
+            // show item purchase 
+            const shopNotEnoughFundsImg = document.getElementById('shopNotEnoughFundsImg');
+            shopNotEnoughFundsImg.innerHTML = '';
+            // create img element then append to the div
+            const failedItemElement = document.createElement('div');
+            const failedItemImg = document.createElement('img');
+            failedItemImg.src = item.item_img_src;
+            failedItemImg.alt = item.item_name;
+            const failedItemNameTextElement = document.createElement('p');
+            failedItemNameTextElement.textContent = item.item_name;
+            const failedItemPriceTextElement = document.createElement('p');
+            failedItemPriceTextElement.textContent = item.item_price;
+            failedItemElement.appendChild(failedItemImg);
+            failedItemElement.appendChild(failedItemNameTextElement);
+            failedItemElement.appendChild(failedItemPriceTextElement);
+            shopNotEnoughFundsImg.appendChild(failedItemElement);
+        }
+    })
+}
+
+
+
+// menu items function
 let previousCategory = null;
 const menuItems = document.querySelectorAll('.menu-item');
 menuItems.forEach(menuItem => {
@@ -495,6 +925,13 @@ menuItems.forEach(menuItem => {
         // If the category is Profile and the content is displayed, show the profile content
         if (category === 'Profile' && content.style.display === 'block') {
             showProfileContent();
+        }
+        if (category === 'Inventory' && content.style.display === 'block') {
+            userShowInventoryChars();
+        }
+        if (category === 'Shop' && content.style.display === 'block') {
+            showUserConfidentialFund();
+            showShopChars();
         }
         
         // Toggle active class

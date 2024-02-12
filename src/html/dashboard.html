@@ -16,9 +16,9 @@
         <div class="menu" id="menu">
             <p class="menu-item" id="profileMenuItem" data-content="profileContentContainer">Profile</p>
             <p class="menu-item" id="inventoryMenuItem" data-content="inventoryContentContainer">Inventory</p>
-            <p class="menu-item" id="journeyMenuItem">Journey</p>
-            <p class="menu-item" id="shopMenuItem">Shop</p>
-            <p class="menu-item" id="settingsMenuItem">Settings</p>
+            <p class="menu-item" id="journeyMenuItem" data-content="journeyContentContainer">Journey</p>
+            <p class="menu-item" id="shopMenuItem" data-content="shopContentContainer">Shop</p>
+            <p class="menu-item" id="settingsMenuItem" data-content="settingsContentContainer">Settings</p>
         </div>
 
         <div class="sidebar-bottom">
@@ -60,6 +60,7 @@
                 <!-- <h2 class="owned-chars-title">Characters Owned</h2> -->
             </div>
         </div>
+        <!-- profile details popup -->
         <div class="profile-characters-details-popup" id="profileCharactersDetailsPopup">
             <h2 class="profile-characters-details-title">
                 Character Details
@@ -76,6 +77,7 @@
                 </div>
             </div>
         </div>
+        <!-- edit profile details/avatar popup -->
         <div class="edit-profile-popup" id="editProfilePopup">
             <h2 class="edit-profile-title">Confirm Edit Profile?
                 <span class="close-icon" onclick="closeEditProfilePopup()">×</span>
@@ -99,6 +101,142 @@
         <!-- inventory contents -->
         <div class="inventory-content" id="inventoryContentContainer">
             <h2 class="inventory-content-title">Inventory</h2>
+            <div class="inventory-categories" id="inventoryCategories">
+                <span id="invCatCharacters">Characters</span>
+                <span id="invCatItems">Items</span>
+            </div>
+            <div class="inventory-items-container" id="inventoryItemsContainer">
+                <!-- Content will be dynamically populated here -->
+            </div>
+        </div>
+        <!-- show inventory item details popup -->
+        <!-- the profile user char owned detail popup is use for the inv char details -->
+        <div class="inventory-item-details-popup" id="inventoryItemDetailsPopup">
+            <h2 class="inventory-item-details-title">
+                Item Details
+                <span class="close-icon" onclick="closeInvItemDetailsPopup()">×</span>
+            </h2>
+            <div class="inventory-item-details-container">
+                <div class="inventory-item-details-img" id="inventoryItemDetailsImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+                <div class="inventory-item-details-contents" id="inventoryItemDetailsContents">
+                    ::: selected character details will show here :::
+                    <!-- character details content will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- journey contents -->
+        <div class="journey-content" id="journeyContentContainer">
+            <h2 class="journey-content-title">Journey</h2>
+        </div>
+
+        <!-- shop contents -->
+        <div class="shop-content" id="shopContentContainer">
+            <h2 class="shop-content-title">Shop</h2>
+            <div class="shop-categories" id="shopCategories">
+                <span id="shopCatCharacters">Characters</span>
+                <span id="shopCatItems">Items</span>
+            </div>
+            <div class="shop-user-confidential-fund" id="shopUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <div class="shop-items-container" id="shopItemsContainer">
+                <!-- Content will be dynamically populated here -->
+            </div>
+        </div>
+        <!-- show shop item details popup -->
+        <div class="shop-item-details-popup" id="shopItemDetailsPopup">
+            <h2 class="shop-item-details-title">
+                Item Details
+                <span class="close-icon" onclick="closeShopItemDetailsPopup()">×</span>
+            </h2>
+            <div class="shop-item-details-container">
+                <div class="shop-item-details-img" id="shopItemDetailsImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+                <div class="shop-item-details-contents" id="shopItemDetailsContents">
+                    ::: selected character details will show here :::
+                    <!-- character details content will be populated here -->
+                </div>
+            </div>
+            <div class="buy-item-confirmation" id="buyItemConfirmation">
+                <span id="buyItemButton">Buy</span>
+                <span onclick="closeShopItemDetailsPopup()" id="closeShopItemDetailsPopup">Close</span>
+            </div>
+        </div>
+        <!-- show confirmation if want to buy that item -->
+        <div class="shop-confirmation-popup" id="shopConfirmationPopup">
+            <h2 class="shop-confirmation-title">
+                Are you sure you want to buy this?
+                <span class="close-icon" onclick="closeShopConfirmationPopup()">×</span>
+            </h2>
+            <div class="shop-confirmation-user-confidential-fund" id="shopUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <div class="shop-confirmation-container">
+                <div class="shop-confirmation-img" id="shopConfirmationImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="buy-confirmation" id="buyConfirmation">
+                <span id="confirmBuyButton">Buy</span>
+                <span onclick="closeShopConfirmationPopup()" id="cancelShopConfirmationPopup">Cancel</span>
+            </div>
+        </div>
+        <!-- show success purchase -->
+        <div class="shop-success-popup" id="shopSuccessPopup">
+            <h2 class="shop-success-title">
+                CONGRATULATIONS!
+                <span class="close-icon" onclick="closeShopSuccessPopup()">×</span>
+            </h2>
+            <div class="shop-success-user-confidential-fund" id="shopUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <h1 class="shop-success-title">
+                PURCHASE SUCCESS
+            </h1>
+            <div class="shop-success-container">
+                <div class="shop-success-img" id="shopSuccessImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="buy-success" id="buySuccess">
+                <span onclick="closeShopSuccessPopup()" id="closeShopSuccessPopup">close</span>
+            </div>
+        </div>
+        <!-- show not enough funds purchase -->
+        <div class="shop-not-enough-funds-popup" id="shopNotEnoughFundsPopup">
+            <h2 class="shop-not-enough-funds-title">
+                PURCHASE FAILED
+                <span class="close-icon" onclick="closeShopNotEnoughFundsPopup()">×</span>
+            </h2>
+            <div class="shop-not-enough-funds-user-confidential-fund" id="shopUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <h1 class="shop-not-enough-funds-title">
+                Oh no!
+                <p>Not Enough Confidential Funds.</p>
+            </h1>
+            <div class="shop-not-enough-funds-container">
+                <div class="shop-not-enough-funds-img" id="shopNotEnoughFundsImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="buy-not-enough-funds" id="buyNotEnoughFunds">
+                <span onclick="closeShopNotEnoughFundsPopup()" id="closeShopNotEnoughFundsPopup">close</span>
+            </div>
+        </div>
+
+        <!-- settings contents -->
+        <div class="settings-content" id="settingsContentContainer">
+            <h2 class="settings-content-title">Settings</h2>
         </div>
     </div>
     

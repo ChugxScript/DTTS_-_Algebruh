@@ -238,6 +238,7 @@ body, html {
 .display-owned-chars p {
     border: 1px solid #bbff00;
 }
+/* user character details popup */
 .profile-characters-details-popup {
     position: absolute;
     top: 20px;
@@ -306,6 +307,7 @@ body, html {
 .profile-characters-details-contents tr:nth-child(odd) {
     background-color: #53151593;
 }
+/* edit user profile details or avatar */
 .edit-profile-popup {
     position: absolute;
     top: 20px;
@@ -435,6 +437,557 @@ body, html {
     background-color: #000000e0;
     border: 1px solid #ccc;
 }
+/* inventory categories */
+.inventory-categories {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #000;
+}
+.inventory-categories span {
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    width: 508px;
+    padding: 10px; 
+    color: #ffffff; 
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.inventory-categories span:hover {
+    color: #000000;
+    background-color: rgb(202, 202, 202);
+    border: 1px solid #000;
+}
+.inventory-items-container {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: left;
+    height: 450px;
+    max-height: 450px;
+    overflow-y: auto;
+    border: 3px solid #ff0000;
+}
+.inventory-display-owned-charsNitems {
+    display: block;
+    width: 189px;
+    height: 202px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.7); 
+    border: 1px solid #bbff00;
+}
+.inventory-display-owned-charsNitems:hover {
+    background: rgba(255, 129, 129, 0.7); 
+}
+.inventory-display-owned-charsNitems img {
+    width: 150px;
+    height: 150px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+.inventory-display-owned-charsNitems p {
+    border: 1px solid #bbff00;
+}
+/* inventory character details popup */
+.inventory-item-details-popup {
+    position: absolute;
+    top: 20px;
+    width: 1063px;
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #000000cb;
+    border: 1px solid #ccc;
+}
+.inventory-item-details-title {
+    margin: 10px;
+    color: white;
+    text-align: center;
+    background-color: #000;
+    border: 1px solid #ccc;
+}
+.inventory-item-details-container {
+    margin: 10px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-color: #113d0d4d;
+    border: 1px solid #ccc;
+}
+.inventory-item-details-img {
+    flex: 0 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.inventory-item-details-img div {
+    border: 1px solid #ccc;
+}
+.inventory-item-details-img img {
+    width: 200px;
+    border: 1px solid #ccc;
+}
+.inventory-item-details-img p {
+    border: 1px solid #ccc;
+}
+.inventory-item-details-contents {
+    flex: 1;
+    padding: 10px;
+    height: 480px;
+    max-height: 480px;
+    overflow-y: auto;
+    color: white;
+    border: 1px solid #ccc;
+}
+.inventory-item-details-contents table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+.inventory-item-details-contents td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+.inventory-item-details-contents tr:nth-child(even) {
+    background-color: #5f2727;
+}
+.inventory-item-details-contents tr:nth-child(odd) {
+    background-color: #53151593;
+}
+
+
+
+/* journey */
+.journey-content {
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #311a1a4b;
+    border: 1px solid #ccc;
+}
+.journey-content-title {
+    text-align: center;
+    color: white;
+    background-color: #000000e0;
+    border: 1px solid #ccc;
+}
+
+
+
+/* shop */
+.shop-content {
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #311a1a4b;
+    border: 1px solid #ccc;
+}
+.shop-content-title {
+    text-align: center;
+    color: white;
+    background-color: #000000e0;
+    border: 1px solid #ccc;
+}
+/* shop categories */
+.shop-categories {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #000;
+}
+.shop-categories span {
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    width: 508px;
+    padding: 10px; 
+    color: #ffffff; 
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.shop-categories span:hover {
+    color: #000000;
+    background-color: rgb(202, 202, 202);
+    border: 1px solid #000;
+}
+/* user confidential fund */
+.shop-user-confidential-fund {
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.shop-user-confidential-fund span {
+    border: 1px solid #ccc;
+}
+/* show shop characters and items */
+.shop-items-container {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: left;
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 3px solid #ff0000;
+}
+.shop-display-owned-charsNitems {
+    display: block;
+    width: 189px;
+    height: 202px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.7); 
+    border: 1px solid #bbff00;
+}
+.shop-display-owned-charsNitems:hover {
+    background: rgba(255, 129, 129, 0.7); 
+}
+.shop-display-owned-charsNitems img {
+    width: 150px;
+    height: 150px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+.shop-display-owned-charsNitems p {
+    border: 1px solid #bbff00;
+}
+/* show shop item details popup */
+.shop-item-details-popup {
+    position: absolute;
+    top: 20px;
+    width: 1063px;
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #000000cb;
+    border: 1px solid #ccc;
+}
+.shop-item-details-title {
+    margin: 10px;
+    color: white;
+    text-align: center;
+    background-color: #000;
+    border: 1px solid #ccc;
+}
+.shop-item-details-container {
+    margin: 10px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-color: #113d0d4d;
+    border: 1px solid #ccc;
+}
+.shop-item-details-img {
+    flex: 0 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.shop-item-details-img div {
+    border: 1px solid #ccc;
+}
+.shop-item-details-img img {
+    width: 200px;
+    border: 1px solid #ccc;
+}
+.shop-item-details-img p {
+    border: 1px solid #ccc;
+}
+.shop-item-details-contents {
+    flex: 1;
+    padding: 10px;
+    height: 430px;
+    max-height: 430px;
+    overflow-y: auto;
+    color: white;
+    border: 1px solid #ccc;
+}
+.shop-item-details-contents table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+.shop-item-details-contents td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+.shop-item-details-contents tr:nth-child(even) {
+    background-color: #5f2727;
+}
+.shop-item-details-contents tr:nth-child(odd) {
+    background-color: #53151593;
+}
+.buy-item-confirmation {
+    display: flex;
+    margin: 10px;
+    justify-content: space-around;
+    border: 1px solid #ccc;
+}
+.buy-item-confirmation span {
+    display: inline-block;
+    width: 520px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.buy-item-confirmation span:hover {
+    background-color: darkslategrey;
+}
+/* show shop item confirmation popup */
+.shop-confirmation-popup {
+    position: absolute;
+    top: 20px;
+    width: 1063px;
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #000000cb;
+    border: 1px solid #ccc;
+}
+.shop-confirmation-title {
+    margin: 10px;
+    color: white;
+    text-align: center;
+    background-color: #000;
+    border: 1px solid #ccc;
+}
+/* user confidential fund */
+.shop-confirmation-user-confidential-fund {
+    margin: 10px;
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.shop-confirmation-user-confidential-fund span {
+    border: 1px solid #ccc;
+}
+.shop-confirmation-container {
+    margin: 10px;
+    height: 400px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-color: #113d0d4d;
+    border: 1px solid #ccc;
+}
+.shop-confirmation-img {
+    flex: 0 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.shop-confirmation-img div {
+    border: 1px solid #ccc;
+}
+.shop-confirmation-img img {
+    width: 200px;
+    border: 1px solid #ccc;
+}
+.shop-confirmation-img p {
+    border: 1px solid #ccc;
+}
+.buy-confirmation {
+    display: flex;
+    margin: 10px;
+    justify-content: space-around;
+    border: 1px solid #ccc;
+}
+.buy-confirmation span {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.buy-confirmation span:hover {
+    background-color: darkslategrey;
+}
+/* show shop item success popup */
+.shop-success-popup {
+    position: absolute;
+    top: 20px;
+    width: 1063px;
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #000000cb;
+    border: 1px solid #ccc;
+}
+.shop-success-title {
+    margin: 10px;
+    color: white;
+    text-align: center;
+    background-color: #000;
+    border: 1px solid #ccc;
+}
+/* user confidential fund */
+.shop-success-user-confidential-fund {
+    margin: 10px;
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.shop-success-user-confidential-fund span {
+    border: 1px solid #ccc;
+}
+.shop-success-container {
+    margin: 10px;
+    height: 300px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-color: #113d0d4d;
+    border: 1px solid #ccc;
+}
+.shop-success-img {
+    flex: 0 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.shop-success-img div {
+    border: 1px solid #ccc;
+}
+.shop-success-img img {
+    width: 200px;
+    border: 1px solid #ccc;
+}
+.shop-success-img p {
+    border: 1px solid #ccc;
+}
+.buy-success {
+    display: flex;
+    margin: 10px;
+    justify-content: space-around;
+    border: 1px solid #ccc;
+}
+.buy-success span {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.buy-success span:hover {
+    background-color: darkslategrey;
+}
+/* show shop not enough funds popup */
+.shop-not-enough-funds-popup {
+    position: absolute;
+    top: 20px;
+    width: 1063px;
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #000000cb;
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-title {
+    margin: 10px;
+    color: white;
+    text-align: center;
+    background-color: #000;
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-title p {
+    font-size: 15px;
+    border: 1px solid #ccc;
+}
+/* user confidential fund */
+.shop-not-enough-funds-user-confidential-fund {
+    margin: 10px;
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-user-confidential-fund span {
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-container {
+    margin: 10px;
+    height: 300px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background-color: #113d0d4d;
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-img {
+    flex: 0 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-img div {
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-img img {
+    width: 200px;
+    border: 1px solid #ccc;
+}
+.shop-not-enough-funds-img p {
+    border: 1px solid #ccc;
+}
+.buy-not-enough-funds {
+    display: flex;
+    margin: 10px;
+    justify-content: space-around;
+    border: 1px solid #ccc;
+}
+.buy-not-enough-funds span {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+.buy-not-enough-funds span:hover {
+    background-color: darkslategrey;
+}
+
+
+
+/* settings */
+.settings-content {
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #311a1a4b;
+    border: 1px solid #ccc;
+}
+.settings-content-title {
+    text-align: center;
+    color: white;
+    background-color: #000000e0;
+    border: 1px solid #ccc;
+}
 
 
 /* webkit for scroll bar */
@@ -442,21 +995,30 @@ body, html {
 .profile-content::-webkit-scrollbar,
 .profile-user-show-characters::-webkit-scrollbar,
 .display-user-avatars::-webkit-scrollbar,
-.profile-characters-details-contents::-webkit-scrollbar {
+.profile-characters-details-contents::-webkit-scrollbar,
+.inventory-items-container::-webkit-scrollbar,
+.shop-items-container::-webkit-scrollbar,
+.shop-item-details-contents::-webkit-scrollbar {
     width: 1px;
 }
 .menu::-webkit-scrollbar-track,
 .profile-content::-webkit-scrollbar-track,
 .profile-user-show-characters::-webkit-scrollbar-track,
 .display-user-avatars::-webkit-scrollbar-track,
-.profile-characters-details-contents::-webkit-scrollbar-track {
+.profile-characters-details-contents::-webkit-scrollbar-track,
+.inventory-items-container::-webkit-scrollbar-track,
+.shop-items-container::-webkit-scrollbar-track,
+.shop-item-details-contents::-webkit-scrollbar-track {
     background-color: #15ff00;
 }
 .menu::-webkit-scrollbar-thumb,
 .profile-content::-webkit-scrollbar-thumb,
 .profile-user-show-characters::-webkit-scrollbar-thumb,
 .display-user-avatars::-webkit-scrollbar-thumb,
-.profile-characters-details-contents::-webkit-scrollbar-thumb {
+.profile-characters-details-contents::-webkit-scrollbar-thumb,
+.inventory-items-container::-webkit-scrollbar-thumb,
+.shop-items-container::-webkit-scrollbar-thumb,
+.shop-item-details-contents::-webkit-scrollbar-thumb {
     background-color: #000000;
 }
 
