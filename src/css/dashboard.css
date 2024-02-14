@@ -637,7 +637,7 @@ body, html {
 .shop-display-owned-charsNitems {
     display: block;
     width: 189px;
-    height: 202px;
+    height: 230px;
     padding: 10px;
     cursor: pointer;
     text-align: center;
@@ -776,7 +776,7 @@ body, html {
 }
 .shop-confirmation-container {
     margin: 10px;
-    height: 400px;
+    height: 100%;
     display: flex;
     align-items: center; 
     justify-content: center;
@@ -850,7 +850,7 @@ body, html {
 }
 .shop-success-container {
     margin: 10px;
-    height: 300px;
+    height: 100%;
     display: flex;
     align-items: center; 
     justify-content: center;
@@ -928,7 +928,7 @@ body, html {
 }
 .shop-not-enough-funds-container {
     margin: 10px;
-    height: 300px;
+    height: 100%;
     display: flex;
     align-items: center; 
     justify-content: center;
@@ -998,7 +998,10 @@ body, html {
 .profile-characters-details-contents::-webkit-scrollbar,
 .inventory-items-container::-webkit-scrollbar,
 .shop-items-container::-webkit-scrollbar,
-.shop-item-details-contents::-webkit-scrollbar {
+.shop-item-details-contents::-webkit-scrollbar,
+.shop-confirmation-popup::-webkit-scrollbar,
+.shop-success-popup::-webkit-scrollbar,
+.shop-not-enough-funds-popup::-webkit-scrollbar {
     width: 1px;
 }
 .menu::-webkit-scrollbar-track,
@@ -1008,7 +1011,10 @@ body, html {
 .profile-characters-details-contents::-webkit-scrollbar-track,
 .inventory-items-container::-webkit-scrollbar-track,
 .shop-items-container::-webkit-scrollbar-track,
-.shop-item-details-contents::-webkit-scrollbar-track {
+.shop-item-details-contents::-webkit-scrollbar-track,
+.shop-confirmation-popup::-webkit-scrollbar-track,
+.shop-success-popup::-webkit-scrollbar-track,
+.shop-not-enough-funds-popup::-webkit-scrollbar-track {
     background-color: #15ff00;
 }
 .menu::-webkit-scrollbar-thumb,
@@ -1018,7 +1024,10 @@ body, html {
 .profile-characters-details-contents::-webkit-scrollbar-thumb,
 .inventory-items-container::-webkit-scrollbar-thumb,
 .shop-items-container::-webkit-scrollbar-thumb,
-.shop-item-details-contents::-webkit-scrollbar-thumb {
+.shop-item-details-contents::-webkit-scrollbar-thumb,
+.shop-confirmation-popup::-webkit-scrollbar-thumb,
+.shop-success-popup::-webkit-scrollbar-thumb,
+.shop-not-enough-funds-popup::-webkit-scrollbar-thumb {
     background-color: #000000;
 }
 

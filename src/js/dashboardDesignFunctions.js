@@ -66,10 +66,14 @@ function closeShopConfirmationPopup() {
 function closeShopSuccessPopup() {
     const shopSuccessPopup = document.getElementById('shopSuccessPopup');
     shopSuccessPopup.style.display = 'none';
+    const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
+    shopConfirmationPopup.style.display = 'none';
 }
 function closeShopNotEnoughFundsPopup() {
     const shopNotEnoughFundsPopup = document.getElementById('shopNotEnoughFundsPopup');
     shopNotEnoughFundsPopup.style.display = 'none';
+    const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
+    shopConfirmationPopup.style.display = 'none';
 }
 
 

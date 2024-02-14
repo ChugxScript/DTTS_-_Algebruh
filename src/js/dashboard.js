@@ -668,22 +668,28 @@ const showShopChars = async () => {
             currentRow = document.createElement('div');
             shopItemsContainer.appendChild(currentRow);
         }
-        const currOwnedCharsElement = document.createElement('div');
-        currOwnedCharsElement.className = 'shop-display-owned-charsNitems';
+        const currShopCharsElement = document.createElement('div');
+        currShopCharsElement.className = 'shop-display-owned-charsNitems';
 
         // Add click event to show character details
-        currOwnedCharsElement.addEventListener('click', () => showCharacterDetails(character));
+        currShopCharsElement.addEventListener('click', () => showCharacterDetails(character));
 
-        const currOwnedCharsImg = document.createElement('img');
-        currOwnedCharsImg.src = character.char_img_src;
-        currOwnedCharsImg.alt = character.char_name;
+        const currShopCharsImg = document.createElement('img');
+        currShopCharsImg.src = character.char_img_src;
+        currShopCharsImg.alt = character.char_name;
 
-        const currOwnedCharsNameTextElement = document.createElement('p');
-        currOwnedCharsNameTextElement.textContent = character.char_name;
+        const currShopCharsNameTextElement = document.createElement('p');
+        currShopCharsNameTextElement.textContent = character.char_name;
+        const currShopCharsPriceNameTextElement = document.createElement('p');
+        currShopCharsPriceNameTextElement.textContent = 'C. Fund: ';
+        const currShopCharsPriceTextElement = document.createElement('span');
+        currShopCharsPriceTextElement.textContent = character.char_price;
+        currShopCharsPriceNameTextElement.appendChild(currShopCharsPriceTextElement);
 
-        currOwnedCharsElement.appendChild(currOwnedCharsImg);
-        currOwnedCharsElement.appendChild(currOwnedCharsNameTextElement);
-        shopItemsContainer.appendChild(currOwnedCharsElement);
+        currShopCharsElement.appendChild(currShopCharsImg);
+        currShopCharsElement.appendChild(currShopCharsNameTextElement);
+        currShopCharsElement.appendChild(currShopCharsPriceNameTextElement);
+        shopItemsContainer.appendChild(currShopCharsElement);
         rowCounter++;
     });
 }
@@ -708,22 +714,28 @@ const showShopItems = async () => {
             currentRow = document.createElement('div');
             shopItemsContainer.appendChild(currentRow);
         }
-        const currOwnedItemsElement = document.createElement('div');
-        currOwnedItemsElement.className = 'shop-display-owned-charsNitems';
+        const currShopItemsElement = document.createElement('div');
+        currShopItemsElement.className = 'shop-display-owned-charsNitems';
 
         // Add click event to show item details
-        currOwnedItemsElement.addEventListener('click', () => showShopItemDetails(item));
+        currShopItemsElement.addEventListener('click', () => showShopItemDetails(item));
 
-        const currOwnedItemsImg = document.createElement('img');
-        currOwnedItemsImg.src = item.item_img_src;
-        currOwnedItemsImg.alt = item.item_name;
+        const currShopItemsImg = document.createElement('img');
+        currShopItemsImg.src = item.item_img_src;
+        currShopItemsImg.alt = item.item_name;
 
-        const currOwnedItemNameTextElement = document.createElement('p');
-        currOwnedItemNameTextElement.textContent = item.item_name;
+        const currShopItemNameTextElement = document.createElement('p');
+        currShopItemNameTextElement.textContent = item.item_name;
+        const currShopItemPriceNameElement = document.createElement('p');
+        currShopItemPriceNameElement.textContent = 'C. Fund: ';
+        const currShopItemPriceElement = document.createElement('span');
+        currShopItemPriceElement.textContent = item.item_price;
+        currShopItemPriceNameElement.appendChild(currShopItemPriceElement)
 
-        currOwnedItemsElement.appendChild(currOwnedItemsImg);
-        currOwnedItemsElement.appendChild(currOwnedItemNameTextElement);
-        shopItemsContainer.appendChild(currOwnedItemsElement);
+        currShopItemsElement.appendChild(currShopItemsImg);
+        currShopItemsElement.appendChild(currShopItemNameTextElement);
+        currShopItemsElement.appendChild(currShopItemPriceNameElement);
+        shopItemsContainer.appendChild(currShopItemsElement);
         rowCounter++;
     });
 }
@@ -732,6 +744,7 @@ shopCatItems.addEventListener('click', function() {
     showShopItems();
 })
 
+let selectedShopItem = '';
 const showShopItemDetails = (item) => {
     const shopItemDetailsPopup = document.getElementById('shopItemDetailsPopup');
     const shopItemDetailsImg = document.getElementById('shopItemDetailsImg');
@@ -748,12 +761,15 @@ const showShopItemDetails = (item) => {
 
     const itemNameTextElement = document.createElement('p');
     itemNameTextElement.textContent = item.item_name;
-    const itemPriceTextElement = document.createElement('p');
+    const itemPriceNameTextElement = document.createElement('p');
+    itemPriceNameTextElement.textContent = 'C. Fund: ';
+    const itemPriceTextElement = document.createElement('span');
     itemPriceTextElement.textContent = item.item_price;
+    itemPriceNameTextElement.appendChild(itemPriceTextElement);
 
     itemElement.appendChild(itemImg);
     itemElement.appendChild(itemNameTextElement);
-    itemElement.appendChild(itemPriceTextElement);
+    itemElement.appendChild(itemPriceNameTextElement);
     shopItemDetailsImg.appendChild(itemElement);
 
     // create table element for the item details then append to the div
@@ -774,18 +790,20 @@ const showShopItemDetails = (item) => {
     });
     shopItemDetailsContents.appendChild(itemDetailTable);
 
-    const buyItemButton = document.getElementById('buyItemButton');
-    buyItemButton.addEventListener('click', function() {
-        checkUserFund(item);
-    })
+    selectedShopItem = item;
 }
+const buyItemButton = document.getElementById('buyItemButton');
+buyItemButton.addEventListener('click', function() {
+    const item = selectedShopItem;
+    checkUserFund(item);
+});
 const checkUserFund = async (item) => {
     const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
     shopConfirmationPopup.style.display = 'block';
 
     // show user latest funds
-    const shopUserConfidentialFund = document.getElementById('shopUserConfidentialFund');
-    shopUserConfidentialFund.innerHTML = '';
+    const shopConfirmationUserConfidentialFund = document.getElementById('shopConfirmationUserConfidentialFund');
+    shopConfirmationUserConfidentialFund.innerHTML = '';
     // create p element for the label
     const userConfFundLabel = document.createElement('p');
     userConfFundLabel.textContent = 'Current Confidential Fund: ';
@@ -795,7 +813,8 @@ const checkUserFund = async (item) => {
     const userLatestConfFundElement = document.createElement('span');
     userLatestConfFundElement.textContent = userLatestConfFund[0].userConfidentialFund;
     userConfFundLabel.appendChild(userLatestConfFundElement);
-    shopUserConfidentialFund.appendChild(userConfFundLabel);
+    console.log('why this prints double if i cancel then clicked again?');
+    shopConfirmationUserConfidentialFund.appendChild(userConfFundLabel);
 
     // show item clicked without detail table
     const shopConfirmationImg = document.getElementById('shopConfirmationImg');
@@ -807,87 +826,125 @@ const checkUserFund = async (item) => {
     itemImg.alt = item.item_name;
     const itemNameTextElement = document.createElement('p');
     itemNameTextElement.textContent = item.item_name;
-    const itemPriceTextElement = document.createElement('p');
+    const itemPriceNameTextElement = document.createElement('p');
+    itemPriceNameTextElement.textContent = 'C. Fund: ';
+    const itemPriceTextElement = document.createElement('span');
     itemPriceTextElement.textContent = item.item_price;
+    itemPriceNameTextElement.appendChild(itemPriceTextElement);
     itemElement.appendChild(itemImg);
     itemElement.appendChild(itemNameTextElement);
-    itemElement.appendChild(itemPriceTextElement);
+    itemElement.appendChild(itemPriceNameTextElement);
     shopConfirmationImg.appendChild(itemElement);
+}
+const confirmBuyButton = document.getElementById('confirmBuyButton');
+confirmBuyButton.addEventListener('click', async function() {
+    const item = selectedShopItem;
+    const currentUserDataItem = await getCurrentUserFromFirestore();
+    let checkUserConfidentialFund = currentUserDataItem[0].userConfidentialFund;
+    if (checkUserConfidentialFund >= item.item_price) {
+        // Retrieve the user document from Firestore
+        const userRef = doc(db, 'users', currentUserDataItem[0].currUser_uid);
+        const userDoc = await getDoc(userRef);
+        checkUserConfidentialFund -= item.item_price;
 
-    // if user click buy
-    const confirmBuyButton = document.getElementById('confirmBuyButton');
-    confirmBuyButton.addEventListener('click', async function() {
-        const currentUserDataItem = await getCurrentUserFromFirestore();
-        const checkUserConfidentialFund = currentUserDataItem[0].userConfidentialFund;
-        if (checkUserConfidentialFund >= item.item_price) {
-            // Retrieve the user document from Firestore
-            const userRef = doc(db, 'users', currentUserDataItem[0].currUser_uid);
-            const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const updatedUserInventoryItems = [...userData.userInventoryItems, item];
+            await updateDoc(userRef, {
+                userInventoryItems: updatedUserInventoryItems,
+                userConfidentialFund: checkUserConfidentialFund,
+            });
+            console.log('Item appended to userInventoryItems:', item);
 
-            if (userDoc.exists()) {
-                const userData = userDoc.data();
-                const updatedUserInventoryItems = [...userData.userInventoryItems, item];
-                await updateDoc(userRef, {
-                    userInventoryItems: updatedUserInventoryItems,
-                });
-                console.log('Item appended to userInventoryItems:', item);
+            const latestUserInventoryItems = await getCurrentUserFromFirestore();
+            const checkLatestUserInventoryItems = latestUserInventoryItems[0].userInventoryItems;
+            let isItemFound = false;
+            checkLatestUserInventoryItems.forEach(inventoryItems => {
+                if (inventoryItems.item_uid == item.item_uid) {
+                    const shopSuccessPopup = document.getElementById('shopSuccessPopup');
+                    shopSuccessPopup.style.display = 'block';
 
-                const latestUserInventoryItems = await getCurrentUserFromFirestore();
-                const checkLatestUserInventoryItems = latestUserInventoryItems[0].userInventoryItems;
-                let isItemFound = false;
-                checkLatestUserInventoryItems.forEach(inventoryItems => {
-                    if (inventoryItems.item_uid == item_uid) {
-                        const shopSuccessPopup = document.getElementById('shopSuccessPopup');
-                        shopSuccessPopup.style.display = 'block';
-        
-                        // show item purchase 
-                        const shopSuccessImg = document.getElementById('shopSuccessImg');
-                        shopSuccessImg.innerHTML = '';
-                        // create img element then append to the div
-                        const sucessItemElement = document.createElement('div');
-                        const sucessItemImg = document.createElement('img');
-                        sucessItemImg.src = inventoryItems.item_img_src;
-                        sucessItemImg.alt = inventoryItems.item_name;
-                        const sucessItemNameTextElement = document.createElement('p');
-                        sucessItemNameTextElement.textContent = inventoryItems.item_name;
-                        const sucessItemPriceTextElement = document.createElement('p');
-                        sucessItemPriceTextElement.textContent = inventoryItems.item_price;
-                        sucessItemElement.appendChild(sucessItemImg);
-                        sucessItemElement.appendChild(sucessItemNameTextElement);
-                        sucessItemElement.appendChild(sucessItemPriceTextElement);
-                        shopSuccessImg.appendChild(sucessItemElement);
-                        isItemFound = true;
-                    }
-                })
-                if (!isItemFound) {
-                    console.log('Item not found in userData');
+                    // show user latest funds
+                    const shopSucessUserConfidentialFund = document.getElementById('shopSucessUserConfidentialFund');
+                    shopSucessUserConfidentialFund.innerHTML = '';
+                    // create p element for the label
+                    const userSucessConfFundLabel = document.createElement('p');
+                    userSucessConfFundLabel.textContent = 'Current Confidential Fund: ';
+                    // get the latest user conf fund
+                    const userSucessLatestConfFund = latestUserInventoryItems;
+                    // create span element to display the latest user conf fund
+                    const userSucessLatestConfFundElement = document.createElement('span');
+                    userSucessLatestConfFundElement.textContent = userSucessLatestConfFund[0].userConfidentialFund;
+                    userSucessConfFundLabel.appendChild(userSucessLatestConfFundElement);
+                    shopSucessUserConfidentialFund.appendChild(userSucessConfFundLabel);
+    
+                    // show item purchase 
+                    const shopSuccessImg = document.getElementById('shopSuccessImg');
+                    shopSuccessImg.innerHTML = '';
+                    // create img element then append to the div
+                    const sucessItemElement = document.createElement('div');
+                    const sucessItemImg = document.createElement('img');
+                    sucessItemImg.src = inventoryItems.item_img_src;
+                    sucessItemImg.alt = inventoryItems.item_name;
+                    const sucessItemNameTextElement = document.createElement('p');
+                    sucessItemNameTextElement.textContent = inventoryItems.item_name;
+                    const sucessItemPriceNameTextElement = document.createElement('p');
+                    sucessItemPriceNameTextElement.textContent = 'C. Fund: ';
+                    const sucessItemPriceTextElement = document.createElement('span');
+                    sucessItemPriceTextElement.textContent = inventoryItems.item_price;
+                    sucessItemPriceNameTextElement.appendChild(sucessItemPriceTextElement);
+                    sucessItemElement.appendChild(sucessItemImg);
+                    sucessItemElement.appendChild(sucessItemNameTextElement);
+                    sucessItemElement.appendChild(sucessItemPriceNameTextElement);
+                    shopSuccessImg.appendChild(sucessItemElement);
+                    isItemFound = true;
                 }
-            } else {
-                console.log('User document not found');
+            })
+            if (!isItemFound) {
+                console.log('Item not found in userData');
             }
         } else {
-            const shopNotEnoughFundsPopup = document.getElementById('shopNotEnoughFundsPopup');
-            shopNotEnoughFundsPopup.style.display = 'block';
-
-            // show item purchase 
-            const shopNotEnoughFundsImg = document.getElementById('shopNotEnoughFundsImg');
-            shopNotEnoughFundsImg.innerHTML = '';
-            // create img element then append to the div
-            const failedItemElement = document.createElement('div');
-            const failedItemImg = document.createElement('img');
-            failedItemImg.src = item.item_img_src;
-            failedItemImg.alt = item.item_name;
-            const failedItemNameTextElement = document.createElement('p');
-            failedItemNameTextElement.textContent = item.item_name;
-            const failedItemPriceTextElement = document.createElement('p');
-            failedItemPriceTextElement.textContent = item.item_price;
-            failedItemElement.appendChild(failedItemImg);
-            failedItemElement.appendChild(failedItemNameTextElement);
-            failedItemElement.appendChild(failedItemPriceTextElement);
-            shopNotEnoughFundsImg.appendChild(failedItemElement);
+            console.log('User document not found');
         }
-    })
-}
+    } else {
+        const shopNotEnoughFundsPopup = document.getElementById('shopNotEnoughFundsPopup');
+        shopNotEnoughFundsPopup.style.display = 'block';
+
+        // show user latest funds
+        const shopNotEnoughFundUserConfidentialFund = document.getElementById('shopNotEnoughFundUserConfidentialFund');
+        shopNotEnoughFundUserConfidentialFund.innerHTML = '';
+        // create p element for the label
+        const userNotEnoughFundConfFundLabel = document.createElement('p');
+        userNotEnoughFundConfFundLabel.textContent = 'Current Confidential Fund: ';
+        // get the latest user conf fund
+        const userNotEnoughFundLatestConfFund = await getCurrentUserFromFirestore();
+        // create span element to display the latest user conf fund
+        const userNotEnoughFundLatestConfFundElement = document.createElement('span');
+        userNotEnoughFundLatestConfFundElement.textContent = userNotEnoughFundLatestConfFund[0].userConfidentialFund;
+        userNotEnoughFundConfFundLabel.appendChild(userNotEnoughFundLatestConfFundElement);
+        shopNotEnoughFundUserConfidentialFund.appendChild(userNotEnoughFundConfFundLabel);
+
+        // show item purchase 
+        const shopNotEnoughFundsImg = document.getElementById('shopNotEnoughFundsImg');
+        shopNotEnoughFundsImg.innerHTML = '';
+        // create img element then append to the div
+        const failedItemElement = document.createElement('div');
+        const failedItemImg = document.createElement('img');
+        failedItemImg.src = item.item_img_src;
+        failedItemImg.alt = item.item_name;
+        const failedItemNameTextElement = document.createElement('p');
+        failedItemNameTextElement.textContent = item.item_name;
+        const failedItemPriceNameTextElement = document.createElement('p');
+        failedItemPriceNameTextElement.textContent = 'C. Fund: ';
+        const failedItemPriceTextElement = document.createElement('span');
+        failedItemPriceTextElement.textContent = item.item_price;
+        failedItemPriceNameTextElement.appendChild(failedItemPriceTextElement);
+        failedItemElement.appendChild(failedItemImg);
+        failedItemElement.appendChild(failedItemNameTextElement);
+        failedItemElement.appendChild(failedItemPriceNameTextElement);
+        shopNotEnoughFundsImg.appendChild(failedItemElement);
+    }
+})
 
 
 
