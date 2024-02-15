@@ -19,6 +19,12 @@ import {
     getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
 
+// google auth
+import { 
+    getAuth,
+    signOut 
+} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+
 // Initialize Firebase app
 const firebaseApp = initializeApp(firebaseConfig);
 // Get a Firestore instance
@@ -89,7 +95,34 @@ const getShopItemsFromFirestore = async () => {
         return []; 
     }
 };
+// days active
+const updateUserDaysActive = async () => {
+    const getCurrUser = await getCurrentUserFromFirestore();
+    const checkUserDaysActive = getCurrUser[0].userDaysActive;
 
+    const currentDate = new Date();
+    // Get month, day, and year
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const year = currentDate.getFullYear();
+    // Format the date as mm/dd/yyyy
+    const formattedDate = `${month}/${day}/${year}`;
+
+    if (!checkUserDaysActive.includes(formattedDate)) {
+        const userRef = doc(db, 'users', getCurrUser[0].currUser_uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const updatedUserDaysActive = [...userData.userDaysActive, formattedDate];
+            await updateDoc(userRef, {
+                userDaysActive: updatedUserDaysActive,
+            });
+        } else {
+            console.log('User document not found');
+        }
+    }
+}
+updateUserDaysActive();
 
 // asigning of vars
 const currentUser = await getCurrentUserFromFirestore();
@@ -140,7 +173,11 @@ const showProfileContent = async () => {
             const cell1 = document.createElement('td');
             const cell2 = document.createElement('td');
             cell1.textContent = detailKey;
-            cell2.textContent = currUser[detailKey];
+            if (detailKey === 'userDaysActive') {
+                cell2.textContent = currUser[detailKey].length;
+            } else {
+                cell2.textContent = currUser[detailKey];
+            }
             row.appendChild(cell1);
             row.appendChild(cell2);
             currUserDetailTable.appendChild(row);
@@ -628,10 +665,121 @@ invCatItems.addEventListener('click', function() {
 })
 
 
+const getJourneyStagesFromFirebase = async () => {
+    const journeyStagesDocRef = doc(db, 'stageQuestions', 'stageDesigns');
+    const journeyStagesDocSnapshot = await getDoc(journeyStagesDocRef);
 
+    if (journeyStagesDocSnapshot.exists()) {
+        const journeyStagesData = journeyStagesDocSnapshot.data();
+        const journeyStages = [];
 
+        // Iterate over each shop characters in the document
+        Object.entries(journeyStagesData).forEach(([stage_uid, stageData]) => {
+            journeyStages.push({ stage_uid, ...stageData });
+        });
 
+        console.log('journeyStages from Firestore:', journeyStages);
+        return journeyStages;
+    } else {
+        console.log('Document "stageDesigns" does not exist');
+        return []; 
+    }
+}
+const showJourneyContentContainer = async () => {
+    const journeyContentContainer = document.getElementById('journeyContentContainer');
+    const journeyStageContainer = document.getElementById('journeyStageContainer');
+    journeyContentContainer.style.display = 'block';
+    journeyStageContainer.innerHTML = '';
 
+    const journeyStages = await getJourneyStagesFromFirebase();
+    // Define the desired order of stage names
+    const desiredOrder = ['Stage 1', 'Stage 2', 'Stage 3']; 
+
+    // Sort the journey stages array based on the desired order
+    const sortedJourneyStages = journeyStages.sort((a, b) => {
+        return desiredOrder.indexOf(a.stage_name) - desiredOrder.indexOf(b.stage_name);
+    });
+
+    const currUser = await getCurrentUserFromFirestore();
+    const currUserStageCleared = currUser[0].userStageCleared;
+    
+    sortedJourneyStages.forEach((stage) => {
+        const journeyStageElement = document.createElement('div');
+        journeyStageElement.className = 'journey-show-stages';
+
+        // Add click event to show stage 
+        journeyStageElement.addEventListener('click', () => showJourneyStage(stage, currUserStageCleared));
+
+        journeyStageElement.style.backgroundImage = `url(${stage.stage_src_img})`;
+        journeyStageElement.style.backgroundSize = 'cover';
+
+        const journeyStageDivElement = document.createElement('div');
+        journeyStageDivElement.className = 'journey-show-stages-pdiv'
+        const journeyStageTextElement = document.createElement('p');
+        journeyStageTextElement.textContent = stage.stage_name;
+
+        if (!currUserStageCleared.includes(stage.stage_prerequisite)) {
+            const journeyStageSpanElement = document.createElement('span');
+            journeyStageSpanElement.textContent = '  [locked]';
+            journeyStageTextElement.appendChild(journeyStageSpanElement);
+        }
+
+        journeyStageDivElement.appendChild(journeyStageTextElement);
+        journeyStageElement.appendChild(journeyStageDivElement);
+        journeyStageContainer.appendChild(journeyStageElement);
+    });
+}
+const showJourneyStage = (stage, currUserStageCleared) => {
+    if (!currUserStageCleared.includes(stage.stage_prerequisite)) {
+        const journeyContentContainerConfirmLocked = document.getElementById('journeyContentContainerConfirmLocked');
+        const journeyStageContainerConfirmLocked = document.getElementById('journeyStageContainerConfirmLocked');
+        journeyContentContainerConfirmLocked.style.display = 'block';
+        journeyStageContainerConfirmLocked.innerHTML = '';
+
+        const journeyStageElement = document.createElement('div');
+        journeyStageElement.className = 'journey-show-stages-confirmLocked';
+        journeyStageElement.style.backgroundImage = `url(${stage.stage_src_img})`;
+        journeyStageElement.style.backgroundSize = 'cover';
+    
+        const journeyStageDivElement = document.createElement('div');
+        journeyStageDivElement.className = 'journey-show-stages-pdivLocked'
+        const journeyStageTextElement = document.createElement('p');
+        journeyStageTextElement.textContent = stage.stage_name;
+
+        const journeyStageSpanElement = document.createElement('span');
+        journeyStageSpanElement.textContent = '  [locked]';
+        journeyStageTextElement.appendChild(journeyStageSpanElement);
+    
+        journeyStageDivElement.appendChild(journeyStageTextElement);
+        journeyStageElement.appendChild(journeyStageDivElement);
+        journeyStageContainerConfirmLocked.appendChild(journeyStageElement);
+    } else {
+        const journeyContentContainerConfirmation = document.getElementById('journeyContentContainerConfirmation');
+        const journeyStageContainerConfirmation = document.getElementById('journeyStageContainerConfirmation');
+        journeyContentContainerConfirmation.style.display = 'block';
+        journeyStageContainerConfirmation.innerHTML = '';
+    
+        const journeyStageElement = document.createElement('div');
+        journeyStageElement.className = 'journey-show-stages-confirmOK';
+        journeyStageElement.style.backgroundImage = `url(${stage.stage_src_img})`;
+        journeyStageElement.style.backgroundSize = 'cover';
+    
+        const journeyStageDivElement = document.createElement('div');
+        journeyStageDivElement.className = 'journey-show-stages-pdivOK'
+        const journeyStageTextElement = document.createElement('p');
+        journeyStageTextElement.textContent = stage.stage_name;
+    
+        journeyStageDivElement.appendChild(journeyStageTextElement);
+        journeyStageElement.appendChild(journeyStageDivElement);
+        journeyStageContainerConfirmation.appendChild(journeyStageElement);
+    }
+}
+const journeyStageConfirm = document.getElementById('journeyStageConfirm');
+journeyStageConfirm.addEventListener('click', async function() {
+    const getCurrUser = await getCurrentUserFromFirestore();
+    const queryParams = `?uid=${getCurrUser[0].currUser_uid}`;
+    window.location.href = `../path/to/html${queryParams}`;
+})
 
 
 
@@ -672,7 +820,7 @@ const showShopChars = async () => {
         currShopCharsElement.className = 'shop-display-owned-charsNitems';
 
         // Add click event to show character details
-        currShopCharsElement.addEventListener('click', () => showCharacterDetails(character));
+        currShopCharsElement.addEventListener('click', () => showShopCharDetails(character));
 
         const currShopCharsImg = document.createElement('img');
         currShopCharsImg.src = character.char_img_src;
@@ -698,6 +846,271 @@ shopCatCharacters.addEventListener('click', function() {
     showShopChars();
 })
 
+let selectedShopCharacter = '';
+const showShopCharDetails = (character) => {
+    const shopCharDetailsPopup = document.getElementById('shopCharDetailsPopup');
+    const shopCharDetailsImg = document.getElementById('shopCharDetailsImg');
+    const shopCharDetailsContents = document.getElementById('shopCharDetailsContents');
+    shopCharDetailsPopup.style.display = 'block';
+    shopCharDetailsImg.innerHTML = '';
+    shopCharDetailsContents.innerHTML = '';
+    
+    // create img element then append to the div
+    const charElement = document.createElement('div');
+    const charImg = document.createElement('img');
+    charImg.src = character.char_img_src;
+    charImg.alt = character.char_name;
+
+    const charNameTextElement = document.createElement('p');
+    charNameTextElement.textContent = character.char_name;
+    const charPriceNameTextElement = document.createElement('p');
+    charPriceNameTextElement.textContent = 'C. Fund: ';
+    const charPriceTextElement = document.createElement('span');
+    charPriceTextElement.textContent = character.char_price;
+    charPriceNameTextElement.appendChild(charPriceTextElement);
+
+    charElement.appendChild(charImg);
+    charElement.appendChild(charNameTextElement);
+    charElement.appendChild(charPriceNameTextElement);
+    shopCharDetailsImg.appendChild(charElement);
+
+    // create table element for the char details then append to the div
+    const charDetailTable = document.createElement('table');
+    const orderDetails = ['char_name', 'char_hp', 'char_atk'];
+    // Populate details as rows in the table based on the specified order
+    orderDetails.forEach((detailKey) => {
+        if (character.hasOwnProperty(detailKey)) {
+            const row = document.createElement('tr');
+            const cell1 = document.createElement('td');
+            const cell2 = document.createElement('td');
+            cell1.textContent = detailKey;
+            cell2.textContent = character[detailKey];
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            charDetailTable.appendChild(row);
+        }
+    });
+    shopCharDetailsContents.appendChild(charDetailTable);
+
+    selectedShopCharacter = character;
+}
+const buyCharButton = document.getElementById('buyCharButton');
+buyCharButton.addEventListener('click', function() {
+    const character = selectedShopCharacter;
+    checkCharUserFund(character);
+});
+const checkCharUserFund = async (character) => {
+    const shopCharConfirmationPopup = document.getElementById('shopCharConfirmationPopup');
+    shopCharConfirmationPopup.style.display = 'block';
+
+    // show user latest funds
+    const shopCharConfirmationUserConfidentialFund = document.getElementById('shopCharConfirmationUserConfidentialFund');
+    shopCharConfirmationUserConfidentialFund.innerHTML = '';
+    // create p element for the label
+    const userConfFundLabel = document.createElement('p');
+    userConfFundLabel.textContent = 'Current Confidential Fund: ';
+    // get the latest user conf fund
+    const userLatestConfFund = await getCurrentUserFromFirestore();
+    // create span element to display the latest user conf fund
+    const userLatestConfFundElement = document.createElement('span');
+    userLatestConfFundElement.textContent = userLatestConfFund[0].userConfidentialFund;
+    userConfFundLabel.appendChild(userLatestConfFundElement);
+    shopCharConfirmationUserConfidentialFund.appendChild(userConfFundLabel);
+
+    // show character clicked without detail table
+    const shopCharConfirmationImg = document.getElementById('shopCharConfirmationImg');
+    shopCharConfirmationImg.innerHTML = '';
+    // create img element then append to the div
+    const charElement = document.createElement('div');
+    const charImg = document.createElement('img');
+    charImg.src = character.char_img_src;
+    charImg.alt = character.char_name;
+    const charNameTextElement = document.createElement('p');
+    charNameTextElement.textContent = character.char_name;
+    const charPriceNameTextElement = document.createElement('p');
+    charPriceNameTextElement.textContent = 'C. Fund: ';
+    const charPriceTextElement = document.createElement('span');
+    charPriceTextElement.textContent = character.char_price;
+    charPriceNameTextElement.appendChild(charPriceTextElement);
+    charElement.appendChild(charImg);
+    charElement.appendChild(charNameTextElement);
+    charElement.appendChild(charPriceNameTextElement);
+    shopCharConfirmationImg.appendChild(charElement);
+}
+const confirmBuyCharButton = document.getElementById('confirmBuyCharButton');
+confirmBuyCharButton.addEventListener('click', async function() {
+    const char = selectedShopCharacter;
+    const currentUserDataItem = await getCurrentUserFromFirestore();
+    let checkUserConfidentialFund = currentUserDataItem[0].userConfidentialFund;
+    if (checkUserConfidentialFund >= char.char_price) {
+        // Retrieve the user document from Firestore
+        const userRef = doc(db, 'users', currentUserDataItem[0].currUser_uid);
+        const userDoc = await getDoc(userRef);
+        checkUserConfidentialFund -= char.char_price;
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+
+            // Check if the character is not already in userCharacterOwned
+            let characterAlreadyOwned = false;
+
+            for (const userCharacterOwned of userData.userCharacterOwned) {
+                if (userCharacterOwned.char_uid === char.char_uid) {
+                    characterAlreadyOwned = true;
+                    break;
+                }
+            }
+            if (!characterAlreadyOwned) { 
+                const updatedUserCharacterOwned = [...userData.userCharacterOwned, char];
+                await updateDoc(userRef, {
+                    userCharacterOwned: updatedUserCharacterOwned,
+                    userConfidentialFund: checkUserConfidentialFund,
+                });
+                console.log('Character appended to userCharacterOwned:', char);
+
+                const latestUserCharacterOwned = await getCurrentUserFromFirestore();
+                const checkLatestUserCharacterOwned = latestUserCharacterOwned[0].userCharacterOwned;
+                let isCharFound = false;
+                checkLatestUserCharacterOwned.forEach(charOwned => {
+                    if (charOwned.char_uid == char.char_uid) {
+                        const shopCharSuccessPopup = document.getElementById('shopCharSuccessPopup');
+                        shopCharSuccessPopup.style.display = 'block';
+
+                        // show user latest funds
+                        const shopCharSucessUserConfidentialFund = document.getElementById('shopCharSucessUserConfidentialFund');
+                        shopCharSucessUserConfidentialFund.innerHTML = '';
+                        // create p element for the label
+                        const userSucessConfFundLabel = document.createElement('p');
+                        userSucessConfFundLabel.textContent = 'Current Confidential Fund: ';
+                        // get the latest user conf fund
+                        const userSucessLatestConfFund = latestUserCharacterOwned;
+                        // create span element to display the latest user conf fund
+                        const userSucessLatestConfFundElement = document.createElement('span');
+                        userSucessLatestConfFundElement.textContent = userSucessLatestConfFund[0].userConfidentialFund;
+                        userSucessConfFundLabel.appendChild(userSucessLatestConfFundElement);
+                        shopCharSucessUserConfidentialFund.appendChild(userSucessConfFundLabel);
+        
+                        // show item purchase 
+                        const shopCharSuccessImg = document.getElementById('shopCharSuccessImg');
+                        shopCharSuccessImg.innerHTML = '';
+                        // create img element then append to the div
+                        const sucessItemElement = document.createElement('div');
+                        const sucessItemImg = document.createElement('img');
+                        sucessItemImg.src = charOwned.char_img_src;
+                        sucessItemImg.alt = charOwned.char_name;
+                        const sucessItemNameTextElement = document.createElement('p');
+                        sucessItemNameTextElement.textContent = charOwned.char_name;
+                        const sucessItemPriceNameTextElement = document.createElement('p');
+                        sucessItemPriceNameTextElement.textContent = 'C. Fund: ';
+                        const sucessItemPriceTextElement = document.createElement('span');
+                        sucessItemPriceTextElement.textContent = charOwned.char_price;
+                        sucessItemPriceNameTextElement.appendChild(sucessItemPriceTextElement);
+                        sucessItemElement.appendChild(sucessItemImg);
+                        sucessItemElement.appendChild(sucessItemNameTextElement);
+                        sucessItemElement.appendChild(sucessItemPriceNameTextElement);
+                        shopCharSuccessImg.appendChild(sucessItemElement);
+                        isCharFound = true;
+                    }
+                })
+                if (!isCharFound) {
+                    console.log('Character not found in userData');
+                }
+            } else {
+                const shopCharAlreadyOwnedPopup = document.getElementById('shopCharAlreadyOwnedPopup');
+                shopCharAlreadyOwnedPopup.style.display = 'block';
+
+                // show user latest funds
+                const shopCharAlreadyOwnedUserConfidentialFund = document.getElementById('shopCharAlreadyOwnedUserConfidentialFund');
+                shopCharAlreadyOwnedUserConfidentialFund.innerHTML = '';
+                // create p element for the label
+                const userNotEnoughFundConfFundLabel = document.createElement('p');
+                userNotEnoughFundConfFundLabel.textContent = 'Current Confidential Fund: ';
+                // get the latest user conf fund
+                const userNotEnoughFundLatestConfFund = await getCurrentUserFromFirestore();
+                // create span element to display the latest user conf fund
+                const userNotEnoughFundLatestConfFundElement = document.createElement('span');
+                userNotEnoughFundLatestConfFundElement.textContent = userNotEnoughFundLatestConfFund[0].userConfidentialFund;
+                userNotEnoughFundConfFundLabel.appendChild(userNotEnoughFundLatestConfFundElement);
+                shopCharAlreadyOwnedUserConfidentialFund.appendChild(userNotEnoughFundConfFundLabel);
+
+                // show item purchase 
+                const shopCharAlreadyOwnedImg = document.getElementById('shopCharAlreadyOwnedImg');
+                shopCharAlreadyOwnedImg.innerHTML = '';
+                // create img element then append to the div
+                const failedItemElement = document.createElement('div');
+                const failedItemImg = document.createElement('img');
+                failedItemImg.src = char.char_img_src;
+                failedItemImg.alt = char.char_name;
+                const failedItemNameTextElement = document.createElement('p');
+                failedItemNameTextElement.textContent = char.char_name;
+                const failedItemPriceNameTextElement = document.createElement('p');
+                failedItemPriceNameTextElement.textContent = 'C. Fund: ';
+                const failedItemPriceTextElement = document.createElement('span');
+                failedItemPriceTextElement.textContent = char.char_price;
+                failedItemPriceNameTextElement.appendChild(failedItemPriceTextElement);
+                failedItemElement.appendChild(failedItemImg);
+                failedItemElement.appendChild(failedItemNameTextElement);
+                failedItemElement.appendChild(failedItemPriceNameTextElement);
+                shopCharAlreadyOwnedImg.appendChild(failedItemElement);
+            }
+        } else {
+            console.log('User document not found');
+        }
+    } else {
+        const shopCharNotEnoughFundsPopup = document.getElementById('shopCharNotEnoughFundsPopup');
+        shopCharNotEnoughFundsPopup.style.display = 'block';
+
+        // show user latest funds
+        const shopCharNotEnoughFundUserConfidentialFund = document.getElementById('shopCharNotEnoughFundUserConfidentialFund');
+        shopCharNotEnoughFundUserConfidentialFund.innerHTML = '';
+        // create p element for the label
+        const userNotEnoughFundConfFundLabel = document.createElement('p');
+        userNotEnoughFundConfFundLabel.textContent = 'Current Confidential Fund: ';
+        // get the latest user conf fund
+        const userNotEnoughFundLatestConfFund = await getCurrentUserFromFirestore();
+        // create span element to display the latest user conf fund
+        const userNotEnoughFundLatestConfFundElement = document.createElement('span');
+        userNotEnoughFundLatestConfFundElement.textContent = userNotEnoughFundLatestConfFund[0].userConfidentialFund;
+        userNotEnoughFundConfFundLabel.appendChild(userNotEnoughFundLatestConfFundElement);
+        shopCharNotEnoughFundUserConfidentialFund.appendChild(userNotEnoughFundConfFundLabel);
+
+        // show item purchase 
+        const shopCharNotEnoughFundsImg = document.getElementById('shopCharNotEnoughFundsImg');
+        shopCharNotEnoughFundsImg.innerHTML = '';
+        // create img element then append to the div
+        const failedItemElement = document.createElement('div');
+        const failedItemImg = document.createElement('img');
+        failedItemImg.src = char.char_img_src;
+        failedItemImg.alt = char.char_name;
+        const failedItemNameTextElement = document.createElement('p');
+        failedItemNameTextElement.textContent = char.char_name;
+        const failedItemPriceNameTextElement = document.createElement('p');
+        failedItemPriceNameTextElement.textContent = 'C. Fund: ';
+        const failedItemPriceTextElement = document.createElement('span');
+        failedItemPriceTextElement.textContent = char.char_price;
+        failedItemPriceNameTextElement.appendChild(failedItemPriceTextElement);
+        failedItemElement.appendChild(failedItemImg);
+        failedItemElement.appendChild(failedItemNameTextElement);
+        failedItemElement.appendChild(failedItemPriceNameTextElement);
+        shopCharNotEnoughFundsImg.appendChild(failedItemElement);
+    }
+})
+const closeShopCharSuccessPopup = document.getElementById('closeShopCharSuccessPopup');
+closeShopCharSuccessPopup.addEventListener('click', function() {
+    showUserConfidentialFund();
+})
+const buyCharNotEnoughFunds = document.getElementById('buyCharNotEnoughFunds');
+buyCharNotEnoughFunds.addEventListener('click', function() {
+    showUserConfidentialFund();
+})
+const shopCharAlreadyOwnedPopup = document.getElementById('shopCharAlreadyOwnedPopup');
+shopCharAlreadyOwnedPopup.addEventListener('click', function() {
+    showUserConfidentialFund();
+})
+
+
+
+// show shop items
 const showShopItems = async () => {
     const shopItemsContainer = document.getElementById('shopItemsContainer');
     shopItemsContainer.innerHTML = '';
@@ -945,6 +1358,39 @@ confirmBuyButton.addEventListener('click', async function() {
         shopNotEnoughFundsImg.appendChild(failedItemElement);
     }
 })
+const shopSuccessPopup = document.getElementById('shopSuccessPopup');
+shopSuccessPopup.addEventListener('click', function() {
+    showUserConfidentialFund();
+})
+const shopNotEnoughFundsPopup = document.getElementById('shopNotEnoughFundsPopup');
+shopNotEnoughFundsPopup.addEventListener('click', function() {
+    showUserConfidentialFund();
+})
+
+
+
+// settings
+const volumeControl = document.getElementById('volumeControl');
+volumeControl.addEventListener('input', function() {
+    // Get the current volume value
+    const volume = parseInt(this.value) / 100;
+
+    // Update the volume of the music (replace 'audio' with your audio element)
+    audio.volume = volume;
+});
+const auth = getAuth();
+const settingsLogoutButton = document.getElementById('settings-logout');
+settingsLogoutButton.addEventListener('click', function() {
+    signOut(auth).then(() => {
+        console.log('User signed out successfully.');
+        window.location.href = '../index.html';
+    }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(`errorCode: ${errorCode} ||| errorMessage: ${errorMessage}`);
+    })
+});
+
 
 
 
@@ -985,6 +1431,9 @@ menuItems.forEach(menuItem => {
         }
         if (category === 'Inventory' && content.style.display === 'block') {
             userShowInventoryChars();
+        }
+        if (category === 'Journey' && content.style.display === 'block') {
+            showJourneyContentContainer();
         }
         if (category === 'Shop' && content.style.display === 'block') {
             showUserConfidentialFund();

@@ -131,6 +131,39 @@
         <!-- journey contents -->
         <div class="journey-content" id="journeyContentContainer">
             <h2 class="journey-content-title">Journey</h2>
+            <div class="journey-stages-container" id="journeyStageContainer">
+                ::: Stages will show here :::
+            </div>
+        </div>
+        <div class="journey-content-popup" id="journeyContentContainerConfirmation">
+            <h2 class="journey-content-title-confirmation">
+                Are you sure you want to take this stage bruh?
+                <span class="close-icon" onclick="closeJourneyContentContainerConfirmation()">×</span>
+            </h2>
+            <div class="journey-stages-container-confirmation" id="journeyStageContainerConfirmation">
+                ::: Stage will show here :::
+            </div>
+            <div class="journey-stage-confirm-buttons">
+                <span id="journeyStageConfirm">Yeah bruh!</span>
+                <span onclick="closeJourneyContentContainerConfirmation()">Hell nuh!</span>
+            </div>
+        </div>
+        <!-- previous stages are not unlock yet -->
+        <div class="journey-content-popup" id="journeyContentContainerConfirmLocked">
+            <h2 class="journey-content-title-confirmLocked">
+                Oh no!
+                <span class="close-icon" onclick="closeJourneyContentContainerConfirmLocked()">×</span>
+            </h2>
+            <h1 class="journey-confirmLocked-message">
+                Ayo! Hol' up. Wait a minute. Something's aint right!?
+                <p>Bruh chill! unlock previous stages first before taking this one.</p>
+            </h1>
+            <div class="journey-stages-container-confirmLocked" id="journeyStageContainerConfirmLocked">
+                ::: Stage will show here :::
+            </div>
+            <div class="journey-stage-confirmLocked-buttons">
+                <span onclick="closeJourneyContentContainerConfirmLocked()">I want to talk to your MANAGER!</span>
+            </div>
         </div>
 
         <!-- shop contents -->
@@ -147,6 +180,116 @@
                 <!-- Content will be dynamically populated here -->
             </div>
         </div>
+        <!-- show shop char details popup -->
+        <div class="shop-item-details-popup" id="shopCharDetailsPopup">
+            <h2 class="shop-item-details-title">
+                Character Details
+                <span class="close-icon" onclick="closeShopCharDetailsPopup()">×</span>
+            </h2>
+            <div class="shop-item-details-container">
+                <div class="shop-item-details-img" id="shopCharDetailsImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+                <div class="shop-item-details-contents" id="shopCharDetailsContents">
+                    ::: selected character details will show here :::
+                    <!-- character details content will be populated here -->
+                </div>
+            </div>
+            <div class="buy-item-confirmation" id="buyCharConfirmation">
+                <span id="buyCharButton">Buy</span>
+                <span onclick="closeShopCharDetailsPopup()" id="closeShopCharDetailsPopup">Close</span>
+            </div>
+        </div>
+        <!-- show confirmation if want to buy that Char -->
+        <div class="shop-confirmation-popup" id="shopCharConfirmationPopup">
+            <h2 class="shop-confirmation-title">
+                Are you sure you want to buy this bruh?
+                <span class="close-icon" onclick="closeShopCharConfirmationPopup()">×</span>
+            </h2>
+            <div class="shop-confirmation-user-confidential-fund" id="shopCharConfirmationUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <div class="shop-confirmation-container">
+                <div class="shop-confirmation-img" id="shopCharConfirmationImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="buy-confirmation" id="buyCharConfirmation">
+                <span id="confirmBuyCharButton">Buy</span>
+                <span onclick="closeShopCharConfirmationPopup()" id="cancelShopCharConfirmationPopup">Cancel</span>
+            </div>
+        </div>
+        <!-- show success purchase -->
+        <div class="shop-success-popup" id="shopCharSuccessPopup">
+            <h2 class="shop-success-title">
+                CONGRATULATIONS!
+                <span class="close-icon" onclick="closeShopCharSuccessPopup()">×</span>
+            </h2>
+            <div class="shop-success-user-confidential-fund" id="shopCharSucessUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <h1 class="shop-success-title">
+                PURCHASE SUCCESS
+            </h1>
+            <div class="shop-success-container">
+                <div class="shop-success-img" id="shopCharSuccessImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="buy-success" id="buyCharSuccess">
+                <span onclick="closeShopCharSuccessPopup()" id="closeShopCharSuccessPopup">close</span>
+            </div>
+        </div>
+        <!-- show not enough funds purchase -->
+        <div class="shop-not-enough-funds-popup" id="shopCharNotEnoughFundsPopup">
+            <h2 class="shop-not-enough-funds-title">
+                PURCHASE FAILED
+                <span class="close-icon" onclick="closeShopCharNotEnoughFundsPopup()">×</span>
+            </h2>
+            <div class="shop-not-enough-funds-user-confidential-fund" id="shopCharNotEnoughFundUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <h1 class="shop-not-enough-funds-title">
+                Oh no!
+                <p>Not Enough Confidential Funds.</p>
+            </h1>
+            <div class="shop-not-enough-funds-container">
+                <div class="shop-not-enough-funds-img" id="shopCharNotEnoughFundsImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="buy-not-enough-funds" id="buyCharNotEnoughFunds">
+                <span onclick="closeShopCharNotEnoughFundsPopup()" id="closeShopCharNotEnoughFundsPopup">close</span>
+            </div>
+        </div>
+        <!-- show character already owned purchase -->
+        <div class="shop-not-enough-funds-popup" id="shopCharAlreadyOwnedPopup">
+            <h2 class="shop-not-enough-funds-title">
+                PURCHASE FAILED
+                <span class="close-icon" onclick="closeShopCharAlreadyOwnedsPopup()">×</span>
+            </h2>
+            <div class="shop-not-enough-funds-user-confidential-fund" id="shopCharAlreadyOwnedUserConfidentialFund">
+                <!-- user latest confidential fund will go here -->
+            </div>
+            <h1 class="shop-not-enough-funds-title">
+                Too much is bad >:(
+                <p>Character already owned.</p>
+            </h1>
+            <div class="shop-not-enough-funds-container">
+                <div class="shop-not-enough-funds-img" id="shopCharAlreadyOwnedImg">
+                    ::: selected character image will show here :::
+                    <!-- img will be dynamically populated here -->
+                </div>
+            </div>
+            <div class="buy-not-enough-funds" id="buyCharAlreadyOwned">
+                <span onclick="closeShopCharAlreadyOwnedPopup()" id="closeShopCharAlreadyOwnedPopup">close</span>
+            </div>
+        </div>
+
         <!-- show shop item details popup -->
         <div class="shop-item-details-popup" id="shopItemDetailsPopup">
             <h2 class="shop-item-details-title">
@@ -171,7 +314,7 @@
         <!-- show confirmation if want to buy that item -->
         <div class="shop-confirmation-popup" id="shopConfirmationPopup">
             <h2 class="shop-confirmation-title">
-                Are you sure you want to buy this?
+                Are you sure you want to buy this item?
                 <span class="close-icon" onclick="closeShopConfirmationPopup()">×</span>
             </h2>
             <div class="shop-confirmation-user-confidential-fund" id="shopConfirmationUserConfidentialFund">
@@ -237,6 +380,13 @@
         <!-- settings contents -->
         <div class="settings-content" id="settingsContentContainer">
             <h2 class="settings-content-title">Settings</h2>
+            <div class="settings-volume">
+                <label for="volumeControl">Volume:</label>
+                <input type="range" id="volumeControl" name="volumeControl" min="0" max="100" value="50">
+            </div>
+            <div class="settings-logout" id="settings-logout">
+                <p>Log out</p>
+            </div>
         </div>
     </div>
     

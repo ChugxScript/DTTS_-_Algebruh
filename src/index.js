@@ -89,7 +89,7 @@ const addUserToFirestore = async (uid, displayName, email, UnID) => {
         userEmail: email,
         userCharacterOwned: [],
         userLevel: 1,
-        userDaysActive: 0,
+        userDaysActive: [],
         userStageCleared: [],
         userTotalQuestionTaken: 0,
         userTotalAnswerTime: 0,
