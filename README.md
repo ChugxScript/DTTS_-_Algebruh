@@ -35,6 +35,9 @@ The Decision Tree Thompson Sampling (DTTS) algorithm is a powerful tool used in 
 - Change the IP address to `localhost`.
   ![image](https://github.com/ChugxScript/MAB_-_Algebruh/assets/101156843/a887678b-06bf-4208-93c2-204cfd743927)
 
+## Hosting URL
+- [Alge-bruh](https://alge-bruh.web.app/) `https://alge-bruh.web.app/`
+
 ## How it Works
 1. **Personalization:** The DTTS algorithm leverages player data collected during gameplay, such as user interactions, preferences, and performance metrics.
 2. **Decision Making:** Based on the collected data, the algorithm dynamically adapts the game environment, including difficulty levels, rewards, and challenges, to maximize player engagement and satisfaction.
