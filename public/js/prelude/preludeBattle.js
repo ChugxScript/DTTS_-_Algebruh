@@ -416,8 +416,8 @@ const displayReviveScript = async (callback) => {
 
     document.body.addEventListener('click', nextReviveScript);
     
-    const currentUser = await getCurrentUserFromFirestore();
-    return currentUser[0].userCharacterOwned[0].char_health;
+    const currentUserRevive = await getCurrentUserFromFirestore();
+    return currentUserRevive[0].userCharacterOwned[0].char_health;
 };
 
 // Add a confirm button click event to move to dashboard
