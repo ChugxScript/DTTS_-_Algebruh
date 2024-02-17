@@ -1,252 +1,28 @@
-// firebase config
 import { 
-    firebaseConfig 
-} from "../firebase-config.js";
-
-// Initialize Firebase
+    db,
+    getCurrentUserFromFirestore,
+    getEnemyFromFirestore,
+    getPreludeEasyQuestionsFromFirestore,
+    getPreludeDifficultQuestionsFromFirestore
+} from "./getFirestore.js"
 import { 
-    initializeApp 
-} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-
-// import firestore
-import { 
-    getFirestore,
     getDoc,
-    setDoc,
     doc, 
-    collection,
     updateDoc,
-    getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
+const reviveScripts = [
+    {
+        texts: [
+            "Grabe ka naman! ",
+            "Prelude palang patay ka na agad! ",
+            "Revive! ",
+            "Revive! Revive! ",
+            "Revive! Revive! Revive! ",
+        ],
+        imageSrc:'https://cdn.discordapp.com/attachments/1200058397236666378/1208355486248865792/simplier-textbox_-_Copy.png?ex=65e2fbbe&is=65d086be&hm=f8db87a45bc3b9327e8663ce823731a6d133a2899c6b7b3fcba493251f6ab4dd&',
+    },
+];
 
-// Initialize Firebase app
-const firebaseApp = initializeApp(firebaseConfig);
-// Get a Firestore instance
-const db = getFirestore(firebaseApp);
-
-// Retrieve data from query parameters
-const queryParams = new URLSearchParams(window.location.search);
-const queryParamsUID = queryParams.get('uid');
-const queryParamsUserData = JSON.parse(decodeURIComponent(queryParams.get('userData')));
-console.log('queryParams User UID:', queryParamsUID);
-console.log('queryParams User Data:', queryParamsUserData);
-
-// Retrieve Data from Firestore Functions
-// Current User
-const getCurrentUserFromFirestore = async () => {
-    const usersCollection = collection(db, 'users');
-    const usersSnapshot = await getDocs(usersCollection);
-    const users = [];
-
-    usersSnapshot.forEach((doc) => {
-        // get the current user data from firebase firestore
-        if (doc.id == queryParamsUID) {
-            const currUserData = doc.data();
-            const currUser_uid = doc.id;
-            users.push({ currUser_uid, ...currUserData });
-        }
-    });
-    console.log('getCurrentUserFromFirestore: ', users);
-    return users;
-};
-const getCharactersFromFirestore = async () => {
-    const charactersDocRef = doc(db, 'characters', 'prelude-chars');
-    const charactersDocSnapshot = await getDoc(charactersDocRef);
-
-    if (charactersDocSnapshot.exists()) {
-        const charactersData = charactersDocSnapshot.data();
-        const characters = [];
-
-        // Iterate over each character in the document
-        Object.entries(charactersData).forEach(([char_uid, charData]) => {
-            characters.push({ char_uid, ...charData }); // Push character data along with its ID to the array
-        });
-
-        console.log('Characters from Firestore:', characters);
-        return characters;
-    } else {
-        console.log('Document "prelude-chars" does not exist');
-        return []; // Return an empty array if the document doesn't exist
-    }
-};
-// Enemies
-const getEnemyFromFirestore = async () => {
-    const enemyDocRef = doc(db, 'enemy', 'prelude-enemy');
-    const enemyDocSnapshot = await getDoc(enemyDocRef);
-
-    if (enemyDocSnapshot.exists()) {
-        const enemyData = enemyDocSnapshot.data();
-        const enemy = [];
-
-        // Iterate over each character in the document
-        Object.entries(enemyData).forEach(([enemy_uid, enemyData]) => {
-            enemy.push({ enemy_uid, ...enemyData }); // Push character data along with its ID to the array
-        });
-
-        console.log('enemy from Firestore:', enemy);
-        return enemy;
-    } else {
-        console.log('Document "prelude-chars" does not exist');
-        return []; // Return an empty array if the document doesn't exist
-    }
-};
-// Prelude Questions
-const getPreludeEasyQuestionsFromFirestore = async () => {
-    // fetch preludeEasyQuestions from Firestore
-    const preludeEasyQuestionsRef = doc(db, 'stageQuestions', 'preludeQuestions');
-    const preludeEasyQuestionsSnap = await getDoc(preludeEasyQuestionsRef);
-    let preludeEasyQuestions = [];
-    
-    if (preludeEasyQuestionsSnap.exists()) {
-        // get specific field in firestore
-        preludeEasyQuestions = preludeEasyQuestionsSnap.data().easyQuestions;
-        console.log('getPreludeEasyQuestionsFromFirestore: ', preludeEasyQuestions);
-        return preludeEasyQuestions;
-    } else {
-        console.log('[error] getPreludeEasyQuestionsFromFirestore: ', console.error);
-        return null;
-    }
-};
-const getPreludeDifficultQuestionsFromFirestore = async () => {
-    // fetch preludeDifficultQuestions from Firestore
-    const preludeDifficultQuestionsRef = doc(db, 'stageQuestions', 'preludeQuestions');
-    const preludeDifficultQuestionsSnap = await getDoc(preludeDifficultQuestionsRef);
-    let preludeDifficultQuestions = [];
-    
-    if (preludeDifficultQuestionsSnap.exists()) {
-        // get specific field in firestore
-        preludeDifficultQuestions = preludeDifficultQuestionsSnap.data().difficultQuestions;
-        console.log('getPreludeDifficultQuestionsFromFirestore: ', preludeDifficultQuestions);
-        return preludeDifficultQuestions;
-    } else {
-        console.log('[error] getPreludeDifficultQuestionsFromFirestore: ', console.error);
-        return null;
-    }
-};
-
-// asigning of vars
-const currentUser = await getCurrentUserFromFirestore();
-const characters = await getCharactersFromFirestore();
-const enemy = await getEnemyFromFirestore();
-const preludeEasyQuestions = await getPreludeEasyQuestionsFromFirestore();
-const preludeDifficultQuestions = await getPreludeDifficultQuestionsFromFirestore();
-
-
-// Function to display characters on the page
-const displayCharacters = (characters) => {
-    const charactersContainer = document.getElementById('showPreludeCharacters');
-    charactersContainer.innerHTML = ''; // Clear previous content
-
-    let rowCounter = 0;
-    let currentRow;
-
-    characters.forEach((character) => {
-        if (rowCounter % 2 === 0) {
-            // Create a new row every 2 items
-            currentRow = document.createElement('div');
-            currentRow.className = 'prelude-character-selection-row';
-            charactersContainer.appendChild(currentRow);
-        }
-        const characterElement = document.createElement('span');
-
-        // Add click event to show character details
-        characterElement.addEventListener('click', () => showCharacterDetails(character));
-
-        const characterImg = document.createElement('img');
-        characterImg.src = character.char_img_src;
-        characterImg.alt = character.char_name;
-
-        const charNameTextElement = document.createElement('p');
-        charNameTextElement.textContent = character.char_name;
-
-        characterElement.appendChild(characterImg);
-        characterElement.appendChild(charNameTextElement);
-        currentRow.appendChild(characterElement);
-        rowCounter++;
-    });
-};
-// Function to show character details
-const showCharacterDetails = (character) => {
-    const preludeCharactersDetailsPopup = document.getElementById('preludeCharactersDetailsPopup');
-    const preludeCharactersDetailsImg = document.getElementById('preludeCharactersDetailsImg');
-    const preludeCharactersDetailsContents = document.getElementById('preludeCharactersDetailsContents');
-    
-    preludeCharactersDetailsPopup.style.display = 'block';
-    preludeCharactersDetailsImg.innerHTML = '';
-    preludeCharactersDetailsContents.innerHTML = '';
-
-    // create img element then append to the div
-    const characterElement = document.createElement('div');
-    const characterImg = document.createElement('img');
-    characterImg.src = character.char_img_src;
-    characterImg.alt = character.char_name;
-
-    const charNameTextElement = document.createElement('p');
-    charNameTextElement.textContent = character.char_name;
-
-    characterElement.appendChild(characterImg);
-    characterElement.appendChild(charNameTextElement);
-    preludeCharactersDetailsImg.appendChild(characterElement);
-
-    // create table element for the character details then append to the div
-    const characterDetailTable = document.createElement('table');
-    const excludeDetails = ['char_img_src']; // Add details to exclude
-    const orderDetails = ['char_name', 'char_hp', 'char_atk'];
-    // Populate details as rows in the table based on the specified order
-    orderDetails.forEach((detailKey) => {
-        if (character.hasOwnProperty(detailKey) && !excludeDetails.includes(detailKey)) {
-            const row = document.createElement('tr');
-            const cell1 = document.createElement('td');
-            const cell2 = document.createElement('td');
-            cell1.textContent = detailKey;
-            cell2.textContent = character[detailKey];
-            row.appendChild(cell1);
-            row.appendChild(cell2);
-            characterDetailTable.appendChild(row);
-        }
-    });
-    preludeCharactersDetailsContents.appendChild(characterDetailTable);
-
-    // Add a confirm button click event
-    const confirmPreludeCharacter = document.getElementById('confirmPreludeCharacter');
-    confirmPreludeCharacter.addEventListener('click', function () {
-        appendConfirmPreludeCharacter(character);
-    });
-};
-const appendConfirmPreludeCharacter = async (character) => {
-    // Retrieve the user document from Firestore
-    const userRef = doc(db, 'users', currentUser[0].currUser_uid);
-    const userDoc = await getDoc(userRef);
-
-    if (userDoc.exists()) {
-        // Get the current user data
-        const userData = userDoc.data();
-
-        // Check if the character is not already in userCharacterOwned
-        let characterAlreadyOwned = false;
-
-        for (const userCharacterOwned of userData.userCharacterOwned) {
-            if (userCharacterOwned.char_uid === character.char_uid) {
-                characterAlreadyOwned = true;
-                break;
-            }
-        }
-
-        if (!characterAlreadyOwned) {
-            const updatedUserCharacterOwned = [...userData.userCharacterOwned, character];
-            await updateDoc(userRef, {
-                userCharacterOwned: updatedUserCharacterOwned,
-            });
-            console.log('Character appended to userCharacterOwned:', character);
-        } else {
-            console.log('Character already in userCharacterOwned:', character);
-        }
-        nextScene();
-    } else {
-        console.log('User document not found');
-    }
-};
-displayCharacters(characters);
 
 // Function to display prelude enemy on the page
 const displayPreludeEnemyBattle = (enemies) => {
@@ -295,8 +71,6 @@ const displayPreludeEnemyBattle = (enemies) => {
         }
     })
 }
-displayPreludeEnemyBattle(enemy);
-
 
 
 // display prelude selected character of the user
@@ -348,6 +122,7 @@ const displayPreludeSelectedCharacter = (currUser) => {
 // simple implementation of DTTS algorithm in javascript
 // why simple? i dunnow cus were using javascript so there are some other factors
 // that the javascript cant handle and the devs cant implement as of the moment
+// char tinatamad lang talaga ko HAHAHAHAHAHA
 
 // Function to simulate DTTS algorithm
 const decisionTreeThompsonSampling = async () => {
@@ -357,7 +132,11 @@ const decisionTreeThompsonSampling = async () => {
     unknownPokeminTextBoxQuestion.innerHTML = '';
     preludeUserSkillOptions.innerHTML = '';
     preludeUserStageScore.innerHTML = '';
+
+    const currentUser = await getCurrentUserFromFirestore();
+    const enemy = await getEnemyFromFirestore();
     displayPreludeSelectedCharacter(currentUser);
+    displayPreludeEnemyBattle(enemy);
 
     // get instance of enemy and userChar details
     let currEnemy = enemy;
@@ -368,8 +147,8 @@ const decisionTreeThompsonSampling = async () => {
     let scriptRunning = false;
 
     // get instances of questions
-    const easyQuestions = preludeEasyQuestions;
-    const difficultQuestions = preludeDifficultQuestions;
+    const easyQuestions = await getPreludeEasyQuestionsFromFirestore();
+    const difficultQuestions = await getPreludeDifficultQuestionsFromFirestore();
 
     const displayQuestion = (question) => {
         unknownPokeminTextBoxQuestion.textContent = question.question;
@@ -442,6 +221,8 @@ const decisionTreeThompsonSampling = async () => {
     // Start with the first question
     displayQuestion(simulateDTTS(userChar, easyQuestions, difficultQuestions));
 };
+
+
 const simulateDTTS = (currUser, easyQuestions, difficultQuestions) => {
     // Calculate weights based on user attributes
     const easyWeight = calculateWeight(currUser, 'easy');
@@ -464,6 +245,8 @@ const simulateDTTS = (currUser, easyQuestions, difficultQuestions) => {
 
     return chosenQuestion;
 };
+
+
 const calculateWeight = (user, level) => {
     let weightUserLevel = 0;
     let weightTotalQuestionTaken = 0;
@@ -507,6 +290,8 @@ const calculateWeight = (user, level) => {
 
     return weightedSum;
 };
+
+
 // Helper function for weighted random selection
 const weightedRandom = (items, weights) => {
     const totalWeight = weights.reduce((acc, weight) => acc + weight, 0);
@@ -523,10 +308,14 @@ const weightedRandom = (items, weights) => {
     // Fallback in case of unexpected values
     return items[items.length - 1];
 };
+
+
 const getRandomQuestion = (questionsArray) => {
     const randomIndex = Math.floor(Math.random() * questionsArray.length);
     return questionsArray[randomIndex];
 };
+
+
 const updateUserData = async (currUser, timeDifference, correctAnswerChecker, wrongAnswerChecker) => {
     // get user document from the firebase
     const currUserRef = doc(db, 'users', currUser[0].currUser_uid);
@@ -557,6 +346,8 @@ const updateUserData = async (currUser, timeDifference, correctAnswerChecker, wr
     });
     console.log('User data updated to Firestore');
 }
+
+
 const updateUserDataStageCleared = async (currUser, stageCleared) => {
     // get user document from the firebase
     const currUserRef = doc(db, 'users', currUser[0].currUser_uid);
@@ -573,6 +364,8 @@ const updateUserDataStageCleared = async (currUser, stageCleared) => {
         console.log('User stageCleared updated to Firestore');
     }
 }
+
+
 // Add a confirm button click event
 const fightThatPokememe = document.getElementById('fightThatPokememe');
 fightThatPokememe.addEventListener('click', function () {
@@ -584,20 +377,12 @@ fightThatPokememe.addEventListener('click', function () {
     decisionTreeThompsonSampling();
 });
 
+
+
+
+
 // holy sheesh nakakaumay
-const reviveScripts = [
-    {
-        texts: [
-            "Grabe ka naman! ",
-            "Prelude palang patay ka na agad! ",
-            "Revive! ",
-            "Revive! Revive! ",
-            "Revive! Revive! Revive! ",
-        ],
-        imageSrc:'https://cdn.discordapp.com/attachments/1200058397236666378/1203202514162548796/simplier-textbox.png?ex=65d03ca9&is=65bdc7a9&hm=5b5ae5be58ff5e5c3f84ab13f0e96e39f402808fef8774d8505a92fc5999d36f&',
-    },
-];
-const displayReviveScript = (callback) => {
+const displayReviveScript = async (callback) => {
     const gigaGuideBattle = document.getElementById('gigaGuideBattle');
     const gigaGuideTextBoxBattle = document.getElementById('gigaGuideTextBoxBattle');
     const gigaGuideTextBoxScriptBattle = document.getElementById('gigaGuideTextBoxScriptBattle');
@@ -631,12 +416,14 @@ const displayReviveScript = (callback) => {
 
     document.body.addEventListener('click', nextReviveScript);
     
+    const currentUser = await getCurrentUserFromFirestore();
     return currentUser[0].userCharacterOwned[0].char_health;
 };
 
 // Add a confirm button click event to move to dashboard
 const moveToDashboard = document.getElementById('moveToDashboard');
-moveToDashboard.addEventListener('click', function () {
+moveToDashboard.addEventListener('click', async function () {
+    const currentUser = await getCurrentUserFromFirestore();
     moveToDashboard.style.display = 'none';
     const queryParams = `?uid=${currentUser[0].currUser_uid}`;
     window.location.href = `../html/dashboard.html${queryParams}`;

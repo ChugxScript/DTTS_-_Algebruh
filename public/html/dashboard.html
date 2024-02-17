@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="../css/dashboard/init.css">
+    <link rel="stylesheet" href="../css/dashboard/sidebarMenu.css">
+    <link rel="stylesheet" href="../css/dashboard/mainContent.css">
+    <link rel="stylesheet" href="../css/dashboard/profileContent.css">
+    <link rel="stylesheet" href="../css/dashboard/inventoryContent.css">
+    <link rel="stylesheet" href="../css/dashboard/journeyContent.css">
+    <link rel="stylesheet" href="../css/dashboard/shopContent.css">
+    <link rel="stylesheet" href="../css/dashboard/settingsContent.css">
+    <link rel="stylesheet" href="../css/dashboard/webkitContents.css">
+    <title>Dashboard</title>
 </head>
 <body>
     <div class="sidebar">
@@ -403,7 +411,12 @@
     <script type="module" src="../firebase-config.js"></script>
 
     <!-- Include your main JavaScript file -->
-    <script type="module" src="../js/dashboard.js"></script>
-    <script src="../js/dashboardDesignFunctions.js"></script>
+    <script src="../js/dashboard/initFunctions.js"></script>
+    <script type="module" src="../js/dashboard/menuItems.js"></script>
+    <script type="module" src="../js/dashboard/profileFunctions.js"></script>
+    <script type="module" src="../js/dashboard/inventoryFunctions.js"></script>
+    <script type="module" src="../js/dashboard/journeyFunctions.js"></script>
+    <script type="module" src="../js/dashboard/settingsFunctions.js"></script>
+    <script type="module" src="../js/dashboard/getFirestore.js"></script>
 </body>
 </html>

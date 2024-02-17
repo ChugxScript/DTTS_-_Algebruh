@@ -1,0 +1,37 @@
+/* settings */
+.settings-content {
+    height: 570px;
+    max-height: 570px;
+    overflow-y: auto;
+    background-color: #311a1a4b;
+    border: 1px solid #ccc;
+}
+.settings-content-title {
+    text-align: center;
+    color: white;
+    background-color: #000000e0;
+    border: 1px solid #ccc;
+}
+.settings-volume {
+    display: flex;
+    margin: 10px;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    background-color: #000000e0;
+    border: 1px solid #ccc;
+}
+.settings-logout {
+    display: flex;
+    margin: 10px;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    background-color: #000000e0;
+    border: 1px solid #ccc;
+}

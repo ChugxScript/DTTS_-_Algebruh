@@ -18,23 +18,16 @@ import {
 import { 
     getAuth, 
     GoogleAuthProvider, 
-    signInWithPopup, 
-    signOut 
+    signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-
-// google analytics
-import { 
-    getAnalytics 
-} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"; 
 
 // firebase config
 import { 
     firebaseConfig 
-} from "./firebase-config.js";
+} from "./js/firebase-config.js";
 
 // Initialize Firebase app
 const firebaseApp = initializeApp(firebaseConfig);
-const analytics = getAnalytics(firebaseApp);
 // Get a Firestore instance
 const db = getFirestore(firebaseApp);
 // google auth
@@ -59,14 +52,11 @@ const login = async() => {
         if (!userDoc.exists()) {
             // If user doesn't exist, add to Firestore
             await addUserToFirestore(user.uid, user.displayName, user.email);
-            // Display user data from Firestore
-            const userData = await displayUserData(user.uid);
             // Redirecting with query parameter
-            const queryParams = `?uid=${user.uid}&userData=${encodeURIComponent(JSON.stringify(userData))}`;
+            const queryParams = `?uid=${user.uid}`;
             window.location.href = `./html/prelude.html${queryParams}`;
         } else {
-            const userData = await displayUserData(user.uid);
-            const queryParams = `?uid=${user.uid}&userData=${encodeURIComponent(JSON.stringify(userData))}`;
+            const queryParams = `?uid=${user.uid}`;
             window.location.href = `./html/prelude.html${queryParams}`;
         }
 
@@ -105,42 +95,5 @@ const addUserToFirestore = async (uid, displayName, email, UnID) => {
     });
     console.log('User added to Firestore');
 };
-// Function to display user data from Firestore
-const displayUserData = async (uid) => {
-    const userRef = doc(db, 'users', uid);
-    const userDoc = await getDoc(userRef);
-
-    if (userDoc.exists()) {
-        const userData = userDoc.data();
-        console.log('User Data:', userData);
-        console.log('Character Owned:', userData.userCharacterOwned);
-        console.log('User Level:', userData.userLevel);
-        console.log('User Days Active:', userData.userDaysActive);
-        console.log('User Stage Cleared:', userData.userStageCleared);
-        console.log('User Average Answer Time:', userData.userAverageAnswerTime);
-        console.log('User Correct Answer Rate:', userData.userCorrectAnswerRate);
-        console.log('User Wrong Answer Rate:', userData.userWrongAnswerRate);
-        console.log('User Confidential Fund:', userData.userConfidentialFund);
-        console.log('User Score:', userData.userScore);
-        console.log('User Inventory Items:', userData.userInventoryItems);
-        return userData;
-    } else {
-        console.log('User data not found');
-        return null;
-    }
-};
-
-const logout = async() => {
-    signOut(auth).then(() => {
-        alert("You have signed out successfully!");
-        loginBtn.style.display = "block";
-        userDataContainer.style.display = "none";
-    }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(`errorCode: ${errorCode} ||| errorMessage: ${errorMessage}`);
-    })
-}
 
 document.getElementById('loginBtn').addEventListener('click', login);
-document.getElementById('logoutBtn').addEventListener('click', logout);

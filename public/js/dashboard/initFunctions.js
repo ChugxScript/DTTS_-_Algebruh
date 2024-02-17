@@ -48,7 +48,11 @@ function init () {
     mainContent.style.backgroundSize = 'cover';
     mainContent.style.backgroundPosition = 'center';
 }
+document.addEventListener("DOMContentLoaded", function() {
+    init();
+});
 
+// profile
 function profileContent() {
     const profileContentContainer = document.getElementById('profileContentContainer');
     profileContentContainer.style.display = 'block';
@@ -65,10 +69,14 @@ function closeEditProfilePopup() {
     const editProfilePopup = document.getElementById('editProfilePopup');
     editProfilePopup.style.display = 'none';
 }
+
+// inventory
 function closeInvItemDetailsPopup() {
     const inventoryItemDetailsPopup = document.getElementById('inventoryItemDetailsPopup');
     inventoryItemDetailsPopup.style.display = 'none';
 }
+
+// journey
 function closeJourneyContentContainerConfirmation() {
     const journeyContentContainerConfirmation = document.getElementById('journeyContentContainerConfirmation');
     journeyContentContainerConfirmation.style.display = 'none';
@@ -77,6 +85,8 @@ function closeJourneyContentContainerConfirmLocked() {
     const journeyContentContainerConfirmLocked = document.getElementById('journeyContentContainerConfirmLocked');
     journeyContentContainerConfirmLocked.style.display = 'none';
 }
+
+// shop
 function closeShopCharDetailsPopup() {
     const shopCharDetailsPopup = document.getElementById('shopCharDetailsPopup');
     shopCharDetailsPopup.style.display = 'none';
@@ -123,8 +133,3 @@ function closeShopNotEnoughFundsPopup() {
     const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
     shopConfirmationPopup.style.display = 'none';
 }
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    init();
-});

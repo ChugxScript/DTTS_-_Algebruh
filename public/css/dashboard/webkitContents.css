@@ -1,0 +1,49 @@
+/* webkit for scroll bar */
+.menu::-webkit-scrollbar,
+.profile-content::-webkit-scrollbar,
+.profile-user-show-characters::-webkit-scrollbar,
+.display-user-avatars::-webkit-scrollbar,
+.profile-characters-details-contents::-webkit-scrollbar,
+.inventory-items-container::-webkit-scrollbar,
+.shop-items-container::-webkit-scrollbar,
+.shop-item-details-contents::-webkit-scrollbar,
+.shop-confirmation-popup::-webkit-scrollbar,
+.shop-success-popup::-webkit-scrollbar,
+.shop-not-enough-funds-popup::-webkit-scrollbar,
+.journey-stages-container::-webkit-scrollbar {
+    width: 1px;
+}
+.menu::-webkit-scrollbar-track,
+.profile-content::-webkit-scrollbar-track,
+.profile-user-show-characters::-webkit-scrollbar-track,
+.display-user-avatars::-webkit-scrollbar-track,
+.profile-characters-details-contents::-webkit-scrollbar-track,
+.inventory-items-container::-webkit-scrollbar-track,
+.shop-items-container::-webkit-scrollbar-track,
+.shop-item-details-contents::-webkit-scrollbar-track,
+.shop-confirmation-popup::-webkit-scrollbar-track,
+.shop-success-popup::-webkit-scrollbar-track,
+.shop-not-enough-funds-popup::-webkit-scrollbar-track,
+.journey-stages-container::-webkit-scrollbar-track {
+    background-color: #15ff00;
+}
+.menu::-webkit-scrollbar-thumb,
+.profile-content::-webkit-scrollbar-thumb,
+.profile-user-show-characters::-webkit-scrollbar-thumb,
+.display-user-avatars::-webkit-scrollbar-thumb,
+.profile-characters-details-contents::-webkit-scrollbar-thumb,
+.inventory-items-container::-webkit-scrollbar-thumb,
+.shop-items-container::-webkit-scrollbar-thumb,
+.shop-item-details-contents::-webkit-scrollbar-thumb,
+.shop-confirmation-popup::-webkit-scrollbar-thumb,
+.shop-success-popup::-webkit-scrollbar-thumb,
+.shop-not-enough-funds-popup::-webkit-scrollbar-thumb,
+.journey-stages-container::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}
+
+.close-icon {
+    float: right;
+    cursor: pointer;
+    border: 1px solid #ffffff;
+}
