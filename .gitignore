@@ -4,3 +4,4 @@ package.json
 firebase-sdk.txt
 src/firebase-config.js
 modules
+public/js/firebase-config.js
