@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Game</title>
+<style>
+    /* Landscape layout for desktop */
+    @media only screen and (min-width: 768px) {
+        body {
+            transform: rotate(90deg);
+            transform-origin: top left;
+            width: 100vh;
+            height: 100vw;
+            overflow-x: hidden;
+            position: fixed;
+            top: 100%;
+            left: 0;
+            margin-top: -100vh;
+        }
+    }
+    /* Portrait layout for mobile */
+    @media only screen and (max-width: 767px) {
+        /* Define styles for portrait orientation */
+    }
+</style>
+</head>
+<body>
+    <h1>hhh</h1>
+<!-- Game content here -->
+<script>
+    // Detect device orientation
+    function handleOrientation() {
+        if (window.innerHeight > window.innerWidth) {
+            // Portrait orientation
+            document.body.classList.add('portrait');
+            document.body.classList.remove('landscape');
+            // Adjust character orientation for portrait mode
+            // Add necessary CSS or JavaScript logic here
+        } else {
+            // Landscape orientation
+            document.body.classList.remove('portrait');
+            document.body.classList.add('landscape');
+            // Adjust character orientation for landscape mode
+            // Add necessary CSS or JavaScript logic here
+        }
+    }
+
+    // Initial orientation check
+    handleOrientation();
+
+    // Listen for orientation changes
+    window.addEventListener("resize", handleOrientation);
+</script>
+</body>
+</html>
