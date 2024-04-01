@@ -7,43 +7,58 @@ let currentImage = new Image();
 
 const scenes = [
     // scene 1 scripts
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Sc1.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Sc2.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Sc3.png?raw=true",
-    
-    // battle
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Sc4.png?raw=true",
-    
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Sc5.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Sc1.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Sc2.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Sc3.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Sc4.png?raw=true",
     
     // title
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M1S1Lec3.png?raw=true",
     
     // lectures
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.1.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.2.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.3.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.4.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.5.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.6.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.7.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.8.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.9.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.10.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.11.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.12.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.13.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.14.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.15.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.16.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.17.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.18.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.19.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.20.png?raw=true",
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1.21.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.1.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.2.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.3.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.4.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.5.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.6.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.7.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.8.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.9.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.10.png?raw=true",
 
-    // battle2
-    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/lesson1/M1S1Lec1Battle1.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.11.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.12.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.13.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.14.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.15.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.16.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.17.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.18.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.19.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.20.png?raw=true",
+
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.21.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.22.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.23.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.24.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.25.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.26.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.27.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.28.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.29.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.30.png?raw=true",
+
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.31.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.32.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.33.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.34.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.35.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M2S1Lec3.36.png?raw=true",
+
+    // battle
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M1S1Lec3Battle1.1.png?raw=true",
+    "https://github.com/ChugxScript/MAB_-_Algebruh/blob/main/other/M1-lesson3/M1S1Lec3Battle1.2.png?raw=true",
 ]
 
 // functuon to resize the canvas
@@ -207,7 +222,7 @@ function gameLoop() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    if (scene == 5) {
+    if (scene == 4) {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.6)'; 
         ctx.fillRect(0, 0, canvas.width, canvas.height); 
     }
@@ -244,7 +259,7 @@ canvas.addEventListener("click", function(event) {
     const mouseX = event.clientX - canvas.getBoundingClientRect().left;
     const mouseY = event.clientY - canvas.getBoundingClientRect().top;
 
-    if (scene <= 5) {
+    if (scene <= 4) {
         changeNextScene(0);
     } else {
         if (isInsideCircleNextScene(mouseX, mouseY)) {
@@ -262,28 +277,3 @@ canvas.addEventListener("click", function(event) {
 
 // Start the game loop
 gameLoop();
-
-
-
-
-
-
-
-
-
-
-
-// Define landscape elements
-// Example: grass
-function drawGrass() {
-    ctx.fillStyle = "#00CD00"; // Green
-    ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
-}
-
-// Example: sun
-function drawSun() {
-    ctx.beginPath();
-    ctx.arc(canvas.width - 100, 100, 50, 0, Math.PI * 2);
-    ctx.fillStyle = "#FFD700"; // Yellow
-    ctx.fill();
-}
