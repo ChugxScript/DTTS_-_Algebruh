@@ -1,53 +1,103 @@
-body, html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    
+body {
     margin: 0;
     padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-}
-.page-background {
-    width: 100%;
-    height: 100%;
-}
-.container {
-    position: absolute;
-    text-align: center;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-button {
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
-#userData {
-    margin-top: 20px;
-}
-#userData button {
-    background-color: #ff5555;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    margin-top: 10px;
+    overflow: hidden;
+    font-family: 'Press Start 2P', sans-serif;
+    background-color: #f0f0f0; 
 }
 
-.fade-out-start {
+.page-title {
+    background-image: url('https://github.com/ChugxScript/MAB-resources/blob/main/LogIN-Prelude/login-bg-gifs1.gif?raw=true');
+    background-size: cover;
+    border: 1px solid black;
+}
+
+/* forms */
+.page-form {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 5s ease-out;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid black;
+}
+.form-input {
+    width: 80%;
+    height: 55px;
+    margin-top: 10px;
+    font-family: 'Press Start 2P', sans-serif;
+    border: 1px solid white;
+}
+.signIn-button {
+    width: 80%;
+    height: 50px;
+    margin-top: 10px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: 1px solid greenyellow;
+}
+.forgotPass-button {
+    width: 80%;
+    height: 50px;
+    margin-top: 10px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: 1px solid red;
+}
+
+.divider {
+    width: 90%;
+    text-align: center;
+    margin: 20px 0;
+}
+.divider-line {
+    border: none;
+    height: 1px;
+    background-color: greenyellow; 
+    width: 100%; 
+}
+
+.error-message-signIn {
+    width: 90%;
+    margin-top: 10px;
+    display: none;
+    color: red;
+    background-color: black;
+    border: 1px solid red;
+}
+
+@media (orientation: landscape) {
+    .page-canvas{
+        display: block;
+        margin: auto;
+        background-image: url('https://media1.tenor.com/m/bSbye8DYAboAAAAC/lannabanana.gif');
+        background-size: cover;
+        overflow: hidden;
+        border: 1px solid black;
+    }
+    
+}
+
+@media (orientation: portrait) {
+    body {
+        overflow: hidden; 
+    }
+
+    .page-canvas {
+        background-image: url('https://media1.tenor.com/m/bSbye8DYAboAAAAC/lannabanana.gif');
+        background-size: cover;
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%) rotate(90deg); 
+        border: 1px solid black;
+    }
 }

@@ -1,0 +1,11 @@
+.bruh-details-popup::-webkit-scrollbar {
+    width: 1px;
+}
+
+.bruh-details-popup::-webkit-scrollbar-track {
+    background-color: #15ff00;
+}
+
+.bruh-details-popup::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}

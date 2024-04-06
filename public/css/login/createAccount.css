@@ -1,0 +1,33 @@
+.create-acc-form {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid black;
+}
+
+.crt_h1 {
+    color: yellowgreen;
+}
+
+.crt-form-prompts {
+    width: 83%;
+    margin-top: 10px;
+    color: white;
+    text-align: left;
+    align-items: left;
+    justify-content: left;
+}
+
+.error-message-pass {
+    width: 90%;
+    margin-top: 10px;
+    padding: 10px;
+    display: none;
+    color: greenyellow;
+    background-color: black;
+    border: 1px solid red;
+}

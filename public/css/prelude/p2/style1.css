@@ -1,0 +1,361 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Press Start 2P', sans-serif;
+    background-color: #f0f0f0; 
+}
+
+.giga-guide {
+    background-image: url('https://github.com/ChugxScript/MAB-resources/blob/main/LogIN-Prelude/giga-guide.gif?raw=true');
+    background-size: cover;
+    border: 1px solid black;
+}
+.scr-1 {
+    position: absolute;
+    padding: 30px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid white;
+}
+.prelude-bruhs {
+    position: absolute;
+    text-align: center;
+    display: none;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid white;
+}
+.prelude-character-selection-row {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+    border: 1px solid blue;
+}
+.prelude-character-selection-row span {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7); 
+    border: 1px solid #bbff00;
+}
+.prelude-character-selection-row span:hover {
+    background: rgba(255, 129, 129, 0.7); 
+}
+.prelude-character-selection-row span img {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+.prelude-character-selection-row span p {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #bbff00;
+}
+
+
+.bruh-details-popup {
+    position: absolute;
+    text-align: center;
+    display: none;
+    color: white;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0);
+    border: 1px solid white;
+}
+
+.close-icon-div {
+    position: sticky;
+    margin: 0;
+    top: 0;
+    z-index: 1;
+    text-align: right;
+    background-color: rgba(0, 0, 0);
+    border: 1px solid white;
+}
+.close-icon {
+    padding: 10px;
+    margin: 0;
+    color: white;
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid white;
+}
+.bruh-details-h2 {
+    font-size: 100%;
+}
+
+.bruh-details-container {
+    height: 100%;
+    border: 1px solid white;
+}
+
+/* img */
+.bruh-img {
+    border: 1px solid greenyellow;
+}
+.bruh-img img {
+    width: 200px;
+}
+
+/* tables */
+
+.bruh-details table {
+    width: 100%;
+}
+.bruh-details td:first-child {
+    width: 30%;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid white;
+}
+.bruh-details td:not(:first-child) {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid gray;
+}
+
+/* confirmation button */
+.confirmation-button {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0);
+    border: 1px solid white;
+}
+.confirmation-button span {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+}
+.confirmation-button span:hover {
+    background-color: darkslategrey;
+}
+
+.battle-start-button {
+    position: absolute;
+    display: none;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 100%;
+    color: white;
+    text-align: center;
+    background-color: black;
+    border: 1px solid white;
+}
+.battle-start-button h1 {
+    font-size: 100px;
+    color: #bbff00;
+}
+
+
+/* pokememe */
+.show-pokememe {
+    background-image: url('https://media1.tenor.com/m/aLc7c9puW4sAAAAC/black-man.gif');
+    background-size: cover;
+    display: none;
+    border: 1px solid black;
+}
+
+
+
+/* battle */
+
+.enemy-container {
+    position: absolute;
+    display: flex;
+    top: 10px;
+    left: 50%;
+    width: 95%;
+    padding: 10px;
+    transform: translateX(-50%);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border: 1px solid red;
+}
+.enemy-qbox {
+    flex: 0 0 60%; 
+    margin: 5px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px solid red;
+}
+.enemy-stats {
+    flex: 1; 
+    height: 100%;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border: 1px solid red;
+}
+.enemy-img {
+    flex: 1; 
+    height: 100%;
+    overflow-y: auto;
+    border: 1px solid red;
+}
+/* tables */
+.enemy-stats table {
+    width: 100%;
+    /* height: 100%; */
+    flex: 1;
+}
+.enemy-stats td:first-child {
+    width: 30%;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid red;
+}
+.enemy-stats td:not(:first-child) {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+
+.user-container {
+    position: absolute;
+    display: flex;
+    bottom: 10px;
+    left: 50%;
+    width: 95%;
+    padding: 10px;
+    transform: translateX(-50%);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border: 1px solid greenyellow;
+}
+.user-qbox {
+    flex: 0 0 60%; 
+    margin: 5px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border: 1px solid greenyellow;
+}
+.user-stats {
+    flex: 1; 
+    margin: 5px;
+    height: 100%;
+    overflow-y: auto;
+    border: 1px solid greenyellow;
+}
+.user-img {
+    flex: 1; 
+    height: 100%;
+    overflow-y: auto;
+    border: 1px solid greenyellow;
+}
+/* tables */
+.user-stats table {
+    width: 100%;
+    height: 100%;
+}
+.user-stats td:first-child {
+    width: 30%;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid greenyellow;
+}
+.user-stats td:not(:first-child) {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid greenyellow;
+}
+/* qbox */
+.user-qbox-selection-row {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+    border: 1px solid blue;
+}
+.user-qbox-selection-row span {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7); 
+    border: 1px solid #bbff00;
+}
+.user-qbox-selection-row span:hover {
+    background: rgba(255, 129, 129, 0.7); 
+}
+
+.prompt-1 {
+    position: absolute;
+    display: flex;
+    width: 95%;
+    padding: 10px;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+
+.bring-top {
+    z-index: 10;
+    position: absolute;
+}
+
+@media (orientation: landscape) {
+    .page-canvas{
+        display: block;
+        margin: auto;
+        background-image: url('https://media1.tenor.com/m/pzvqar0jarkAAAAC/night-starrynight.gif');
+        background-size: cover;
+        overflow: hidden;
+        border: 1px solid black;
+    }
+    
+}
+
+@media (orientation: portrait) {
+    body {
+        overflow: hidden; 
+    }
+
+    .page-canvas {
+        background-image: url('https://media1.tenor.com/m/pzvqar0jarkAAAAC/night-starrynight.gif');
+        background-size: cover;
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%) rotate(90deg); 
+        border: 1px solid black;
+    }
+
+    .user-container {
+        font-size: 5px;
+    }
+    .enemy-container {
+        font-size: 5px;
+    }
+}
