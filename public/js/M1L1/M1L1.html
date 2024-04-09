@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./M1L1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>ALGE-BRUH | M1L1</title>
+    <!-- math latex -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="M1L1-canvas" id="M1L1Canvas">
+        <div class="giga-guide" id="gigaGuide">
+            <div class="scr-1" id="scr1">...</div>
+
+            <div class="scr-1" id="script24">
+                <p>A polynomial function is a function of the form</p>
+                <p><span>\( P(x) = a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \ldots + a_1 x + a_0,\)</span></p>
+                <p><span>\( \quad a_n \neq 0 \)</span> where 'n' is a <span>nonnegative integer</span>,</p>
+                <p><span>\( a_0, a_1, \ldots, a_n \)</span> are real numbers called <span>coefficients</span>,</p> 
+                <p><span>\( a_n x^n \)</span> is the <span>leading term</span>,</p>
+                <p><span>\( a_n \)</span> is the <span>leading coefficient</span>,</p>
+                <p>and <span>\( a_0 \)</span> is the <span>constant term</span>.</p>
+            </div>
+
+            <div class="scr-1" id="script25">
+                <p>A <span>polynomial function</span> is a type of mathematical equation that 
+                    involves <span>variables</span> (usually represented by the letter 'x') 
+                    raised to different powers and combined with <span>coefficients</span>
+                    (which are just numbers). 
+
+                    These equations are written in a specific format, 
+                    where terms with higher powers of 'x' come first and terms with 
+                    lower powers come later.</p>
+            </div>
+
+            <div class="scr-1" id="script26">
+                <p>For example, here's how a polynomial function looks:</p>
+                <p><span>\( P(x) = a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \ldots + a_1 x + a_0\)</span></p>
+                <p>In this equation:
+                    <ul>
+                        <li><span>P(x)</span> represents the <span>polynomial function</span>.</li>
+                        <li><span>x</span> is the <span>variable</span>.</li>
+                        <li><span>\( a_n, a_{n-1}, a_{n-2}, ... , a_1 x + a_0 \)</span> are 
+                            <span>coefficients</span> (which are just numbers) that multiply each term.</li>
+                        <li>The powers of x (like <span>\( x^n, x^{n-1}, x^{n-2}, ... ,x\)</span>) determine the <span>degree of the polynomial</span>.</li>
+                    </ul>
+                </p>
+                <p>The highest power of 'x' in the equation is called the '<span>degree</span>' of the polynomial.</p>
+            </div>
+
+            <div class="scr-1" id="script27">
+                <p><span>\( P(x) = a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \ldots + a_1 x + a_0\)</span></p>
+                <p>For example, if the highest power is 3, we call it a '<span>third-degree polynomial</span>'.</p>
+                <p>The coefficient of the term with the highest power of x (like an) is called the '<span>leading coefficient</span>'.</p>
+            </div>
+
+            <div class="scr-1" id="script28">
+                <p><span>P(x)</span> = \( a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \ldots + a_1 x + a_0\)</p>
+                <p>Other notations:</p>
+                <p><span>f(x)</span> = \( a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \ldots + a_1 x + a_0\)</p>
+                <p><span>y</span> = \( a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \ldots + a_1 x + a_0\)</p>
+                <br>
+                <p>\( P(x) = 2x^3 + 5x^2 + 7x - 5 \) or...</p>
+                <p>\( f(x) = 2x^3 + 5x^2 + 7x - 5 \) or...</p>
+                <p>\( y = 2x^3 + 5x^2 + 7x - 5 \) </p>
+                <p>are just the same</p>
+            </div>
+
+            <div class="scr-1" id="script29">
+                <p>\( P(x) = 2x^3 + 5x^2 + 7x - 5 \)</p>
+                <p><span>REMEMBER:</span>
+                    <ul>
+                        <li>
+                            <span>decreasing power of x</span>, the polynomial function is in <span>standard form</span>.
+                            <p>\( P(x) = 2\)<span>\(x^3\)</span> \( + 5\)<span>\(x^2\)</span> \( + 7\)<span>\(x\)</span> \( - 5\)</p>
+                            <p>The degree is from highest to lowest to constant.</p>
+                        </li>
+                        <li>
+                            the variable has <span>NO/NOT</span>:
+                            <ul>
+                                <li>Negative exponent</li>
+                                <li>Fractional exponent</li>
+                                <li>Inside the radical sign</li>
+                                <li>In the denominator</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+
+            <div class="scr-1" id="script30">
+                <p><span>Example 1</span>: Write the given polynomial functions in standard form</p>
+                <ul>
+                    <li>\( f(x) = 4x^3 - 16x - 4 + x^4 - x^2 \)
+                        <ul>
+                            <li>Answer:<span>\( f(x) = x^4 + 4x^3 - x^2 - 16x - 4 \)</span></li>
+                        </ul>
+                    </li> 
+                    <br>
+                    <li>\( \frac{1}{6}x^4 - x^2 + 5x^5 + 7x^3 - 5 \)
+                        <ul>
+                            <li>Answer:<span>\( 5x^5 + \frac{1}{6}x^4 + 7x^3 - x^2 - 5 \)</span></li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li>\( P(x) = (3x + 5)(x + 1) \)
+                        <ul>
+                            <p>using <span>FOIL method</span></p>
+                            <li>Answer:<span>\( P(x) = 3x^3 + 8x + 5 \)</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="scr-1" id="script31">
+                <p><span>Example 2.1</span>: Determine whether each of the following is a polynomial function or not</p>
+                <ul>
+                    <li>\( y = 14x \)
+                        <ul>
+                            <li><span>POLYNOMIAL</span></li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li>\( y = 5x^3 - 4\sqrt{2x} + x \)
+                        <ul>
+                            <li>\( y = 5x^3 - 4\)<span>\(\sqrt{2x}\) </span>\( + x \)</li>
+                            <li><span>NOT POLYNOMIAL</span> - variable inside radical</li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li>\( y = x^\frac{3}{4} + 3x^\frac{3}{4} + 7 \)
+                        <ul>
+                            <li>\( y = x\)<span>\(^\frac{3}{4}\)</span> \(+ 3x\)<span>\(^\frac{3}{4}\) </span>\(+ 7\)</li>
+                            <li><span>NOT POLYNOMIAL</span> - fractional exponent</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="scr-1" id="script32">
+                <p><span>Example 2.2</span>: Determine whether each of the following is a polynomial function or not</p>
+                <ul>
+                    <li>\( y = 1 - 16x^2 \)
+                        <ul>
+                            <li><span>POLYNOMIAL</span></li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li>\( y = \frac{1}{2x^2} + \frac{2}{3x^4} - \frac{3}{4x^2} \)
+                        <ul>
+                            <li>\( y = \)
+                                <span>\(\frac{1}{2x^2}\)</span>
+                                \(+\)
+                                <span>\(\frac{2}{3x^4}\)</span>
+                                \(-\)
+                                <span>\(\frac{3}{4x^2} \)</span>
+                            </li>
+                            <li><span>NOT POLYNOMIAL</span> - variable in denominator</li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li>\( y = -4x^{-100} + 4x^{100} \)
+                        <ul>
+                            <li>\( y = -4x\)<span>\(^{-100}\)</span>\( + 4x^{100} \)</li>
+                            <li><span>NOT POLYNOMIAL</span> - negative exponent</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="scr-1" id="script33">
+                <p>\( P(x) = 2x^3 + 5x^2 + 7x - 5 \)</p>
+                <span>REMEMBER:</span>
+                <ul>
+                    <li>Make the equation in <span>standard form first</span>.</li>
+                    <li>The <span>leading term</span> is the term with the highest exponent.</li>
+                    <li>The <span>leading coefficient</span> is the numerical coefficient of the leading term.</li>
+                    <li>The <span>degree of a polynomial function</span> is the highest exponent.</li>
+                    <li>The <span>constant term</span> is the one that doesn't have a variable.</li>
+                </ul>
+                <p><span>LEADING TERM</span>: \( 2x^3 \)</p>
+                <p><span>LEADING COEFFICIENT</span>: \( 2\)</p>
+                <p><span>DEGREE OF A POLYNOMIAL FUNCTION</span>: \( 3\)</p>
+                <p><span>CONSTANT TERM</span>: \( - 5 \) (<span>DONT FORGET THE SIGN</span>)</p>
+            </div>
+
+            <div class="scr-1" id="script36">
+                <p><span>Example 3</span>: Consider the given polynomial and fill in the table below.</p>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>POLYNOMIAL FUNCTION</th>
+                        <th>STANDARD FORM</th>
+                        <th>LEADING TERM</th>
+                        <th>LEADING COEFFICIENT</th>
+                        <th>DEGREE</th>
+                        <th>TYPE</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>\( f(x) = 2x(x + 8) \)</td>
+                        <td>\( f(x) = 2x^2 + 16 \)</td>
+                        <td>\( 2x^2 \)</td>
+                        <td>\( 2 \)</td>
+                        <td>\( 2 \)</td>
+                        <td>\( quadratic \)</td>
+                    </tr>
+                    <tr>
+                        <td>\( f(x) = (3x + 5)(x + 1) \)</td>
+                        <td>\( f(x) = 3x^2 + 8x + 5 \)</td>
+                        <td>\( 3x^2 \)</td>
+                        <td>\( 3 \)</td>
+                        <td>\( 2 \)</td>
+                        <td>\( quadratic \)</td>
+                    </tr>
+                    <tr>
+                        <td>\( y = 4x^3 - 16x - 4 + x^4 - x^2 \)</td>
+                        <td>\( y = x^4 + 4x^3 - x^2 - 16x - 4 \)</td>
+                        <td>\( x^4 \)</td>
+                        <td>\( 1 \)</td>
+                        <td>\( 4 \)</td>
+                        <td>\( quantic \)</td>
+                    </tr>
+                    <tr>
+                        <td>\( y = (a + 4)(a^2 - 4a + 16) \)</td>
+                        <td>\( y = a^3 + 64 \)</td>
+                        <td>\( a^3 \)</td>
+                        <td>\( 1 \)</td>
+                        <td>\( 3 \)</td>
+                        <td>\( cubic \)</td>
+                    </tr>
+                    <tr>
+                        <td>\( y = x^2 + x^4 - 3x^6 + x^5 + 10 \)</td>
+                        <td>\( y = - 3x^6 + x^5 + x^4 + x^2 + 10 \)</td>
+                        <td>\( - 3x^6 \)</td>
+                        <td>\( - 3 \)</td>
+                        <td>\( 6 \)</td>
+                        <td>\( 6^{th} degreeP.\)</td>
+                    </tr>
+                    </tbody>
+                </table>              
+            </div>
+        </div>
+        
+
+
+        <!-- <div class="scr-1" id="script3">
+            <p>  </p>
+        </div> -->
+        
+    </div>
+    
+    <!-- \( n \) -->
+
+    <!-- Include Firebase SDK -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js"></script>
+
+    <!-- Include your Firebase configuration -->
+    <script type="module" src="../firebase-config.js"></script>
+
+    <!-- Include your main JavaScript file -->
+    <script type="module" src="./getFirestore.js"></script>
+    <script src="./M1L1.js"></script>
+    <script src="./script.js"></script>
+
+
+    
+
+</body>
+</html>

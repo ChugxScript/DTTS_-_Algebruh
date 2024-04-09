@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Press Start 2P', sans-serif;
+    background-color: #f0f0f0; 
+}
+
+
+/* page main BG */
+.M1L1-canvas {
+    background-image: url('https://media1.tenor.com/m/D7oyf8r623gAAAAd/cozy-chug.gif');
+    background-size: cover;
+    border: 1px solid black;
+}
+
+.giga-guide {
+    background-image: url('https://github.com/ChugxScript/MAB-resources/blob/main/LogIN-Prelude/giga-guide.gif?raw=true');
+    background-size: cover;
+    border: 1px solid black;
+}
+
+
+
+/* script */
+.scr-1 {
+    position: absolute;
+    padding: 30px;
+    top: 10px;
+    right: 10px;
+    width: 75%;
+    line-height: 1.5;
+    display: none;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid white;
+}
+.scr-1 p {
+    color: white;
+}
+.scr-1 span {
+    color: greenyellow;
+}
+.scr-1 table {
+    width: 100%;
+    border: 1px solid grey;
+}
+.scr-1 th {
+    color: black;
+    font-size: 8px;
+    background-color: greenyellow;
+    border: 1px solid greenyellow;
+}
+.scr-1 td {
+    text-align: left;
+    font-size: 7px;
+    padding: 5px;
+    background-color: black;
+    border: 1px solid grey;
+}
+
+
+
+
+
+
+
+
+
+/* @media (orientation: landscape) { 
+
+} */
+
+@media (orientation: portrait) { 
+    body {
+        overflow: hidden; 
+    }
+    .M1L1-canvas {
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+}
