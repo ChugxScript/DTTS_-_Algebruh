@@ -58,13 +58,21 @@ function setContent() {
         createAccForm.style.top = ((divHeight - pageForm.offsetHeight) / 2)+ "px";
     } else {
         // page form
-        pageForm.style.width = "250px";
-        pageForm.style.height = "90%";
-        pageForm.style.left = (divWidth - (pageForm.offsetWidth + 10))+ "px";
-        pageForm.style.top = ((divHeight - pageForm.offsetHeight) / 2)+ "px";
+        // pageForm.style.width = "250px";
+        // pageForm.style.height = "90%";
+        // pageForm.style.left = (divWidth - (pageForm.offsetWidth + 10))+ "px";
+        // pageForm.style.top = ((divHeight - pageForm.offsetHeight) / 2)+ "px";
 
-        createAccForm.style.left = (divWidth - (pageForm.offsetWidth + 10))+ "px";
-        createAccForm.style.top = ((divHeight - pageForm.offsetHeight) / 2)+ "px";
+        // createAccForm.style.width = "250px";
+        // createAccForm.style.height = "90%";
+        // createAccForm.style.left = (divWidth - (pageForm.offsetWidth + 10))+ "px";
+        // createAccForm.style.top = ((divHeight - pageForm.offsetHeight) / 2)+ "px";
+
+        console.log(`divWidth: ${divWidth}`);
+        console.log(`divHeight: ${divWidth}`);
+        console.log(`(divWidth - (pageForm.offsetWidth + 10)): ${(divWidth - (pageForm.offsetWidth + 10))}`);
+        console.log(`((divHeight - pageForm.offsetHeight) / 2): ${((divHeight - pageForm.offsetHeight) / 2)}`);
+
     }
 }
 

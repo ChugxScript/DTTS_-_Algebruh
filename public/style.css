@@ -100,19 +100,19 @@ body {
         transform: translate(-50%, -50%) rotate(90deg); 
         border: 1px solid black;
     }
-    .page-form {
-        font-size: 5px;
+    .page-form,
+    .create-acc-form {
+        font-size: 8px;
         padding: 10px;
+        width: 250px;
+        height: 85%;
+        right: 10px;
+        top: 10px;
     }
     .form-input {
         font-size: 8px;
     }
     .divider {
         margin: 5px 0;
-    }
-    .create-acc-form {
-        font-size: 8px;
-        width: 250px;
-        height: 90%;
     }
 }
