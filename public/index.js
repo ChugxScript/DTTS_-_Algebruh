@@ -25,6 +25,7 @@ import {
     firebaseConfig 
 } from "./js/firebase-config.js";
 
+
 // Initialize Firebase app
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
@@ -57,7 +58,7 @@ const signInEmailPassword = async () => {
             }, 3000);
         } else {
             const queryParams = `?uid=${user.uid}`;
-            window.location.href = `./html/prelude.html${queryParams}`;
+            window.location.href = `./html/dashboard.html${queryParams}`;
         }
 
     } catch (error) {
@@ -79,19 +80,23 @@ const signInGoogle = async() => {
     try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
+        console.log(`user: ${user}`);
         
         // Check if the user exists in Firestore
         const userDoc = await getUserFromFirestore(user.uid);
+        console.log(`userDoc: ${JSON.stringify(userDoc)}`);
 
         if (!userDoc.exists()) {
             // If user doesn't exist, add to Firestore
             await addUserToFirestore(user.uid, user.displayName, user.email);
             // Redirecting with query parameter
             const queryParams = `?uid=${user.uid}`;
+            console.log(`USER NOT EXISTS YET!`);
             window.location.href = `./html/prelude.html${queryParams}`;
         } else {
             const queryParams = `?uid=${user.uid}`;
-            window.location.href = `./html/prelude.html${queryParams}`;
+            window.location.href = `./html/dashboard.html${queryParams}`;
+            console.log(`USER EXISTS !!!`);
         }
 
     } catch (error) {
@@ -138,12 +143,12 @@ const createAccountEmailPassword = async (display_name) => {
 
 // Function to get user document from Firestore
 const getUserFromFirestore = async (uid) => {
-    return await getDoc(doc(db, 'sample_user', uid));
+    return await getDoc(doc(db, 'users', uid));
 };
 
 // Function to add user to Firestore
 const addUserToFirestore = async (uid, displayName, email, UnID) => {
-    const userRef = doc(db, 'sample_user', uid);
+    const userRef = doc(db, 'users', uid);
 
     await setDoc(userRef, {
         user_name: displayName,
@@ -175,11 +180,76 @@ const addUserToFirestore = async (uid, displayName, email, UnID) => {
 document.getElementById('signInGoogleButton').addEventListener('click', signInGoogle);
 document.getElementById('signInEmailPasswordButton').addEventListener('click', signInEmailPassword);
 
+
+
+let isUsername = false;
+let isEmail = false;
+let isPassword = false;
+
+
+const createUsername = document.getElementById('crt_username');
+createUsername.addEventListener('input', function() {
+    if (createUsername.value.trim().length != 0) {
+        isUsername = true;
+    } else {
+        isUsername = false;
+    }
+    console.log(`createUsername.value ${createUsername.value}`);
+});
+
+// Function to handle email and password input
+const emailInput = document.getElementById('crt_email');
+emailInput.addEventListener('input', function() {
+    const errorMessageEmail = document.getElementById('errorMessageEmail');
+    const email = emailInput.value;
+    const isValid = validateEmail(email);
+    if (!isValid) {
+        errorMessageEmail.style.display = 'block';
+        errorMessageEmail.textContent = 'INVALID EMAIL.';
+        isEmail = false;
+    } else {
+        errorMessageEmail.style.display = 'none';
+        isEmail = true;
+    }
+});
+
+const passwordInput = document.getElementById('crt_password');
+passwordInput.addEventListener('input', function() {
+    const errorMessagePassword = document.getElementById('errorMessagePassword');
+    const password = passwordInput.value;
+    const isValid = checkPasswordStrength(password);
+    if (!isValid) {
+        errorMessagePassword.style.display = 'block';
+        errorMessagePassword.textContent = 'Password MUST consist of 8 characters or more with SMALL AND CAPITAL LETTERS, NUMBERS AND SPECIAL CHARS like !@#$%^.';
+        isPassword = false;
+    } else {
+        errorMessagePassword.style.display = 'none';
+    }
+});
+
+const passwordAgainInput = document.getElementById('crt_passwordAgain');
+passwordAgainInput.addEventListener('input', function() {
+    const errorMessagePasswordAgain = document.getElementById('errorMessagePasswordAgain');
+    const password = passwordInput.value;
+    const passwordAgain = passwordAgainInput.value;
+    if (password !== passwordAgain) {
+        errorMessagePasswordAgain.style.display = 'block';
+        errorMessagePasswordAgain.textContent = 'Passwords do not match.';
+        isPassword = false;
+    } else {
+        errorMessagePasswordAgain.style.display = 'none';
+        isPassword = true;
+    }
+    console.log(`isEmail ${isEmail} isPassword ${isPassword} isUsername ${isUsername}`);
+});
+
+
 const createAccButton2 = document.getElementById('createAccButton2');
 createAccButton2.addEventListener('click', async function() {
-    let isCreateFormsValid, display_name = isAllValid();
+    let isCreateFormsValid =  isAllValid();
+    console.log(`isCreateFormsValid: ${isCreateFormsValid}`)
     if (isCreateFormsValid) {
-        createAccountEmailPassword(display_name);
+        createAccountEmailPassword(createUsername.value);
     } else {
         const errorMessageAllForms = document.getElementById('errorMessageAllForms');
         errorMessageAllForms.style.display = 'block';
@@ -190,3 +260,12 @@ createAccButton2.addEventListener('click', async function() {
         }, 3000);
     }
 })
+
+// check if all forms are all valid
+function isAllValid () {
+    if (isUsername == true && isEmail == true && isPassword == true) {
+        return true;
+    } else {
+        return false;
+    }
+}

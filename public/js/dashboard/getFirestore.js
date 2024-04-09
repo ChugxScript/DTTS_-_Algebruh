@@ -36,90 +36,71 @@ console.log('queryParams User UID:', queryParamsUID);
 export const getCurrentUserFromFirestore = async () => {
     const usersCollection = collection(db, 'users');
     const usersSnapshot = await getDocs(usersCollection);
-    const users = [];
+    let user = null;
 
     usersSnapshot.forEach((doc) => {
         // get the current user data from firebase firestore
         if (doc.id == queryParamsUID) {
             const currUserData = doc.data();
             const currUser_uid = doc.id;
-            users.push({ currUser_uid, ...currUserData });
+            user = { currUser_uid, ...currUserData };
         }
     });
-    console.log('getCurrentUserFromFirestore: ', users);
-    return users;
+    console.log('getCurrentUserFromFirestore: ', user);
+    console.log(`user.currUser_uid ${user.currUser_uid}`);
+    return user;
 };
 
-// journey stages
-export const getJourneyStagesFromFirebase = async () => {
-    const journeyStagesDocRef = doc(db, 'stageQuestions', 'stageDesigns');
-    const journeyStagesDocSnapshot = await getDoc(journeyStagesDocRef);
+// all chars
+export const getBruhsFromFirestore = async () => {
+    const bruhDocRef = collection(db, 'bruhs');
+    const bruhDocSnapshot = await getDocs(bruhDocRef);
 
-    if (journeyStagesDocSnapshot.exists()) {
-        const journeyStagesData = journeyStagesDocSnapshot.data();
-        const journeyStages = [];
+    const bruhs = [];
 
-        // Iterate over each shop characters in the document
-        Object.entries(journeyStagesData).forEach(([stage_uid, stageData]) => {
-            journeyStages.push({ stage_uid, ...stageData });
-        });
+    bruhDocSnapshot.forEach((doc) => {
+        bruhs.push({ bruh_uid: doc.id, ...doc.data() });
+    });
 
-        console.log('journeyStages from Firestore:', journeyStages);
-        return journeyStages;
-    } else {
-        console.log('Document "stageDesigns" does not exist');
-        return []; 
-    }
-}
-
-// shop chars
-export const getShopCharsFromFirestore = async () => {
-    const shopCharsDocRef = doc(db, 'shop', 'shopCharacters');
-    const shopCharsDocSnapshot = await getDoc(shopCharsDocRef);
-
-    if (shopCharsDocSnapshot.exists()) {
-        const shopCharsData = shopCharsDocSnapshot.data();
-        const shopCharacters = [];
-
-        // Iterate over each shop characters in the document
-        Object.entries(shopCharsData).forEach(([char_uid, charData]) => {
-            shopCharacters.push({ char_uid, ...charData });
-        });
-
-        console.log('shopCharacters from Firestore:', shopCharacters);
-        return shopCharacters;
-    } else {
-        console.log('Document "shopCharacters" does not exist');
-        return []; 
-    }
+    console.log('bruhs from Firestore:', bruhs);
+    return bruhs;
 };
 
-// shop items
-export const getShopItemsFromFirestore = async () => {
-    const shopItemsDocRef = doc(db, 'shop', 'shopItems');
-    const shopItemsDocSnapshot = await getDoc(shopItemsDocRef);
+// all items
+export const getItemsFromFirestore = async () => {
+    const itemDocRef = collection(db, 'items');
+    const itemDocSnapshot = await getDocs(itemDocRef);
 
-    if (shopItemsDocSnapshot.exists()) {
-        const shopItemsData = shopItemsDocSnapshot.data();
-        const shopItem = [];
+    const items = [];
 
-        // Iterate over each shop characters in the document
-        Object.entries(shopItemsData).forEach(([item_uid, itemData]) => {
-            shopItem.push({ item_uid, ...itemData });
-        });
+    itemDocSnapshot.forEach((doc) => {
+        items.push({ item_uid: doc.id, ...doc.data() });
+    });
 
-        console.log('shopItem from Firestore:', shopItem);
-        return shopItem;
-    } else {
-        console.log('Document "shopItems" does not exist');
-        return []; 
-    }
+    console.log('items from Firestore:', items);
+    return items;
 };
+
+// all stages
+export const getStagesFromFirestore = async () => {
+    const stageDocRef = collection(db, 'stageQuestions');
+    const stageDocSnapshot = await getDocs(stageDocRef);
+
+    const stages = [];
+
+    stageDocSnapshot.forEach((doc) => {
+        stages.push({ stage_uid: doc.id, ...doc.data() });
+    });
+
+    console.log('stages from Firestore:', stages);
+    return stages;
+};
+
 
 // days active
 const updateUserDaysActive = async () => {
     const getCurrUser = await getCurrentUserFromFirestore();
-    const checkUserDaysActive = getCurrUser[0].userDaysActive;
+    const checkUserDaysActive = getCurrUser.user_daysActive;
 
     const currentDate = new Date();
     // Get month, day, and year
@@ -130,13 +111,13 @@ const updateUserDaysActive = async () => {
     const formattedDate = `${month}/${day}/${year}`;
 
     if (!checkUserDaysActive.includes(formattedDate)) {
-        const userRef = doc(db, 'users', getCurrUser[0].currUser_uid);
+        const userRef = doc(db, 'users', getCurrUser.currUser_uid);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
             const userData = userDoc.data();
-            const updatedUserDaysActive = [...userData.userDaysActive, formattedDate];
+            const updatedUserDaysActive = [...userData.user_daysActive, formattedDate];
             await updateDoc(userRef, {
-                userDaysActive: updatedUserDaysActive,
+                user_daysActive: updatedUserDaysActive,
             });
         } else {
             console.log('User document not found');

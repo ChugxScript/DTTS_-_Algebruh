@@ -1,0 +1,32 @@
+.settings-container {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    display: none; 
+    /* display: flex; */
+    flex-direction: column;
+    color: white;
+    /* overflow-y: auto; */
+    overflow-x: hidden; 
+    background-color: black;
+    border: 1px solid white;
+}
+.settings-category {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("https://media.tenor.com/OCEHuWSxHgMAAAAi/emicat-begging.gif");
+    background-size: cover;
+    border: 1px solid greenyellow;
+}
+.logout-btn {
+    padding: 10px;
+    text-align: center;
+    background-color: black;
+    border: 1px solid red;
+}
+.logout-btn:hover {
+    background-color: rgba(77, 25, 51);
+}

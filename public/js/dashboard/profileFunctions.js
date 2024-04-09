@@ -5,335 +5,150 @@ import {
     updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
 
-export const showProfileContent = async () => {
-    const profileUserAvatar = document.getElementById('profileUserAvatar');
-    const profileUserDetailsTable = document.getElementById('profileUserDetailsTable');
-    const profileUserShowCharacters = document.getElementById('profileUserShowCharacters');
-    profileUserAvatar.innerHTML = '';
-    profileUserDetailsTable.innerHTML = '';
-    profileUserShowCharacters.innerHTML = '';
+export const showProfilePart1 = async () => {
+    const profileContainer = document.getElementById('profileContainer');
+    const profileAvatar = document.getElementById('profileAvatar');
+    const profileTable = document.getElementById('profileTable');
+    profileContainer.style.display = 'flex';
+    profileAvatar.innerHTML = '';
+    profileTable.innerHTML = '';
 
-    // get instance of the latest current user data
-    const currLatestUser = await getCurrentUserFromFirestore();
-    const currUser = currLatestUser[0];
-    // get instance of the owned chars
-    const currOwnedChars = currUser.userCharacterOwned;
+    const user = await getCurrentUserFromFirestore();
 
-    // create img element then append to the div
-    const currUserElement = document.createElement('div');
-    const currUserImg = document.createElement('img');
-    currUserImg.src = currUser.userAvatar;
-    currUserImg.alt = currUser.userDisplayName;
+    // user avatar
+    const avatarIMGElement = document.createElement('img');
+    avatarIMGElement.src = user.user_avatar;
 
-    const currUserNameTextElement = document.createElement('p');
-    currUserNameTextElement.textContent = currUser.userDisplayName;
+    // user name
+    const usernameElement = document.createElement('p');
+    usernameElement.textContent = user.user_name;
 
-    currUserElement.appendChild(currUserImg);
-    currUserElement.appendChild(currUserNameTextElement);
-    profileUserAvatar.appendChild(currUserElement);
+    profileAvatar.appendChild(avatarIMGElement);
+    profileAvatar.appendChild(usernameElement);
 
-    // create table element for the currUser details then append to the div
-    const currUserDetailTable = document.createElement('table');
-    // user details table info
+    // table
+    const tableDetailsDiv = document.createElement('div');
+    const tableDetails = document.createElement('table');
     const userInfo = [
-        'userDisplayName', 
-        'userEmail', 
-        'userLevel', 
-        'userScore', 
-        'userConfidentialFund', 
-        'userDaysActive', 
+        'user_name', 
+        'user_email', 
+        'user_level', 
+        'user_score', 
+        'user_confidentialFund', 
+        'user_daysActive', 
+        'user_bruhs',
+        'user_inventoryItems',
+        'user_stageCleared'
     ];
-    // Populate details as rows in the table based on the specified order
+
     userInfo.forEach((detailKey) => {
-        if (currUser.hasOwnProperty(detailKey)) {
+        if(user.hasOwnProperty(detailKey) || (user.user_stats && user.user_stats.hasOwnProperty(detailKey))) {
             const row = document.createElement('tr');
             const cell1 = document.createElement('td');
             const cell2 = document.createElement('td');
-            cell1.textContent = detailKey;
-            if (detailKey === 'userDaysActive') {
-                cell2.textContent = currUser[detailKey].length;
-            } else {
-                cell2.textContent = currUser[detailKey];
-            }
+            cell1.textContent = alterDetailKey('cell1', detailKey, user);
+            cell2.textContent = alterDetailKey('cell2', detailKey, user);
             row.appendChild(cell1);
             row.appendChild(cell2);
-            currUserDetailTable.appendChild(row);
+            tableDetails.appendChild(row);
         }
-    });
-    profileUserDetailsTable.appendChild(currUserDetailTable);
+    })
+    tableDetailsDiv.appendChild(tableDetails);
+    profileTable.appendChild(tableDetailsDiv);
 
-    // show STATS
-    // get updated userdata
-    const currentUserSTATS = await getCurrentUserFromFirestore();
-    // user details tables stats
-    const userStats = [
-        {
-            'userTotalQuestionTaken': currentUserSTATS[0].userTotalQuestionTaken,
-            'userTotalCorrectAnswer': currentUserSTATS[0].userTotalCorrectAnswer,
-            'userCorrectAnswerRate': currentUserSTATS[0].userCorrectAnswerRate,
-            'userTotalWrongAnswer': currentUserSTATS[0].userTotalWrongAnswer,
-            'userWrongAnswerRate': currentUserSTATS[0].userWrongAnswerRate,
-            'userTotalAnswerTime': currentUserSTATS[0].userTotalAnswerTime,
-            'userAverageAnswerTime': currentUserSTATS[0].userAverageAnswerTime,
-            'userStageCleared': currentUserSTATS[0].userStageCleared,
-        },
-    ];
+
     // Load the Google Charts library
     google.charts.load('current', {'packages':['corechart']});
     // Set a callback to run when the Google Charts library is loaded
     google.charts.setOnLoadCallback(drawCharts);
     function drawCharts() {
-        drawTotalQuestionsAndCorrectAnswersChart(userStats);
-        drawAnswerRateChart(userStats);
-        drawAnswerTimeChart(userStats);
-        drawStageClearedChart(userStats);
+        drawQuestionTakenRateChart(user);
+        drawCorrectAnsRateChart(user);
     }
+}
+// showProfilePart1();
 
-    // display owned characters
-    // create h2 element for the title
-    const ownedCharsTitle = document.createElement('h2');
-    ownedCharsTitle.classList = 'owned-chars-title';
-    ownedCharsTitle.textContent = 'Characters Owned';
-    profileUserShowCharacters.appendChild(ownedCharsTitle);
-
-    let rowCounter = 0;
-    let currentRow;
-
-    currOwnedChars.forEach((character) => {
-        if (rowCounter % 5 === 0) {
-            // Create a new row every 5 items
-            currentRow = document.createElement('div');
-            currentRow.className = 'display-owned-chars';
-            profileUserShowCharacters.appendChild(currentRow);
+function alterDetailKey(mode, detailKey, user) {
+    if (mode === 'cell1') {
+        switch (detailKey) {
+            case 'user_name':
+                return 'User name';
+            case 'user_email':
+                return 'Email';
+            case 'user_level':
+                return 'Level';
+            case 'user_score':
+                return 'Score';
+            case 'user_confidentialFund':
+                return 'Confidential Fund';
+            case 'user_daysActive':
+                return 'Days active';
+            case 'user_bruhs':
+                return 'Total bruhs';
+            case 'user_inventoryItems':
+                return 'Total inventory items';
+            case 'user_stageCleared':
+                return 'Stage cleared';
+            default:
+                return '';
         }
-        const currOwnedCharsElement = document.createElement('span');
-
-        // Add click event to show character details
-        currOwnedCharsElement.addEventListener('click', () => showCharacterDetails(character));
-
-        const currOwnedCharsImg = document.createElement('img');
-        currOwnedCharsImg.src = character.char_img_src;
-        currOwnedCharsImg.alt = character.char_name;
-
-        const currOwnedCharsNameTextElement = document.createElement('p');
-        currOwnedCharsNameTextElement.textContent = character.char_name;
-
-        currOwnedCharsElement.appendChild(currOwnedCharsImg);
-        currOwnedCharsElement.appendChild(currOwnedCharsNameTextElement);
-        currentRow.appendChild(currOwnedCharsElement);
-        rowCounter++;
-    });
-
-}
-export const showCharacterDetails = (character) => {
-    const profileCharactersDetailsImg = document.getElementById('profileCharactersDetailsImg');
-    const profileCharactersDetailsContents = document.getElementById('profileCharactersDetailsContents');
-    const profileCharactersDetailsPopup = document.getElementById('profileCharactersDetailsPopup');
-    profileCharactersDetailsImg.innerHTML = '';
-    profileCharactersDetailsContents.innerHTML = '';
-    profileCharactersDetailsPopup.style.display = 'block';
-
-    // create img element then append to the div
-    const characterElement = document.createElement('div');
-    const characterImg = document.createElement('img');
-    characterImg.src = character.char_img_src;
-    characterImg.alt = character.char_name;
-
-    const charNameTextElement = document.createElement('p');
-    charNameTextElement.textContent = character.char_name;
-
-    characterElement.appendChild(characterImg);
-    characterElement.appendChild(charNameTextElement);
-    profileCharactersDetailsImg.appendChild(characterElement);
-
-    // create table element for the character details then append to the div
-    const characterDetailTable = document.createElement('table');
-    const orderDetails = ['char_name', 'char_hp', 'char_atk'];
-    // Populate details as rows in the table based on the specified order
-    orderDetails.forEach((detailKey) => {
-        if (character.hasOwnProperty(detailKey)) {
-            const row = document.createElement('tr');
-            const cell1 = document.createElement('td');
-            const cell2 = document.createElement('td');
-            cell1.textContent = detailKey;
-            cell2.textContent = character[detailKey];
-            row.appendChild(cell1);
-            row.appendChild(cell2);
-            characterDetailTable.appendChild(row);
-        }
-    });
-    profileCharactersDetailsContents.appendChild(characterDetailTable);
-}
-
-// graphs
-function drawTotalQuestionsAndCorrectAnswersChart(userData) {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Category');
-    data.addColumn('number', 'Value');
-
-    userData.forEach(user => {
-        data.addRow(['Total Questions Taken', user.userTotalQuestionTaken]);
-        data.addRow(['Total Correct Answers', user.userTotalCorrectAnswer]);
-    });
-
-    const options = {
-        title: 'Total Questions Taken vs Total Correct Answers',
-        chartArea: {width: '50%'},
-        hAxis: {
-            title: 'Value',
-            minValue: 0
-        },
-        vAxis: {
-            title: 'Category'
-        }
-    };
-
-    const chart = new google.visualization.BarChart(document.getElementById('totalQuestionsCorrectAnswersChart'));
-    chart.draw(data, options);
-}
-function drawAnswerRateChart(userData) {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Answer');
-    data.addColumn('number', 'Rate');
-
-    userData.forEach(user => {
-        data.addRow(['Correct Answer Rate', user.userCorrectAnswerRate]);
-        data.addRow(['Wrong Answer Rate', user.userWrongAnswerRate]);
-    });
-
-    const options = {
-        title: 'Correct vs Wrong Answer Rate',
-    };
-
-    const chart = new google.visualization.PieChart(document.getElementById('answerRateChart'));
-    chart.draw(data, options);
-}
-function drawAnswerTimeChart(userData) {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Category');
-    data.addColumn('number', 'Time (ms)');
-
-    userData.forEach(user => {
-        data.addRow(['Total Answer Time', user.userTotalAnswerTime]);
-        data.addRow(['Average Answer Time', user.userAverageAnswerTime]);
-    });
-
-    const options = {
-        title: 'Total Answer Time vs Average Answer Time',
-        chartArea: {width: '50%'},
-        hAxis: {
-            title: 'Time (ms)',
-            minValue: 0
-        },
-        vAxis: {
-            title: 'Category'
-        }
-    };
-
-    const chart = new google.visualization.BarChart(document.getElementById('answerTimeChart'));
-    chart.draw(data, options);
-}
-function drawStageClearedChart(userData) {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'Stage');
-    data.addColumn('number', 'Count');
-
-    const stageCounts = {};
-    userData.forEach(user => {
-        const stage = user.userStageCleared;
-        stageCounts[stage] = (stageCounts[stage] || 0) + 1;
-    });
-
-    for (const stage in stageCounts) {
-        if (stageCounts.hasOwnProperty(stage)) {
-            data.addRow([stage, stageCounts[stage]]);
+    } else if (mode === 'cell2') {
+        switch (detailKey) {
+            case 'user_level':
+                return user.user_stats?.user_level || '0';
+            case 'user_score':
+                return user.user_stats?.user_score || '0';
+            case 'user_confidentialFund':
+                return user.user_stats?.user_confidentialFund || '0';
+            case 'user_daysActive':
+                return user.user_daysActive?.length || '0';
+            case 'user_bruhs':
+                return user.user_bruhs?.length || '0';
+            case 'user_inventoryItems':
+                return user.user_inventoryItems?.length || '0';
+            case 'user_stageCleared':
+                return user.user_stageCleared?.length || '0';
+            default:
+                return user[detailKey] || '';
         }
     }
-
-    const options = {
-        title: 'Stage Cleared',
-        pieHole: 0.4,
-    };
-
-    const chart = new google.visualization.PieChart(document.getElementById('stageClearedChart'));
-    chart.draw(data, options);
 }
 
-
-// edit profile functions
 const editProfile = async () => {
-    const editUserDisplayName = document.getElementById('editUserDisplayName');
-    const displayUserAvatars = document.getElementById('displayUserAvatars');
-    const editProfilePopup = document.getElementById('editProfilePopup');
-    editProfilePopup.style.display = 'block';
-    displayUserAvatars.innerHTML = '';
-    editUserDisplayName.innerHTML = '';
+    const editProfileForm = document.getElementById('editProfileForm');
+    editProfileForm.style.display = 'flex';
 
-    // create h2 element for the title
-    const editProfileAvatarTitle = document.createElement('h2');
-    editProfileAvatarTitle.classList = 'edit-profile-avatar-title';
-    editProfileAvatarTitle.textContent = 'Edit User Display Name';
+    const user = await getCurrentUserFromFirestore();
+    const bruhs_owned = user.user_bruhs;
 
-    // Create the form element
-    const form = document.createElement('form');
-    form.id = 'editUserDisplayNameForm';
-
-    // Create the label element
-    const label = document.createElement('label');
-    label.setAttribute('for', 'newDisplayName');
-    label.textContent = 'New Display Name:';
-
-    // Create the input element
-    const input = document.createElement('input');
-    input.setAttribute('type', 'text');
-    input.id = 'newDisplayName';
-    input.setAttribute('name', 'newDisplayName');
-    input.setAttribute('required', 'true');
-    input.setAttribute('placeholder', 'Enter your new display name...');
-
-    // Append the label, input, and button elements to the form
-    form.appendChild(label);
-    form.appendChild(input);
-
-    // Append the form to the container
-    editUserDisplayName.appendChild(editProfileAvatarTitle);
-    editUserDisplayName.appendChild(form);
-
-
-
-    // display user owned chara to select as their avatar
-    // get instance of the current user data
-    const currUser = await getCurrentUserFromFirestore();
-    // get instance of the owned chars
-    const currEditOwnedChars = currUser[0].userCharacterOwned;
-
-    // append default avatar
     const defaultAvatar = {
-        char_img_src: "https://media.tenor.com/iuoG1q_2oYUAAAAM/shrek-smirk-shrek-horny.gif",
-        char_name: "Default Avatar",
-    };
-    currEditOwnedChars.push(defaultAvatar);
+        bruh_img: "https://media.tenor.com/iuoG1q_2oYUAAAAM/shrek-smirk-shrek-horny.gif",
+        bruh_name: "Default Avatar",
+    }
+    bruhs_owned.push(defaultAvatar);
 
+
+    const availableAvatars = document.getElementById('availableAvatars');
+    availableAvatars.innerHTML = '';
 
     let rowCounter = 0;
     let currentRow;
     let selectedCharacter = null;
     let prevSelectedElement = null;
 
-    currEditOwnedChars.forEach((character) => {
-        if (rowCounter % 5 === 0) {
-            // Create a new row every 5 items
+    bruhs_owned.forEach((character) => {
+        if (rowCounter % 3 === 0) {
+            // Create a new row every 2 items
             currentRow = document.createElement('div');
-            currentRow.className = 'edit-display-owned-chars';
-            displayUserAvatars.appendChild(currentRow);
+            currentRow.className = 'prelude-character-selection-row';
+            availableAvatars.appendChild(currentRow);
         }
-        const currEditOwnedCharsElement = document.createElement('span');
+        const characterElement = document.createElement('span');
 
         // Add click event to show character details
-        currEditOwnedCharsElement.addEventListener('click', function () {
-            // If this character is already selected, deselect it
+        characterElement.addEventListener('click', function () {
             if (selectedCharacter === character) {
-                currEditOwnedCharsElement.style.background = 'rgba(0, 0, 0, 0.7)';
+                characterElement.style.background = 'rgba(0, 0, 0, 0.7)';
                 selectedCharacter = null;
             } else {
                 // Remove selection from the previously selected character, if any
@@ -341,74 +156,86 @@ const editProfile = async () => {
                     prevSelectedElement.style.background = 'rgba(0, 0, 0, 0.7)';
                 }
                 // Add selection to the clicked character
-                currEditOwnedCharsElement.style.background = 'rgba(255, 129, 129, 0.7)';
-                prevSelectedElement = currEditOwnedCharsElement;
+                characterElement.style.background = 'rgba(255, 129, 129, 0.7)';
+                prevSelectedElement = characterElement;
                 selectedCharacter = character;
             }
-            console.log('selectedCharacter: ', selectedCharacter);
         });
 
-        const currOwnedCharsImg = document.createElement('img');
-        currOwnedCharsImg.src = character.char_img_src;
-        currOwnedCharsImg.alt = character.char_name;
+        const characterImg = document.createElement('img');
+        characterImg.src = character.bruh_img;
+        characterImg.alt = character.bruh_name;
 
-        const currOwnedCharsNameTextElement = document.createElement('p');
-        currOwnedCharsNameTextElement.textContent = character.char_name;
+        const charNameTextElement = document.createElement('p');
+        charNameTextElement.textContent = character.bruh_name;
 
-        currEditOwnedCharsElement.appendChild(currOwnedCharsImg);
-        currEditOwnedCharsElement.appendChild(currOwnedCharsNameTextElement);
-        currentRow.appendChild(currEditOwnedCharsElement);
+        characterElement.appendChild(characterImg);
+        characterElement.appendChild(charNameTextElement);
+        currentRow.appendChild(characterElement);
         rowCounter++;
     });
 
+
     // add event listener to update user profile
-    const confirmEditProfileButton = document.getElementById('confirmEditProfileButton');
-    confirmEditProfileButton.addEventListener('click', async function () {
-        if (input.value == '' && selectedCharacter == null){
+    const saveEditProfile = document.getElementById('saveEditProfile');
+    const newDisplayName = document.getElementById('newDisplayName');
+    saveEditProfile.addEventListener('click', async function () {
+        if (newDisplayName.value == '' && selectedCharacter == null){
             // alert('Nothing to edit');
             console.log('Nothing to edit');
+            const editWarningMessage = document.getElementById('editWarningMessage');
+            editWarningMessage.style.display = 'block';
+            editWarningMessage.textContent = 'Nothing to edit';
+
+            setTimeout(() => {
+                editWarningMessage.style.display = 'none';
+            }, 2000);
             // this is holy sheesh i dont know what is happening but 
             // without this condition it becomes buggy as hell
             // i dont quite get it holy sheesh
         }else {
-            console.log('edit display name: ', input.value);
+            console.log('edit display name: ', newDisplayName.value);
             console.log('edit selectedCharacter: ', selectedCharacter);
-            await editUserProfileFirebase(input.value, selectedCharacter);
+            await editUserProfileFirebase(newDisplayName.value, selectedCharacter);
             // remove appended default avatar
-            const indexToRemove = currEditOwnedChars.findIndex(char => char === defaultAvatar);
+            const indexToRemove = bruhs_owned.findIndex(char => char === defaultAvatar);
             if (indexToRemove !== -1) {
-                currEditOwnedChars.splice(indexToRemove, 1);
+                bruhs_owned.splice(indexToRemove, 1);
             }
-            input.value = '';
+            newDisplayName.value = '';
             selectedCharacter = null;
-            closeEditProfilePopup();
-            showProfileContent();
+            editProfileForm.style.display = 'none';
+            showProfilePart1();
         }
     });
-    const cancelEditProfilePopup = document.getElementById('cancelEditProfilePopup');
-    cancelEditProfilePopup.addEventListener('click', function() {
+    const cancelEditProfile = document.getElementById('cancelEditProfile');
+    cancelEditProfile.addEventListener('click', function() {
         // remove appended default avatar
-        const indexToRemove = currEditOwnedChars.findIndex(char => char === defaultAvatar);
+        const indexToRemove = bruhs_owned.findIndex(char => char === defaultAvatar);
         if (indexToRemove !== -1) {
-            currEditOwnedChars.splice(indexToRemove, 1);
+            bruhs_owned.splice(indexToRemove, 1);
         }
+        editProfileForm.style.display = 'none';
     });
 }
+const editProfileBtn = document.getElementById('editProfileBtn');
+editProfileBtn.addEventListener('click', editProfile);
+
 const editUserProfileFirebase = async (inputValue, selectedChar) => {
     // Retrieve the user document from Firestore
     const currentUser = await getCurrentUserFromFirestore();
-    const userRef = doc(db, 'users', currentUser[0].currUser_uid);
+    const userRef = doc(db, 'users', currentUser.currUser_uid);
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
         if(inputValue != '') {
             await updateDoc(userRef, {
-                userDisplayName: inputValue,
+                user_name: inputValue,
             });
             console.log('User Display name Updated successfully: ', inputValue);
         }
         if(selectedChar != null){
             await updateDoc(userRef, {
-                userAvatar: selectedChar.char_img_src,
+                user_avatar: selectedChar.bruh_img,
             });
             console.log('User profile avatar Updated successfully: ', selectedChar.char_img_src);
         }
@@ -416,7 +243,55 @@ const editUserProfileFirebase = async (inputValue, selectedChar) => {
         console.log('User document not found');
     }
 }
-const profileUserAvatarSelection = document.getElementById('profileUserAvatarSelection');
-profileUserAvatarSelection.addEventListener('click', function() {
-    editProfile();
-})
+
+
+
+
+function drawQuestionTakenRateChart(user) {
+    var data = google.visualization.arrayToDataTable([
+        ['Category', 'Value'],
+        ['Bonus Taken', user.user_stats.user_bonusTaken],
+        ['Difficult Questions Answered', user.user_stats.user_difficultQuestionsAnswered],
+        ['Easy Questions Answered', user.user_stats.user_easyQuestionsAnswered]
+    ]);
+
+    var options = {
+        title: 'Question Taken Rate',
+        pieHole: 0.4
+    };
+
+    var chartContainer = document.getElementById('questionTakenRate');
+    chartContainer.style.width = chartContainer.clientHeight + 'px'; // Set width equal to height
+
+    var chart = new google.visualization.PieChart(chartContainer);
+    chart.draw(data, options);
+}
+
+function drawCorrectAnsRateChart(user) {
+    var data = google.visualization.arrayToDataTable([
+        ['Category', 'Value'],
+        ['Correct Answers', user.user_stats.user_correctAnswers],
+        ['Incorrect Answers', user.user_stats.user_incorrectAnswers]
+    ]);
+
+    var options = {
+        title: 'Correct vs Incorrect Answers',
+        legend: { position: 'none' },
+        chart: {
+            subtitle: 'Correct and Incorrect Answers',
+        },
+        hAxis: {
+            title: 'Number of Answers', // Set label for x-axis
+        },
+        vAxis: {
+            title: 'Question', // Set label for y-axis
+        },
+        bar: { groupWidth: "90%" } // Set width of bars
+    };
+
+    var chartContainer = document.getElementById('correctAnsRate');
+    chartContainer.style.width = chartContainer.clientHeight + 'px'; // Set width equal to height
+
+    var chart = new google.visualization.BarChart(chartContainer);
+    chart.draw(data, options);
+}

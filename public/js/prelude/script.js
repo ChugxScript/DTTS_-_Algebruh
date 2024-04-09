@@ -76,12 +76,14 @@ function nextScript(phase) {
                 gigaGuide.style.display = 'block';
                 showPokememe.style.display = 'none';
                 curr_script += 1;
+                console.log(`s.79 | curr_script: ${curr_script}`);
                 scr1.textContent = scripts[curr_script];
                 clickSpam = false;
             }, 3000);
 
         } else if (curr_script == 16) {
             curr_script += 1;
+            console.log(`s.85 | curr_script: ${curr_script}`);
             scr1.textContent = scripts[curr_script];
             clickSpam = true;
 
@@ -94,10 +96,12 @@ function nextScript(phase) {
         } else if (curr_script == 17) {
             const gigaGuide = document.getElementById('gigaGuide');
             gigaGuide.style.display = 'none';
+            clickSpam = true;
         } 
         else {
             scr1.innerText = '';
             curr_script += 1;
+            console.log(`s.102 | curr_script: ${curr_script}`);
             scr1.textContent = scripts[curr_script];
         }
     } else if (phase == 'displayBruhs') {
@@ -108,6 +112,7 @@ function nextScript(phase) {
 
         scr1.style.top = ((divHeight - scr1.offsetHeight) / 4)+ "px";
         curr_script += 1;
+        console.log(`s.113 | curr_script: ${curr_script}`);
         scr1.textContent = scripts[curr_script];
     } else {
         const preludeBattleCanvas = document.getElementById('preludeBattleCanvas');
@@ -118,7 +123,7 @@ function nextScript(phase) {
         console.log(`phase: ${phase}`);
         user_uid = phase;
 
-        curr_script == 19;
+        curr_script = 20;
         scr1.textContent = scripts[curr_script];
         clickSpam = false;
     }

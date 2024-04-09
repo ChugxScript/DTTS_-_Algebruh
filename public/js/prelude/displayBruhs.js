@@ -108,7 +108,7 @@ const appendConfirmPreludeCharacter = async (character) => {
     // Retrieve the user document from Firestore
     console.log(`character: ${character}`);
     const currentUser = await getCurrentUserFromFirestore();
-    const userRef = doc(db, 'sample_user', currentUser.currUser_uid);
+    const userRef = doc(db, 'users', currentUser.currUser_uid);
     const userDoc = await getDoc(userRef);
 
     if (userDoc.exists()) {
@@ -119,7 +119,7 @@ const appendConfirmPreludeCharacter = async (character) => {
         let characterAlreadyOwned = false;
 
         for (const user_bruhs of userData.user_bruhs) {
-            if (user_bruhs.char_uid === character.char_uid) {
+            if (user_bruhs.bruh_uid === character.bruh_uid) {
                 characterAlreadyOwned = true;
                 break;
             }

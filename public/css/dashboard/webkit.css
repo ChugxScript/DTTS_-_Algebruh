@@ -1,0 +1,32 @@
+.profile-container::-webkit-scrollbar,
+.profile-details-2::-webkit-scrollbar,
+.edit-profile-form::-webkit-scrollbar,
+.edit-avatar::-webkit-scrollbar,
+.available-avatars::-webkit-scrollbar,
+.inv-cat-container::-webkit-scrollbar,
+.inv-show-details::-webkit-scrollbar,
+.journey-container::-webkit-scrollbar {
+    width: 20px;
+}
+
+.profile-container::-webkit-scrollbar-track,
+.profile-details-2::-webkit-scrollbar-track,
+.edit-profile-form::-webkit-scrollbar-track,
+.edit-avatar::-webkit-scrollbar-track,
+.available-avatars::-webkit-scrollbar-track,
+.inv-cat-container::-webkit-scrollbar-track,
+.inv-show-details::-webkit-scrollbar-track,
+.journey-container::-webkit-scrollbar-track {
+    background-color: #15ff00;
+}
+
+.profile-container::-webkit-scrollbar-thumb,
+.profile-details-2::-webkit-scrollbar-thumb,
+.edit-profile-form::-webkit-scrollbar-thumb,
+.edit-avatar::-webkit-scrollbar-thumb,
+.available-avatars::-webkit-scrollbar-thumb,
+.inv-cat-container::-webkit-scrollbar-thumb,
+.inv-show-details::-webkit-scrollbar-thumb,
+.journey-container::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}

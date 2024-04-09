@@ -351,6 +351,48 @@ body {
         transform: translate(-50%, -50%) rotate(90deg); 
         border: 1px solid black;
     }
+    .scr-1 {
+        width: 60%;
+        right: 10px;
+        font-size: 10px;
+    }
+    .prelude-bruhs {
+        width: 70%;
+        height: 70%;
+        overflow-y: auto;
+        right: 10px;
+        font-size: 10px;
+    }
+    .prelude-character-selection-row span img {
+        width: 50px;
+        height: 50px;
+    }
+    .bruh-details-popup {
+        width: 70%;
+        height: 70%;
+        overflow-y: auto;
+        right: 10px;
+        font-size: 10px;
+    }
+    .bruh-img img {
+        width: 80px;
+    }
+    .bruh-details-container {
+        overflow-y: auto;
+    }
+    .battle-start-button h1{
+        font-size: 30px;
+    }
+    .battle-start-button p{
+        font-size: 10px;
+    }
+    .enemy-qbox {
+        font-size: 10px;
+    }
+    .user-qbox {
+        font-size: 10px;
+        overflow-y: auto;
+    }
 
     .user-container {
         font-size: 5px;

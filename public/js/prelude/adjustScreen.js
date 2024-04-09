@@ -94,10 +94,10 @@ function setContent() {
 
     } else {
         // script
-        scr1.style.width = "600px";
-        scr1.style.height = "90%";
-        scr1.style.left = (divWidth - (scr1.offsetWidth + 50))+ "px";
-        scr1.style.top = ((divHeight - scr1.offsetHeight) / 2)+ "px";
+        scr1.style.top = ((divHeight - scr1.offsetHeight) / 4)+ "px";
+        preludeBruhs.style.top = (scr1.offsetHeight + 10)+ "px";
+        bruhDetailsPopup.style.top = (scr1.offsetHeight + 10)+ "px";
+        scr2.style.top = ((divHeight - scr1.offsetHeight) / 2)+ "px";
     }
 }
 

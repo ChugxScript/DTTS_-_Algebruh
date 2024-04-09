@@ -1,135 +1,89 @@
-const dashboardGB = 'https://media1.tenor.com/m/zKedQzm-07MAAAAd/sword.gif';
+let divWidth = 0;
+let divHeight = 0;
 
-function init () {
-    const mainContent = document.getElementById('mainContent');
-    const profileContentContainer = document.getElementById('profileContentContainer');
-    const editProfilePopup = document.getElementById('editProfilePopup');
-    const profileCharactersDetailsPopup = document.getElementById('profileCharactersDetailsPopup');
-    const inventoryContentContainer = document.getElementById('inventoryContentContainer');
-    const inventoryItemDetailsPopup = document.getElementById('inventoryItemDetailsPopup');
-    const journeyContentContainer = document.getElementById('journeyContentContainer');
-    const journeyContentContainerConfirmation = document.getElementById('journeyContentContainerConfirmation');
-    const journeyContentContainerConfirmLocked = document.getElementById('journeyContentContainerConfirmLocked');
-    const shopContentContainer = document.getElementById('shopContentContainer');
-    const shopCharDetailsPopup = document.getElementById('shopCharDetailsPopup');
-    const shopCharConfirmationPopup = document.getElementById('shopCharConfirmationPopup');
-    const shopCharSuccessPopup = document.getElementById('shopCharSuccessPopup');
-    const shopCharNotEnoughFundsPopup = document.getElementById('shopCharNotEnoughFundsPopup');
-    const shopCharAlreadyOwnedPopup = document.getElementById('shopCharAlreadyOwnedPopup');
-    const shopItemDetailsPopup = document.getElementById('shopItemDetailsPopup');
-    const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
-    const shopSuccessPopup = document.getElementById('shopSuccessPopup');
-    const shopNotEnoughFundsPopup = document.getElementById('shopNotEnoughFundsPopup');
-    const settingsContentContainer = document.getElementById('settingsContentContainer');
+function handleOrientationChange() {
+    if (isLandscape()) {
+        divWidth = window.innerWidth;
+        divHeight = window.innerHeight;
+        currOrientation = 1; 
+        setContent();
+        console.log("Device is now in landscape orientation");
+    } else if (isPortrait()) {
+        divWidth = window.innerHeight;
+        divHeight = window.innerWidth;
+        currOrientation = 2;
+        setContent();
+        console.log("Device is now in portrait orientation");
+    } else {
+        currOrientation = 0;
+        console.log("Orientation not detected or not supported");
+    }
+}
+
+function isLandscape() {
+    return window.matchMedia("(orientation: landscape)").matches;
+}
+function isPortrait() {
+    return window.matchMedia("(orientation: portrait)").matches;
+}
+
+function setContent() {
+    const dashboardCanvas = document.getElementById("dashboardCanvas");
+
+
+    dashboardCanvas.style.width = divWidth + "px";
+    dashboardCanvas.style.height = divHeight + "px";
     
-    profileContentContainer.style.display = 'none';
-    editProfilePopup.style.display = 'none';
-    profileCharactersDetailsPopup.style.display = 'none';
-    inventoryContentContainer.style.display = 'none';
-    inventoryItemDetailsPopup.style.display = 'none';
-    journeyContentContainer.style.display = 'none';
-    journeyContentContainerConfirmation.style.display = 'none';
-    journeyContentContainerConfirmLocked.style.display = 'none';
-    shopContentContainer.style.display = 'none';
-    shopCharDetailsPopup.style.display = 'none';
-    shopCharConfirmationPopup.style.display = 'none';
-    shopCharSuccessPopup.style.display = 'none';
-    shopCharNotEnoughFundsPopup.style.display = 'none';
-    shopCharAlreadyOwnedPopup.style.display = 'none';
-    shopItemDetailsPopup.style.display = 'none';
-    shopConfirmationPopup.style.display = 'none';
-    shopSuccessPopup.style.display = 'none';
-    shopNotEnoughFundsPopup.style.display = 'none';
-    settingsContentContainer.style.display = 'none';
+    if (currOrientation == 1) {
+        
 
-    // main background
-    mainContent.style.backgroundImage = `url(${dashboardGB})`;
-    mainContent.style.backgroundRepeat = 'no-repeat';
-    mainContent.style.backgroundSize = 'cover';
-    mainContent.style.backgroundPosition = 'center';
-}
-document.addEventListener("DOMContentLoaded", function() {
-    init();
-});
-
-// profile
-function profileContent() {
-    const profileContentContainer = document.getElementById('profileContentContainer');
-    profileContentContainer.style.display = 'block';
-}
-function closeProfileCharactersDetailsPopup() {
-    const profileCharactersDetailsPopup = document.getElementById('profileCharactersDetailsPopup');
-    profileCharactersDetailsPopup.style.display = 'none';
-}
-function showEditProfilePopup() {
-    const editProfilePopup = document.getElementById('editProfilePopup');
-    editProfilePopup.style.display = 'block';
-}
-function closeEditProfilePopup() {
-    const editProfilePopup = document.getElementById('editProfilePopup');
-    editProfilePopup.style.display = 'none';
+    } else {
+        
+    }
 }
 
-// inventory
-function closeInvItemDetailsPopup() {
-    const inventoryItemDetailsPopup = document.getElementById('inventoryItemDetailsPopup');
-    inventoryItemDetailsPopup.style.display = 'none';
-}
+// Resize canvas initially when the page loads or window resize event
+window.onload = handleOrientationChange;
+window.addEventListener('resize', handleOrientationChange);
 
-// journey
-function closeJourneyContentContainerConfirmation() {
-    const journeyContentContainerConfirmation = document.getElementById('journeyContentContainerConfirmation');
-    journeyContentContainerConfirmation.style.display = 'none';
-}
-function closeJourneyContentContainerConfirmLocked() {
-    const journeyContentContainerConfirmLocked = document.getElementById('journeyContentContainerConfirmLocked');
-    journeyContentContainerConfirmLocked.style.display = 'none';
-}
+// Call handleOrientationChange() on window load and orientation change
+window.addEventListener("load", handleOrientationChange);
+window.addEventListener("orientationchange", handleOrientationChange);
 
-// shop
-function closeShopCharDetailsPopup() {
-    const shopCharDetailsPopup = document.getElementById('shopCharDetailsPopup');
-    shopCharDetailsPopup.style.display = 'none';
+
+function closeProfileContainer() {
+    const profileContainer = document.getElementById('profileContainer');
+    profileContainer.style.display = 'none';
 }
-function closeShopCharConfirmationPopup() {
-    const shopCharConfirmationPopup = document.getElementById('shopCharConfirmationPopup');
-    shopCharConfirmationPopup.style.display = 'none';
+function closeEditProfileForm() {
+    const editProfileForm = document.getElementById('editProfileForm');
+    editProfileForm.style.display = 'none';
 }
-function closeShopCharSuccessPopup() {
-    const shopCharSuccessPopup = document.getElementById('shopCharSuccessPopup');
-    shopCharSuccessPopup.style.display = 'none';
-    const shopCharConfirmationPopup = document.getElementById('shopCharConfirmationPopup');
-    shopCharConfirmationPopup.style.display = 'none';
+function closeInventoryContainer() {
+    const inventoryContainer = document.getElementById('inventoryContainer');
+    inventoryContainer.style.display = 'none';
 }
-function closeShopCharNotEnoughFundsPopup() {
-    const shopCharNotEnoughFundsPopup = document.getElementById('shopCharNotEnoughFundsPopup');
-    shopCharNotEnoughFundsPopup.style.display = 'none';
-    const shopCharConfirmationPopup = document.getElementById('shopCharConfirmationPopup');
-    shopCharConfirmationPopup.style.display = 'none';
+function closeInvShowDetails() {
+    const invShowDetails = document.getElementById('invShowDetails');
+    invShowDetails.style.display = 'none';
 }
-function closeShopCharAlreadyOwnedPopup() {
-    const shopCharAlreadyOwnedPopup = document.getElementById('shopCharAlreadyOwnedPopup');
-    shopCharAlreadyOwnedPopup.style.display = 'none';
-    const shopCharConfirmationPopup = document.getElementById('shopCharConfirmationPopup');
-    shopCharConfirmationPopup.style.display = 'none';
+function closeJourneyContainer() {
+    const journeyContainer = document.getElementById('journeyContainer');
+    journeyContainer.style.display = 'none';
 }
-function closeShopItemDetailsPopup() {
-    const shopItemDetailsPopup = document.getElementById('shopItemDetailsPopup');
-    shopItemDetailsPopup.style.display = 'none';
+function closeShopContainer() {
+    const shopContainer = document.getElementById('shopContainer');
+    shopContainer.style.display = 'none';
 }
-function closeShopConfirmationPopup() {
-    const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
-    shopConfirmationPopup.style.display = 'none';
+function closeShopShowDetails() {
+    const shopShowDetails = document.getElementById('shopShowDetails');
+    shopShowDetails.style.display = 'none';
 }
-function closeShopSuccessPopup() {
-    const shopSuccessPopup = document.getElementById('shopSuccessPopup');
-    shopSuccessPopup.style.display = 'none';
-    const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
-    shopConfirmationPopup.style.display = 'none';
+function closeAreYouSure() {
+    const areYouSure = document.getElementById('areYouSure');
+    areYouSure.style.display = 'none';
 }
-function closeShopNotEnoughFundsPopup() {
-    const shopNotEnoughFundsPopup = document.getElementById('shopNotEnoughFundsPopup');
-    shopNotEnoughFundsPopup.style.display = 'none';
-    const shopConfirmationPopup = document.getElementById('shopConfirmationPopup');
-    shopConfirmationPopup.style.display = 'none';
+function closeSettingsContainer() {
+    const settingsContainer = document.getElementById('settingsContainer');
+    settingsContainer.style.display = 'none';
 }

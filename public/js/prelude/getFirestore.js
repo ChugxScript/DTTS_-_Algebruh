@@ -27,72 +27,55 @@ const queryParams = new URLSearchParams(window.location.search);
 const queryParamsUID = queryParams.get('uid');
 console.log('queryParams User UID:', queryParamsUID);
 
-// Retrieve Data from Firestore Functions
-
 // Current User
 export const getCurrentUserFromFirestore = async () => {
     const usersCollection = collection(db, 'users');
     const usersSnapshot = await getDocs(usersCollection);
-    const users = [];
+    let user = null;
 
     usersSnapshot.forEach((doc) => {
         // get the current user data from firebase firestore
         if (doc.id == queryParamsUID) {
             const currUserData = doc.data();
             const currUser_uid = doc.id;
-            users.push({ currUser_uid, ...currUserData });
+            user = { currUser_uid, ...currUserData };
         }
     });
-    console.log('getCurrentUserFromFirestore: ', users);
-    return users;
+    console.log('getCurrentUserFromFirestore: ', user);
+    console.log(`user.currUser_uid ${user.currUser_uid}`);
+    return user;
 };
+// getCurrentUserFromFirestore();
 
-
-// prelude characters
+// characters
 export const getCharactersFromFirestore = async () => {
-    const charactersDocRef = doc(db, 'characters', 'prelude-chars');
-    const charactersDocSnapshot = await getDoc(charactersDocRef);
+    const charactersCollectionRef = collection(db, 'bruhs');
+    const charactersQuerySnapshot = await getDocs(charactersCollectionRef);
 
-    if (charactersDocSnapshot.exists()) {
-        const charactersData = charactersDocSnapshot.data();
-        const characters = [];
+    const characters = [];
 
-        // Iterate over each character in the document
-        Object.entries(charactersData).forEach(([char_uid, charData]) => {
-            characters.push({ char_uid, ...charData }); // Push character data along with its ID to the array
-        });
+    charactersQuerySnapshot.forEach((doc) => {
+        characters.push({ bruh_uid: doc.id, ...doc.data() });
+    });
 
-        console.log('Characters from Firestore:', characters);
-        return characters;
-    } else {
-        console.log('Document "prelude-chars" does not exist');
-        return []; // Return an empty array if the document doesn't exist
-    }
+    console.log('Characters from Firestore:', characters);
+    return characters;
 };
-
 
 // Enemies
 export const getEnemyFromFirestore = async () => {
-    const enemyDocRef = doc(db, 'enemy', 'prelude-enemy');
-    const enemyDocSnapshot = await getDoc(enemyDocRef);
+    const enemyDocRef = collection(db, 'pokememes');
+    const enemyDocSnapshot = await getDocs(enemyDocRef);
 
-    if (enemyDocSnapshot.exists()) {
-        const enemyData = enemyDocSnapshot.data();
-        const enemy = [];
+    const enemy = [];
 
-        // Iterate over each character in the document
-        Object.entries(enemyData).forEach(([enemy_uid, enemyData]) => {
-            enemy.push({ enemy_uid, ...enemyData }); // Push character data along with its ID to the array
-        });
+    enemyDocSnapshot.forEach((doc) => {
+        enemy.push({ enemy_uid: doc.id, ...doc.data() });
+    });
 
-        console.log('enemy from Firestore:', enemy);
-        return enemy;
-    } else {
-        console.log('Document "prelude-chars" does not exist');
-        return []; // Return an empty array if the document doesn't exist
-    }
+    console.log('enemy from Firestore:', enemy);
+    return enemy;
 };
-
 
 // Prelude Questions
 export const getPreludeEasyQuestionsFromFirestore = async () => {
@@ -124,6 +107,22 @@ export const getPreludeDifficultQuestionsFromFirestore = async () => {
         return preludeDifficultQuestions;
     } else {
         console.log('[error] getPreludeDifficultQuestionsFromFirestore: ', console.error);
+        return null;
+    }
+};
+export const getPreludeBonusFromFirestore = async () => {
+    // fetch preludeDifficultQuestions from Firestore
+    const preludeBonusRef = doc(db, 'stageQuestions', 'preludeQuestions');
+    const preludeBonusSnap = await getDoc(preludeBonusRef);
+    let preludeBonus = [];
+    
+    if (preludeBonusSnap.exists()) {
+        // get specific field in firestore
+        preludeBonus = preludeBonusSnap.data().bonus;
+        console.log('getPreludeBonusFromFirestore: ', preludeBonus);
+        return preludeBonus;
+    } else {
+        console.log('[error] getPreludeBonusFromFirestore: ', console.error);
         return null;
     }
 };

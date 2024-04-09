@@ -3,92 +3,84 @@ import {
     getCurrentUserFromFirestore,
     getEnemyFromFirestore,
     getPreludeEasyQuestionsFromFirestore,
-    getPreludeDifficultQuestionsFromFirestore
+    getPreludeDifficultQuestionsFromFirestore,
+    getPreludeBonusFromFirestore
 } from "./getFirestore.js"
 import { 
     getDoc,
     doc, 
     updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
-const reviveScripts = [
-    {
-        texts: [
-            "Grabe ka naman! ",
-            "Prelude palang patay ka na agad! ",
-            "Revive! ",
-            "Revive! Revive! ",
-            "Revive! Revive! Revive! ",
-        ],
-        imageSrc:'https://cdn.discordapp.com/attachments/1200058397236666378/1208355486248865792/simplier-textbox_-_Copy.png?ex=65e2fbbe&is=65d086be&hm=f8db87a45bc3b9327e8663ce823731a6d133a2899c6b7b3fcba493251f6ab4dd&',
-    },
-];
+import {
+    simulateDTTS,
+    getNextQuestion,
+    getNextBonus,
+    getFeedback
+}from "./dtts.js"
 
 
-// Function to display prelude enemy on the page
-const displayPreludeEnemyBattle = (enemies) => {
-    const unknownPokeminImg = document.getElementById('unknownPokeminImg');
-    const unknownPokeminDetails = document.getElementById('unknownPokeminDetails');
-    unknownPokeminImg.innerHTML = '';
-    unknownPokeminDetails.innerHTML = '';
+const displayPreludeEnemyBattle = (enemy) => {
+    const enemyIMG = document.getElementById('enemyIMG');
+    const enemyStats = document.getElementById('enemyStats');
+    enemyIMG.innerHTML = '';
+    enemyStats.innerHTML = '';
 
     // get only the desired enemy
-    enemies.forEach((enemy) => {
-        if (enemy.enemy_name == 'ni-bruh'){
-            unknownPokeminImg.src = enemy.enemy_img_src;
-
-            // create table element for the enemy details then append to the div
-            const enemyDetailTable = document.createElement('table');
-            const orderDetails = ['enemy_name', 'enemy_hp', 'enemy_atk'];
-            let enemy_hp = 'hp';
-            let enemy_atk = 'atk';
+    // enemies.forEach((enemy) => {
+    //     if (enemy.enememe_name == 'ni-bruh'){
+    //         // enemyIMG_element = document.createElement('img');
+    //         // enemyIMG_element.src = enemy.enememe_img;
             
-            // Add the first row with merged cells
-            const firstRow = document.createElement('tr');
-            const cell = document.createElement('td');
-            cell.textContent = enemy[orderDetails[0]]; // Use the first detailKey
-            cell.setAttribute('colspan', '2'); // Merge two cells
-            firstRow.appendChild(cell);
-            enemyDetailTable.appendChild(firstRow);
+    //     }
+    // })
 
-            // Add the remaining rows with two columns containing detailKey and enemy[detailKey]
-            for (let i = 1; i < orderDetails.length; i++) {
-                const row = document.createElement('tr');
-                const cell1 = document.createElement('td');
-                const cell2 = document.createElement('td');
+    enemyIMG.src = enemy.enememe_img;
+    // create table element for the enemy details then append to the div
+    const enemyDetailTable = document.createElement('table');
+    const orderDetails = ['enememe_name', 'enememe_hp', 'enememe_atk'];
+    
+    // Add the first row with merged cells
+    const firstRow = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.textContent = enemy[orderDetails[0]]; // Use the first detailKey
+    cell.setAttribute('colspan', '2'); // Merge two cells
+    firstRow.appendChild(cell);
+    enemyDetailTable.appendChild(firstRow);
 
-                if (orderDetails[i] == 'enemy_hp') {
-                    cell1.textContent = enemy_hp;
-                } else if (orderDetails[i] == 'enemy_atk') {
-                    cell1.textContent = enemy_atk;
-                }
-                cell2.textContent = enemy[orderDetails[i]];
+    // Add the remaining rows with two columns containing detailKey and enemy[detailKey]
+    for (let i = 1; i < orderDetails.length; i++) {
+        const row = document.createElement('tr');
+        const cell1 = document.createElement('td');
+        const cell2 = document.createElement('td');
 
-                row.appendChild(cell1);
-                row.appendChild(cell2);
-                enemyDetailTable.appendChild(row);
-            }
-            unknownPokeminDetails.appendChild(enemyDetailTable);
+        if (orderDetails[i] == 'enememe_hp') {
+            cell1.textContent = 'HP';
+        } else if (orderDetails[i] == 'enememe_atk') {
+            cell1.textContent = 'ATK';
         }
-    })
+        cell2.textContent = enemy[orderDetails[i]];
+
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        enemyDetailTable.appendChild(row);
+    }
+    enemyStats.appendChild(enemyDetailTable);
 }
 
-
-// display prelude selected character of the user
 const displayPreludeSelectedCharacter = (currUser) => {
-    const preludeUserSelectedCharacter = document.getElementById('preludeUserSelectedCharacter');
-    const preludeUserCharacterDetails = document.getElementById('preludeUserCharacterDetails');
-    preludeUserSelectedCharacter.innerHTML = '';
-    preludeUserCharacterDetails.innerHTML = '';
+    console.log(`currUser: ${currUser}`);
+    const userIMG = document.getElementById('userIMG');
+    const userStats = document.getElementById('userStats');
+    userIMG.innerHTML = '';
+    userStats.innerHTML = '';
 
     // get the characters owned by the user then display it to battle
-    const preludeSelectedCharacter = currUser[0].userCharacterOwned[0];
-    preludeUserSelectedCharacter.src = preludeSelectedCharacter.char_img_src;
+    const preludeSelectedCharacter = currUser.user_bruhs[0];
+    userIMG.src = preludeSelectedCharacter.bruh_img;
 
     // create table element for the selectedCharacter details then append to the div
     const selectedCharacterDetailTable = document.createElement('table');
-    const orderDetails = ['char_name', 'char_hp', 'char_atk'];
-    let selectedCharacter_hp = 'hp';
-    let selectedCharacter_atk = 'atk';
+    const orderDetails = ['bruh_name', 'bruh_hp', 'bruh_atk'];
     
     // Add the first row with merged cells
     const firstRow = document.createElement('tr');
@@ -104,10 +96,10 @@ const displayPreludeSelectedCharacter = (currUser) => {
         const cell1 = document.createElement('td');
         const cell2 = document.createElement('td');
 
-        if (orderDetails[i] == 'char_hp') {
-            cell1.textContent = selectedCharacter_hp;
-        } else if (orderDetails[i] == 'char_atk') {
-            cell1.textContent = selectedCharacter_atk;
+        if (orderDetails[i] == 'bruh_hp') {
+            cell1.textContent = 'HP';
+        } else if (orderDetails[i] == 'bruh_atk') {
+            cell1.textContent = 'ATK';
         }
         cell2.textContent = preludeSelectedCharacter[orderDetails[i]];
 
@@ -115,57 +107,96 @@ const displayPreludeSelectedCharacter = (currUser) => {
         row.appendChild(cell2);
         selectedCharacterDetailTable.appendChild(row);
     }
-    preludeUserCharacterDetails.appendChild(selectedCharacterDetailTable);
+    userStats.appendChild(selectedCharacterDetailTable);
 }
 
 
-// simple implementation of DTTS algorithm in javascript
-// why simple? i dunnow cus were using javascript so there are some other factors
-// that the javascript cant handle and the devs cant implement as of the moment
-// char tinatamad lang talaga ko HAHAHAHAHAHA
-
-// Function to simulate DTTS algorithm
 const decisionTreeThompsonSampling = async () => {
-    const unknownPokeminTextBoxQuestion = document.getElementById('unknownPokeminTextBoxQuestion');
-    const preludeUserSkillOptions = document.getElementById('preludeUserSkillOptions');
-    const preludeUserStageScore = document.getElementById('preludeUserStageScore');
-    unknownPokeminTextBoxQuestion.innerHTML = '';
-    preludeUserSkillOptions.innerHTML = '';
-    preludeUserStageScore.innerHTML = '';
+    const preludeBattleCanvas = document.getElementById('preludeBattleCanvas');
+    const enemyQbox = document.getElementById('enemyQbox');
+    const userQbox = document.getElementById('userQbox');
+    enemyQbox.innerHTML = '';
+    userQbox.innerHTML = '';
+    preludeBattleCanvas.style.display = 'block';
 
     const currentUser = await getCurrentUserFromFirestore();
     const enemy = await getEnemyFromFirestore();
-    displayPreludeSelectedCharacter(currentUser);
-    displayPreludeEnemyBattle(enemy);
-
+    
     // get instance of enemy and userChar details
-    let currEnemy = enemy;
+    let currEnemy;
     let userChar = currentUser;
-    let startTime = 0;
-    let endTime = 0;
     let timeDifference = 0;
     let scriptRunning = false;
+    let immuneDMG = false;
+    let origATK = 0;
+    let prevLevel = '';
+    let isCorrect = false;
+    let isDisplayWarning = false;
+    let clickSpam2 = false;
+    let clickSpam3 = false;
+    let reviveIndex = -1;
+    let reviveLen = revive_scripts.length;
+
+    enemy.forEach((enemies) => {
+        if (enemies.enememe_name == 'ni-bruh') {
+            currEnemy = enemies;
+        }
+    })
+
+    displayPreludeSelectedCharacter(currentUser);
+    displayPreludeEnemyBattle(currEnemy);
 
     // get instances of questions
     const easyQuestions = await getPreludeEasyQuestionsFromFirestore();
     const difficultQuestions = await getPreludeDifficultQuestionsFromFirestore();
+    const bonus = await getPreludeBonusFromFirestore();
+
+    const checkReturnPrompt = (prompt) => {
+        if (prompt == 'easy') {
+            prevLevel = prompt;
+            displayQuestion(getNextQuestion(easyQuestions));
+        } else if (prompt == 'difficult') {
+            prevLevel = prompt;
+            displayQuestion(getNextQuestion(difficultQuestions));
+        } else if (prompt == 'bonus') {
+            displayBonus(getNextBonus(bonus));
+        } else if (prompt == 'warning') {
+            displayWarning();
+        } else {
+            console.log('[error] simulateDTTS: Invalid difficulty level');
+        }
+    }
 
     const displayQuestion = (question) => {
-        unknownPokeminTextBoxQuestion.textContent = question.question;
-        preludeUserStageScore.textContent = userChar[0].userScore;
-        preludeUserSkillOptions.innerHTML = '';
-        startTime = new Date().getTime() / 1000;
-        displayFeedbackScriptFunction(0);
+        enemyQbox.innerHTML = '';
+        const enemyQues = document.createElement('p');
+        enemyQues.textContent = question.question;
+        enemyQbox.appendChild(enemyQues);
 
-        question.choices.forEach((choice) => {
+        userQbox.innerHTML = '';
+        answerStartTime = 0;
+        answerEndTime = 0;
+        startAnswerTimer();
+        let currentRow;
+
+        question.choices.forEach((choice, index) => {
+            if (index % 2 === 0) {
+                // Create a new row every 2 items
+                currentRow = document.createElement('div');
+                currentRow.className = 'user-qbox-selection-row';
+                userQbox.appendChild(currentRow);
+            }
             const choiceSpan = document.createElement('span');
-            choiceSpan.textContent = choice;
             
             choiceSpan.addEventListener('click', () => {
                 handleUserChoice(choice, question, currEnemy, userChar);
             });
 
-            preludeUserSkillOptions.appendChild(choiceSpan);
+            const choiceSpanText = document.createElement('p');
+            choiceSpanText.textContent = choice;
+
+            choiceSpan.appendChild(choiceSpanText);
+            currentRow.appendChild(choiceSpan);
         });
     };
 
@@ -177,254 +208,300 @@ const decisionTreeThompsonSampling = async () => {
         console.log(`You clicked on choice: ${choice}`);
         let correctAnswerChecker = 0;
         let wrongAnswerChecker = 0;
-        endTime = new Date().getTime() / 1000;
-        timeDifference = endTime - startTime;
+        timeDifference = stopAnswerTimer();
 
         if (choice === question.answer) {
             correctAnswerChecker = 1;
             wrongAnswerChecker = 0;
-            currEnemy[0].enemy_hp -= userChar[0].userCharacterOwned[0].char_atk;
-            displayFeedbackScriptFunction(1);
+            isCorrect = true;
+            currEnemy.enememe_hp -= userChar.user_bruhs[0].bruh_atk;
+            
+            if (origATK != 0) {
+                userChar.user_bruhs[0].bruh_atk = origATK;
+                origATK = 0;
+            }
+
+            const prompt1 = document.getElementById('prompt1');
+            prompt1.style.display = 'flex';
+            prompt1.style.border = '5px solid green';
+            prompt1.style.color = 'green';
+            prompt1.innerHTML = '';
+            prompt1.textContent = 'CORRRRRECT!';
+            setTimeout(() => {
+                prompt1.style.display = 'none';
+            }, 1000);
+
         } else {
             correctAnswerChecker = 0;
             wrongAnswerChecker = 1;
-            userChar[0].userCharacterOwned[0].char_hp -= currEnemy[0].enemy_atk;
-            displayFeedbackScriptFunction(2);
+            isCorrect = false;
+
+            if (!immuneDMG) {
+                userChar.user_bruhs[0].bruh_hp -= currEnemy.enememe_atk;
+            } else {
+                immuneDMG = false;
+            }
+
+            const prompt1 = document.getElementById('prompt1');
+            prompt1.style.display = 'flex';
+            prompt1.style.border = '5px solid red';
+            prompt1.style.color = 'red';
+            prompt1.innerHTML = '';
+            prompt1.textContent = 'NOPE!';
+            setTimeout(() => {
+                prompt1.style.display = 'none';
+            }, 1000);
         }
 
-        await updateUserData(userChar, timeDifference, correctAnswerChecker, wrongAnswerChecker);
+        console.log(`userChar ${JSON.stringify(userChar)}`);
+        console.log(`timeDifference ${timeDifference}`);
+        console.log(`correctAnswerChecker ${correctAnswerChecker}`);
+        console.log(`wrongAnswerChecker ${wrongAnswerChecker}`);
+        console.log(`prevLevel ${prevLevel}`);
+        await updateUserData(userChar, timeDifference, correctAnswerChecker, wrongAnswerChecker, prevLevel, 'question');
         displayPreludeEnemyBattle(currEnemy);
         displayPreludeSelectedCharacter(userChar);
 
-        if (userChar[0].userCharacterOwned[0].char_hp <= 0) {
+        if (userChar.user_bruhs[0].bruh_hp <= 0) {
             scriptRunning = true;
-            displayReviveScript(() => {
-                // Reset the flag once the script is done
-                scriptRunning = false;
-                userChar[0].userCharacterOwned[0].char_hp = 10;
-                displayPreludeSelectedCharacter(userChar);
-                console.log('script is finished');
-            });
-        } else if (currEnemy[0].enemy_hp <= 0) {
+            displayReviveScript();
+        } else if (currEnemy.enememe_hp <= 0) {
             await updateUserDataStageCleared(userChar, 'prelude');
-            nextScene();
+            nextScript(userChar.currUser_uid);
         }
         nextQuestion();
     };
 
+    const displayBonus = (currBonus) => {
+        enemyQbox.innerHTML = '';
+        const enemyQues = document.createElement('p');
+        enemyQues.textContent = 'GET SOME HANDICUF WEAKLING!';
+        enemyQbox.appendChild(enemyQues);
+
+        userQbox.innerHTML = '';
+        let currentRow;
+        currBonus.forEach((bns, index) => {
+            if (index % 2 === 0) {
+                // Create a new row every 2 items
+                currentRow = document.createElement('div');
+                currentRow.className = 'user-qbox-selection-row';
+                userQbox.appendChild(currentRow);
+            }
+            const choiceSpan = document.createElement('span');
+            
+            choiceSpan.addEventListener('click', () => {
+                handleUserBonus(bns, userChar);
+            });
+
+            const choiceSpanText = document.createElement('p');
+            choiceSpanText.textContent = bns;
+
+            choiceSpan.appendChild(choiceSpanText);
+            currentRow.appendChild(choiceSpan);
+        })
+    }
+
+    const handleUserBonus = async (bns, userChar) => {
+        console.log(`You clicked on bonus: ${bns}`);
+
+        if (bns.startsWith("HP")) {
+            // Increase player character's HP
+            userChar.user_bruhs[0].bruh_hp += parseInt(bns.split(" ")[2]);
+        } else if (bns.startsWith("ATK")) {
+            // Increase player character's attack power
+            origATK = userChar.user_bruhs[0].bruh_atk;
+            userChar.user_bruhs[0].bruh_atk += parseInt(bns.split(" ")[2]);
+        } else if (bns.startsWith("If answer is wrong")) {
+            // Apply immunity to damage from incorrect answers
+            immuneDMG = true;
+        }
+
+        await updateUserData(userChar, 0, 0, 0, prevLevel, 'bonus');
+        displayPreludeEnemyBattle(currEnemy);
+        displayPreludeSelectedCharacter(userChar);
+        checkReturnPrompt(simulateDTTS(userChar, 'bonus'));
+    }
+
+    const displayWarning = () => {
+        const gigaGuide2 = document.getElementById('gigaGuide2');
+        const scr2 = document.getElementById('scr2');
+
+        gigaGuide2.style.display = 'block';
+        scr2.style.display = 'block';
+        gigaGuide2.classList.add('bring-top');
+        scr2.classList.add('bring-top');
+        getFeedback(scr2, prevLevel, timeDifference, isCorrect);
+        isDisplayWarning = true;
+        // document, difficulty level, time, isCorrect
+        // src2, prevLevel, timeDifference, isCorrect
+
+        document.addEventListener('click', () => {
+            if (isDisplayWarning) {
+                gigaGuide2.style.display = 'none';
+                scr2.style.display = 'none';
+                gigaGuide2.classList.remove('bring-top');
+                scr2.classList.remove('bring-top');
+                isDisplayWarning = false;
+                checkReturnPrompt(simulateDTTS(userChar, 'warning'));
+            }
+        });
+    }
+
+    const displayFirstScript = () => {
+        const gigaGuide2 = document.getElementById('gigaGuide2');
+        const scr2 = document.getElementById('scr2');
+    
+        gigaGuide2.style.display = 'block';
+        scr2.style.display = 'block';
+        gigaGuide2.classList.add('bring-top');
+        scr2.classList.add('bring-top');
+    
+        clickSpam2 = true;
+
+        document.addEventListener('click', () => {
+            if (clickSpam2) {
+                if (curr_script < 19) {
+                    curr_script += 1;
+                    console.log(`displayFirstScript | curr_script: ${curr_script}`);
+                    scr2.textContent = scripts[curr_script];
+                    // displayFirstScript();
+                } else {
+                    // hide content
+                    gigaGuide2.style.display = 'none';
+                    scr2.style.display = 'none';
+                    gigaGuide2.classList.remove('bring-top');
+                    scr2.classList.remove('bring-top');
+                    clickSpam2 = false;
+                    checkReturnPrompt(simulateDTTS(userChar, 'bonus'));
+                }
+            }
+        });
+    }
+
+    const displayReviveScript = async () => {
+        const gigaGuide2 = document.getElementById('gigaGuide2');
+        const scr2 = document.getElementById('scr2');
+
+        gigaGuide2.style.display = 'block';
+        scr2.style.display = 'block';
+        gigaGuide2.classList.add('bring-top');
+        scr2.classList.add('bring-top');
+
+        clickSpam3 = true;
+
+        document.addEventListener('click', () => {
+            if (clickSpam3) {
+                if (reviveIndex <= reviveLen) {
+                    reviveIndex += 1;
+                    scr2.textContent = revive_scripts[reviveIndex];
+                    displayReviveScript();
+                } else {
+                    // hide content
+                    gigaGuide2.style.display = 'none';
+                    scr2.style.display = 'none';
+                    gigaGuide2.classList.remove('bring-top');
+                    scr2.classList.remove('bring-top');
+
+                    scriptRunning = false;
+                    clickSpam3 = false;
+                    reviveIndex = -1;
+                    userChar.user_bruhs[0].bruh_hp = 10;
+                    displayPreludeSelectedCharacter(userChar);
+                    console.log('script is finished');
+                }
+            }
+        });
+        
+    }
+
     const nextQuestion = () => {
-        startTime = 0;
-        endTime = 0;
-        displayQuestion(simulateDTTS(userChar, easyQuestions, difficultQuestions));
+        checkReturnPrompt(simulateDTTS(userChar, 'all'));
     };
 
     // Start with the first question
-    displayQuestion(simulateDTTS(userChar, easyQuestions, difficultQuestions));
+    // checkReturnPrompt(simulateDTTS(userChar, 'bonus'));
+    displayFirstScript();
 };
 
 
-const simulateDTTS = (currUser, easyQuestions, difficultQuestions) => {
-    // Calculate weights based on user attributes
-    const easyWeight = calculateWeight(currUser, 'easy');
-    const difficultWeight = calculateWeight(currUser, 'difficult');
 
-    // Randomly choose a difficulty level based on weights
-    const difficultyLevels = ['easy', 'difficult'];
-    const chosenLevel = weightedRandom(difficultyLevels, [easyWeight, difficultWeight]);
+const battleStartButton = document.getElementById('battleStartButton');
+battleStartButton.addEventListener('click', function () {
+    const gigaGuide = document.getElementById('gigaGuide');
+    const battleStartButton = document.getElementById('battleStartButton');
+    gigaGuide.style.display = 'none';
+    battleStartButton.style.display = 'none';
+    decisionTreeThompsonSampling();
+})
 
-    // Get a random question from the chosen difficulty level
-    let chosenQuestion;
-    if (chosenLevel === 'easy') {
-        chosenQuestion = getRandomQuestion(easyQuestions);
-    } else if (chosenLevel === 'difficult') {
-        chosenQuestion = getRandomQuestion(difficultQuestions);
-    } else {
-        console.log('[error] simulateDTTS: Invalid difficulty level');
-        return null;
-    }
+let answerStartTime;
+let answerEndTime;
 
-    return chosenQuestion;
-};
+function startAnswerTimer() {
+    answerStartTime = new Date().getTime();
+}
+function stopAnswerTimer() {
+    answerEndTime = new Date().getTime();
+    const answerTime = (answerEndTime - answerStartTime) / 1000; // Convert milliseconds to seconds
+    const minutes = Math.floor(answerTime / 60);
+    const seconds = Math.floor(answerTime % 60);
+    console.log('Answer time:', minutes + ' minutes ' + seconds + ' seconds');
+    return seconds;
+    // You can handle the answer time as needed here (e.g., display it to the player)
+}
 
-
-const calculateWeight = (user, level) => {
-    let weightUserLevel = 0;
-    let weightTotalQuestionTaken = 0;
-    let weightTotalAnswerTime = 0;
-    let weightAverageAnswerTime = 0;
-    let weightTotalCorrectAnswer = 0;
-    let weightCorrectAnswerRate = 0;
-    let weightTotalWrongAnswer = 0;
-    let weightWrongAnswerRate = 0;
-
-    if (level == 'easy') {
-        weightUserLevel = 0.6;
-        weightTotalQuestionTaken = 0.1;
-        weightTotalAnswerTime = 0.15;
-        weightAverageAnswerTime = 0.1;
-        weightTotalCorrectAnswer = 0.2;
-        weightCorrectAnswerRate = 0.15;
-        weightTotalWrongAnswer = 0.3;
-        weightWrongAnswerRate = 0.9;
-    } else if (level == 'difficult') {
-        weightUserLevel = 0.5;
-        weightTotalQuestionTaken = 0.3;
-        weightTotalAnswerTime = 0.15;
-        weightAverageAnswerTime = 0.1;
-        weightTotalCorrectAnswer = 0.2;
-        weightCorrectAnswerRate = 0.15;
-        weightTotalWrongAnswer = 0.1;
-        weightWrongAnswerRate = 0.1;
-    }
-
-    // Calculate the weighted sum of user attributes
-    const weightedSum =
-        user.userLevel * weightUserLevel +
-        user.userTotalQuestionTaken * weightTotalQuestionTaken +
-        user.userTotalAnswerTime * weightTotalAnswerTime +
-        user.userAverageAnswerTime * weightAverageAnswerTime +
-        user.userTotalCorrectAnswer * weightTotalCorrectAnswer +
-        user.userCorrectAnswerRate * weightCorrectAnswerRate +
-        user.userTotalWrongAnswer * weightTotalWrongAnswer +
-        user.userWrongAnswerRate * weightWrongAnswerRate;
-
-    return weightedSum;
-};
-
-
-// Helper function for weighted random selection
-const weightedRandom = (items, weights) => {
-    const totalWeight = weights.reduce((acc, weight) => acc + weight, 0);
-    const randomValue = Math.random() * totalWeight;
-
-    let cumulativeWeight = 0;
-    for (let i = 0; i < items.length; i++) {
-        cumulativeWeight += weights[i];
-        if (randomValue <= cumulativeWeight) {
-            return items[i];
-        }
-    }
-
-    // Fallback in case of unexpected values
-    return items[items.length - 1];
-};
-
-
-const getRandomQuestion = (questionsArray) => {
-    const randomIndex = Math.floor(Math.random() * questionsArray.length);
-    return questionsArray[randomIndex];
-};
-
-
-const updateUserData = async (currUser, timeDifference, correctAnswerChecker, wrongAnswerChecker) => {
+const updateUserData = async (currUser, timeDifference, correctAnswerChecker, wrongAnswerChecker, prevLevel, mode) => {
     // get user document from the firebase
-    const currUserRef = doc(db, 'users', currUser[0].currUser_uid);
+    const currUserRef = doc(db, 'users', currUser.currUser_uid);
+    const userStatDoc = await getDoc(currUserRef);
+    const userStatData = userStatDoc.data();
+    const userStats = userStatData.user_stats;
 
-    // calculate matrics
-    let currUserTotalQuestionTaken = currUser[0].userTotalQuestionTaken + 1;
-    let currUserTotalCorrectAnswer = currUser[0].userTotalCorrectAnswer + correctAnswerChecker;
-    let currUserTotalWrongAnswer = currUser[0].userTotalWrongAnswer + wrongAnswerChecker;
-    let currUserTotalAnswerTime = currUser[0].userTotalAnswerTime + timeDifference;
+    
+    let difficultQuestionsAnswered = userStats.user_difficultQuestionsAnswered;
+    let easyQuestionsAnswered = userStats.user_easyQuestionsAnswered;
+    let bonusTaken = userStats.user_bonusTaken;
+    
+    if (prevLevel === 'difficult') {
+        difficultQuestionsAnswered += 1;
+    } else if (prevLevel === 'easy') {
+        easyQuestionsAnswered += 1;
+    }
 
-    let currUserAverageAnswerTime = currUserTotalAnswerTime / currUserTotalQuestionTaken;
-    let currUserCorrectAnswerRate = currUserTotalCorrectAnswer / currUserTotalQuestionTaken;
-    let currUserWrongAnswerRate = currUserTotalWrongAnswer / currUserTotalQuestionTaken;
+    if (mode === 'bonus') {
+        bonusTaken += 1;
+    }
 
-    let currUserScore = currUser[0].userScore += (correctAnswerChecker * 2);
-
+    const updatedUserStats = {
+        user_level: userStats.user_level,
+        user_score: userStats.user_score,
+        user_answerTotalTime: userStats.user_answerTotalTime + timeDifference,
+        user_correctAnswers: userStats.user_correctAnswers + correctAnswerChecker,
+        user_difficultQuestionsAnswered: difficultQuestionsAnswered,
+        user_easyQuestionsAnswered: easyQuestionsAnswered,
+        user_bonusTaken: bonusTaken,
+        user_incorrectAnswers: userStats.user_incorrectAnswers + wrongAnswerChecker,
+        user_confidentialFund: userStats.user_confidentialFund
+    };  
     await updateDoc(currUserRef, { 
-        userTotalQuestionTaken: currUserTotalQuestionTaken,
-        userTotalCorrectAnswer: currUserTotalCorrectAnswer,
-        userTotalWrongAnswer: currUserTotalWrongAnswer,
-        userTotalAnswerTime: currUserTotalAnswerTime,
-        
-        userAverageAnswerTime: currUserAverageAnswerTime,
-        userCorrectAnswerRate: currUserCorrectAnswerRate,
-        userWrongAnswerRate: currUserWrongAnswerRate,
-
-        userScore: currUserScore,
+        user_stats: updatedUserStats
     });
     console.log('User data updated to Firestore');
 }
 
-
 const updateUserDataStageCleared = async (currUser, stageCleared) => {
     // get user document from the firebase
-    const currUserRef = doc(db, 'users', currUser[0].currUser_uid);
+    const currUserRef = doc(db, 'users', currUser.currUser_uid);
     const userDoc = await getDoc(currUserRef);
 
     if (userDoc.exists()) {
         // Get the current user data
         const userData = userDoc.data();
-        const updatedUserStageCleared = [...userData.userStageCleared, stageCleared];
+        const updatedUserStageCleared = [...userData.user_stageCleared, stageCleared];
 
         await updateDoc(currUserRef, { 
-            userStageCleared: updatedUserStageCleared,
+            user_stageCleared: updatedUserStageCleared,
         });
         console.log('User stageCleared updated to Firestore');
     }
 }
-
-
-// Add a confirm button click event
-const fightThatPokememe = document.getElementById('fightThatPokememe');
-fightThatPokememe.addEventListener('click', function () {
-    const preludeUnknownPokeminEnemyContainer = document.getElementById('preludeUnknownPokeminEnemyContainer');
-    const preludeUserBattleContainer = document.getElementById('preludeUserBattleContainer');
-    preludeUnknownPokeminEnemyContainer.style.display = 'block';
-    preludeUserBattleContainer.style.display = 'block';
-    fightThatPokememe.style.display = 'none';
-    decisionTreeThompsonSampling();
-});
-
-
-
-
-
-// holy sheesh nakakaumay
-const displayReviveScript = async (callback) => {
-    const gigaGuideBattle = document.getElementById('gigaGuideBattle');
-    const gigaGuideTextBoxBattle = document.getElementById('gigaGuideTextBoxBattle');
-    const gigaGuideTextBoxScriptBattle = document.getElementById('gigaGuideTextBoxScriptBattle');
-
-    gigaGuideBattle.style.display = 'block';
-    gigaGuideTextBoxBattle.style.display = 'block';
-    gigaGuideTextBoxScriptBattle.style.display = 'block';
-
-    gigaGuideBattle.classList.add('bring-top');
-    gigaGuideTextBoxBattle.classList.add('bring-top');
-    gigaGuideTextBoxScriptBattle.classList.add('bring-top');
-
-    let reviveIndex = 0;
-    let reviveTextIndex = 0;
-    gigaGuideTextBoxBattle.src = reviveScripts[reviveIndex].imageSrc;
-    gigaGuideTextBoxScriptBattle.textContent = reviveScripts[reviveIndex].texts[reviveTextIndex];
-
-    const nextReviveScript = () => {
-        if (reviveTextIndex < reviveScripts[reviveIndex].texts.length - 1) {
-            reviveTextIndex++;
-        } else {
-            // hide content
-            gigaGuideBattle.style.display = 'none';
-            gigaGuideTextBoxBattle.style.display = 'none';
-            gigaGuideTextBoxScriptBattle.style.display = 'none';
-            document.body.removeEventListener('click', nextReviveScript);
-            callback();
-        }
-        gigaGuideTextBoxScriptBattle.textContent = reviveScripts[reviveIndex].texts[reviveTextIndex];
-    };
-
-    document.body.addEventListener('click', nextReviveScript);
-    
-    const currentUserRevive = await getCurrentUserFromFirestore();
-    return currentUserRevive[0].userCharacterOwned[0].char_health;
-};
-
-// Add a confirm button click event to move to dashboard
-const moveToDashboard = document.getElementById('moveToDashboard');
-moveToDashboard.addEventListener('click', async function () {
-    const currentUser = await getCurrentUserFromFirestore();
-    moveToDashboard.style.display = 'none';
-    const queryParams = `?uid=${currentUser[0].currUser_uid}`;
-    window.location.href = `../html/dashboard.html${queryParams}`;
-});
