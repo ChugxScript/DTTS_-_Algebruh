@@ -7,7 +7,7 @@ body {
 }
 
 .giga-guide {
-    background-image: url('https://github.com/ChugxScript/MAB-resources/blob/main/LogIN-Prelude/giga-guide.gif?raw=true');
+    background-image: url('./giga-guide.gif');
     background-size: cover;
     border: 1px solid black;
 }

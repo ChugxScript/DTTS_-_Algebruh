@@ -27,7 +27,6 @@ export const showProfilePart1 = async () => {
     profileAvatar.appendChild(usernameElement);
 
     // table
-    const tableDetailsDiv = document.createElement('div');
     const tableDetails = document.createElement('table');
     const userInfo = [
         'user_name', 
@@ -53,8 +52,7 @@ export const showProfilePart1 = async () => {
             tableDetails.appendChild(row);
         }
     })
-    tableDetailsDiv.appendChild(tableDetails);
-    profileTable.appendChild(tableDetailsDiv);
+    profileTable.appendChild(tableDetails);
 
 
     // Load the Google Charts library
@@ -261,8 +259,6 @@ function drawQuestionTakenRateChart(user) {
     };
 
     var chartContainer = document.getElementById('questionTakenRate');
-    chartContainer.style.width = chartContainer.clientHeight + 'px'; // Set width equal to height
-
     var chart = new google.visualization.PieChart(chartContainer);
     chart.draw(data, options);
 }
@@ -290,8 +286,6 @@ function drawCorrectAnsRateChart(user) {
     };
 
     var chartContainer = document.getElementById('correctAnsRate');
-    chartContainer.style.width = chartContainer.clientHeight + 'px'; // Set width equal to height
-
     var chart = new google.visualization.BarChart(chartContainer);
     chart.draw(data, options);
 }

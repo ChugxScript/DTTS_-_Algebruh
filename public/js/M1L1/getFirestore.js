@@ -41,13 +41,13 @@ export const getCurrentUserFromFirestore = async () => {
     usersSnapshot.forEach((doc) => {
         // get the current user data from firebase firestore
         if (doc.id == queryParamsUID) {
-            const currUserData = doc.data();
-            const currUser_uid = doc.id;
-            user = { currUser_uid, ...currUserData };
+            const userData = doc.data();
+            const userUID = doc.id;
+            user = { user_uid: userUID, ...userData };
         }
     });
     console.log('getCurrentUserFromFirestore: ', user);
-    console.log(`user.currUser_uid ${user.currUser_uid}`);
+    console.log(`user.user_uid ${user.user_uid}`);
     return user;
 };
 
@@ -81,47 +81,64 @@ export const getItemsFromFirestore = async () => {
     return items;
 };
 
-// all stages
-export const getStagesFromFirestore = async () => {
-    const stageDocRef = collection(db, 'stageQuestions');
-    const stageDocSnapshot = await getDocs(stageDocRef);
+// Enemies
+export const getEnemyFromFirestore = async () => {
+    const enemyDocRef = collection(db, 'pokememes');
+    const enemyDocSnapshot = await getDocs(enemyDocRef);
 
-    const stages = [];
+    const enemy = [];
 
-    stageDocSnapshot.forEach((doc) => {
-        stages.push({ stage_uid: doc.id, ...doc.data() });
+    enemyDocSnapshot.forEach((doc) => {
+        enemy.push({ enemy_uid: doc.id, ...doc.data() });
     });
 
-    console.log('stages from Firestore:', stages);
-    return stages;
+    console.log('enemy from Firestore:', enemy);
+    return enemy;
 };
 
-
-// days active
-const updateUserDaysActive = async () => {
-    const getCurrUser = await getCurrentUserFromFirestore();
-    const checkUserDaysActive = getCurrUser.user_daysActive;
-
-    const currentDate = new Date();
-    // Get month, day, and year
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const year = currentDate.getFullYear();
-    // Format the date as mm/dd/yyyy
-    const formattedDate = `${month}/${day}/${year}`;
-
-    if (!checkUserDaysActive.includes(formattedDate)) {
-        const userRef = doc(db, 'users', getCurrUser.currUser_uid);
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-            const userData = userDoc.data();
-            const updatedUserDaysActive = [...userData.user_daysActive, formattedDate];
-            await updateDoc(userRef, {
-                user_daysActive: updatedUserDaysActive,
-            });
-        } else {
-            console.log('User document not found');
-        }
+// Questions
+export const getEasyQuestionsFromFirestore = async () => {
+    const easyQuestionsRef = doc(db, 'stageQuestions', 'module1Lecture1');
+    const easyQuestionsSnap = await getDoc(easyQuestionsRef);
+    let easyQuestions = [];
+    
+    if (easyQuestionsSnap.exists()) {
+        // get specific field in firestore
+        easyQuestions = easyQuestionsSnap.data().easyQuestions;
+        console.log('getEasyQuestionsFromFirestore: ', easyQuestions);
+        return easyQuestions;
+    } else {
+        console.log('[error] getEasyQuestionsFromFirestore: ', console.error);
+        return null;
     }
-}
-updateUserDaysActive();
+};
+export const getDifficultQuestionsFromFirestore = async () => {
+    const difficultQuestionsRef = doc(db, 'stageQuestions', 'module1Lecture1');
+    const difficultQuestionsSnap = await getDoc(difficultQuestionsRef);
+    let difficultQuestions = [];
+    
+    if (difficultQuestionsSnap.exists()) {
+        // get specific field in firestore
+        difficultQuestions = difficultQuestionsSnap.data().difficultQuestions;
+        console.log('getDifficultQuestionsFromFirestore: ', difficultQuestions);
+        return difficultQuestions;
+    } else {
+        console.log('[error] getDifficultQuestionsFromFirestore: ', console.error);
+        return null;
+    }
+};
+export const getBonusFromFirestore = async () => {
+    const bonusRef = doc(db, 'stageQuestions', 'module1Lecture1');
+    const bonusSnap = await getDoc(bonusRef);
+    let bonus = [];
+    
+    if (bonusSnap.exists()) {
+        // get specific field in firestore
+        bonus = bonusSnap.data().bonus;
+        console.log('getBonusFromFirestore: ', bonus);
+        return bonus;
+    } else {
+        console.log('[error] getBonusFromFirestore: ', console.error);
+        return null;
+    }
+};

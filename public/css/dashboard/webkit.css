@@ -5,8 +5,9 @@
 .available-avatars::-webkit-scrollbar,
 .inv-cat-container::-webkit-scrollbar,
 .inv-show-details::-webkit-scrollbar,
-.journey-container::-webkit-scrollbar {
-    width: 20px;
+.journey-container::-webkit-scrollbar,
+.stages-container::-webkit-scrollbar {
+    width: 1px;
 }
 
 .profile-container::-webkit-scrollbar-track,
@@ -16,7 +17,8 @@
 .available-avatars::-webkit-scrollbar-track,
 .inv-cat-container::-webkit-scrollbar-track,
 .inv-show-details::-webkit-scrollbar-track,
-.journey-container::-webkit-scrollbar-track {
+.journey-container::-webkit-scrollbar-track,
+.stages-container::-webkit-scrollbar-track {
     background-color: #15ff00;
 }
 
@@ -27,6 +29,7 @@
 .available-avatars::-webkit-scrollbar-thumb,
 .inv-cat-container::-webkit-scrollbar-thumb,
 .inv-show-details::-webkit-scrollbar-thumb,
-.journey-container::-webkit-scrollbar-thumb {
+.journey-container::-webkit-scrollbar-thumb,
+.stages-container::-webkit-scrollbar-thumb {
     background-color: #000000;
 }

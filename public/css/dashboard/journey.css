@@ -13,6 +13,8 @@
 }
 .stages-container {
     flex: 1;
+    overflow-y: auto;
+    cursor: pointer;
     border: 1px solid white;
 }
 .stage-cleared-div {

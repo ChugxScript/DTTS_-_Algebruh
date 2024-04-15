@@ -27,6 +27,11 @@ export const showJourneyStages = async () => {
             // Stage is cleared and in the stageList
             stageClearedDiv = document.createElement('div');
             stageClearedDiv.className = 'stage-cleared-div';
+
+            stageClearedDiv.addEventListener('click', function() {
+                redirectToStage(user, stage.stage_uid);
+            })
+
             const stagePElement = document.createElement('p');
             stagePElement.textContent = alterName(stage.stage_uid);
             stageClearedDiv.appendChild(stagePElement);
@@ -54,6 +59,24 @@ function alterName(stageName) {
             return 'STAGE 1 | MODULE-1 LEC-3';
         default:
             return '';
+    }
+}
+
+function redirectToStage(user, stageUID) {
+    const queryParams = `?uid=${user.currUser_uid}`;
+    switch(stageUID) {
+        case 'module1Lecture1':
+            window.location.href = `../js/M1L1/M1L1.html${queryParams}`;
+            break;
+        case 'module1Lecture2':
+            window.location.href = `../js/M1L2/M1L2.html${queryParams}`;
+            break;
+        case 'module1Lecture3':
+            window.location.href = `../js/M1L3/M1L3.html${queryParams}`;
+            break;
+        default:
+            console.log(`invalid stageUID: ${stageUID}`);
+            break;
     }
 }
 

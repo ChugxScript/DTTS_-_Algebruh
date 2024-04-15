@@ -24,6 +24,7 @@
 .logout-btn {
     padding: 10px;
     text-align: center;
+    cursor: pointer;
     background-color: black;
     border: 1px solid red;
 }
