@@ -263,9 +263,13 @@ body {
     justify-content: center;
     text-align: center;
     line-height: 1.5;
+    overflow-y: auto;
     border: 1px solid red;
 }
-
+.pques{
+    display: none;
+    font-size: 10px;
+}
 
 
 

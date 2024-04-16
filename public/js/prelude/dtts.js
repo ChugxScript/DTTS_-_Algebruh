@@ -1,47 +1,37 @@
+let curr_level;
+let curr_time;
+let curr_isCorrect;
+export const initValue = (level, time, isCorect) => {
+    curr_level = level;
+    curr_time = time;
+    curr_isCorrect = isCorect;
+}
+
 export const simulateDTTS = (currUser, phase) => {
-    if (phase == 'all') { // first prompt
-        // Calculate weights based on user attributes
-        const easyWeight = calculateWeight(currUser, 'easy');
-        const difficultWeight = calculateWeight(currUser, 'difficult');
-        const bonusWeight = calculateWeight(currUser, 'bonus');
-        const warningWeight = calculateWeight(currUser, 'warning');
+    switch (phase) {
+        case 'all':
+            // Calculate weights based on user attributes
+            const easyWeight = calculateWeight(currUser, 'easy');
+            const difficultWeight = calculateWeight(currUser, 'difficult');
+            const bonusWeight = calculateWeight(currUser, 'bonus');
+            const warningWeight = calculateWeight(currUser, 'warning');
+            
+            // Randomly choose a difficulty level based on weights
+            const difficultyLevels = ['easy', 'difficult', 'bonus', 'warning'];
+            return weightedRandom(difficultyLevels, [easyWeight, difficultWeight, bonusWeight, warningWeight]);
 
-        // Randomly choose a difficulty level based on weights
-        const difficultyLevels = ['easy', 'difficult', 'bonus', 'warning'];
-        const chosenLevel = weightedRandom(difficultyLevels, [easyWeight, difficultWeight, bonusWeight, warningWeight]);
-        return chosenLevel
-    } else if (phase == 'warning') {
-        const easyWeight = calculateWeight(currUser, 'easy');
-        const difficultWeight = calculateWeight(currUser, 'difficult');
-        const bonusWeight = calculateWeight(currUser, 'bonus');
+        case 'warning':
+            curr_level = 'warning';
+            return regulateReturnValue();
 
-        const difficultyLevels = ['easy', 'difficult', 'bonus'];
-        const chosenLevel = weightedRandom(difficultyLevels, [easyWeight, difficultWeight, bonusWeight]);
-        return chosenLevel
-    } else if (phase == 'bonus') {
-        const easyWeight = calculateWeight(currUser, 'easy');
-        const difficultWeight = calculateWeight(currUser, 'difficult');
+        case 'bonus':
+            curr_level = 'bonus';
+            return regulateReturnValue();
 
-        const difficultyLevels = ['easy', 'difficult'];
-        const chosenLevel = weightedRandom(difficultyLevels, [easyWeight, difficultWeight]);
-        return chosenLevel
+        default:
+            console.error(`Invalid phase: ${phase}`);
+            return null;
     }
-    
-    
-    
-
-    // // Get a random question from the chosen difficulty level
-    // let chosenQuestion;
-    // if (chosenLevel === 'easy') {
-    //     chosenQuestion = getRandomQuestion(easyQuestions);
-    // } else if (chosenLevel === 'difficult') {
-    //     chosenQuestion = getRandomQuestion(difficultQuestions);
-    // } else {
-    //     console.log('[error] simulateDTTS: Invalid difficulty level');
-    //     return null;
-    // }
-
-    // return chosenQuestion;
 };
 
 const calculateWeight = (user, level) => {
@@ -53,27 +43,27 @@ const calculateWeight = (user, level) => {
     let weight_incorrectAnswers = 0;
 
     if (level == 'easy') {
-        weight_answerTotalTime = 0.3;
-        weight_bonusTaken = 0.1;
-        weight_correctAnswers = 0.1;
-        weight_difficultQuestionsAnswered = 0.8;
-        weight_easyQuestionsAnswered = 0.1;
-        weight_incorrectAnswers = 0.8;
+        weight_answerTotalTime = 0.1;
+        weight_bonusTaken = 0.05;
+        weight_correctAnswers = 0.05;
+        weight_difficultQuestionsAnswered = 0.9;
+        weight_easyQuestionsAnswered = 0.3;
+        weight_incorrectAnswers = 0.7;
 
     } else if (level == 'difficult') {
         weight_answerTotalTime = 0.5;
-        weight_bonusTaken = 0.7;
-        weight_correctAnswers = 0.7;
+        weight_bonusTaken = 0.1;
+        weight_correctAnswers = 0.1;
         weight_difficultQuestionsAnswered = 0.1;
-        weight_easyQuestionsAnswered = 0.8;
+        weight_easyQuestionsAnswered = 0.9;
         weight_incorrectAnswers = 0.1;
 
     } else if (level == 'bonus') {
         weight_answerTotalTime = 0.5;
-        weight_bonusTaken = 0.1;
+        weight_bonusTaken = 0.9;
         weight_correctAnswers = 0.1;
         weight_difficultQuestionsAnswered = 0.9;
-        weight_easyQuestionsAnswered = 0.3;
+        weight_easyQuestionsAnswered = 0.9;
         weight_incorrectAnswers = 0.9;
 
     } else {
@@ -101,18 +91,65 @@ const calculateWeight = (user, level) => {
 // Helper function for weighted random selection
 const weightedRandom = (items, weights) => {
     const totalWeight = weights.reduce((acc, weight) => acc + weight, 0);
-    const randomValue = Math.random() * totalWeight;
+    // const randomValue = Math.random() * totalWeight;
+    const randomValue = Math.random();
 
     let cumulativeWeight = 0;
     for (let i = 0; i < items.length; i++) {
-        cumulativeWeight += weights[i];
+        cumulativeWeight += weights[i] / totalWeight;
         if (randomValue <= cumulativeWeight) {
+            console.log(`items[i]: ${items[i]}`);
             return items[i];
         }
     }
 
     // Fallback in case of unexpected values
-    return items[items.length - 1];
+    return regulateReturnValue();
+};
+
+const regulateReturnValue = () =>  {
+    switch (curr_level) {
+        case 'easy':
+            if (curr_time < 3) {
+                return chooseLevel(['warning', 'bonus', 'difficult'], [0.7, 0.1, 0.2]);
+            } else {
+                return curr_isCorrect ? 'difficult' : chooseLevel(['bonus', 'easy'], [0.7, 0.3]);
+            }
+
+        case 'difficult':
+            if (curr_time < 3) {
+                return chooseLevel(['warning', 'bonus', 'easy'], [0.5, 0.3, 0.2]);
+            } else {
+                return curr_isCorrect ? 'bonus' : chooseLevel(['bonus', 'easy', 'difficult'], [0.5, 0.3, 0.2]);
+            }
+
+        case 'bonus':
+            return chooseLevel(['easy', 'difficult'], [0.3, 0.7]);
+        case 'warning':
+            return chooseLevel(['easy', 'difficult'], [0.5, 0.5]);
+
+        default:
+            console.error(`Invalid curr_level: ${curr_level}`);
+            return null;
+    }
+}
+const chooseLevel = (options, probabilities) => {
+    const randomNumber = Math.random();
+    console.log(`chooseLevel randomNumber: ${randomNumber}`);
+    let cumulativeProbability = 0;
+
+    for (let i = 0; i < options.length; i++) {
+        cumulativeProbability += probabilities[i];
+        console.log(`cumulativeProbability: ${cumulativeProbability}`);
+        if (randomNumber <= cumulativeProbability) {
+            console.log(`options[i]: ${options[i]}`);
+            return options[i];
+        }
+    }
+
+    // If no value is returned from the loop, return a fallback option
+    const fallbackIndex = Math.floor(Math.random() * options.length);
+    return options[fallbackIndex];
 };
 
 

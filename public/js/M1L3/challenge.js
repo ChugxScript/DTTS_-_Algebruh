@@ -15,7 +15,8 @@ import {
     simulateDTTS,
     getNextQuestion,
     getNextBonus,
-    getFeedback
+    getFeedback,
+    initValue
 }from "../prelude/dtts.js" 
 
 
@@ -24,6 +25,7 @@ const gotoDashboardBTN = document.getElementById('gotoDashboardBTN');
 const gigaGuide = document.getElementById('gigaGuide');
 
 const battleCanvas = document.getElementById("battleCanvas");
+const pmemeQUES = document.getElementById('pmemeQUES');
 const gigaGuide2 = document.getElementById('gigaGuide2');
 const gameResultCanvas = document.getElementById('gameResultCanvas');
 const script0 = document.getElementById("script0");
@@ -58,7 +60,6 @@ window.onload = async () => {
 
 
 const decisionTreeThompsonSampling = async () => {
-    const pmemeQUES = document.getElementById('pmemeQUES');
     const userCHOICES = document.getElementById('userCHOICES');
     pmemeQUES.innerHTML = '';
     userCHOICES.innerHTML = '';
@@ -69,10 +70,13 @@ const decisionTreeThompsonSampling = async () => {
     // get instance of enemy and userChar details
     let currEnemy;
     let timeDifference = 0;
+    let wrongAnswerChecker = 0;
+    let correctAnswerChecker = 0;
     let scriptRunning = false;
     let immuneDMG = false;
     let origATK = currUser.user_bruhs[curr_bruh].bruh_atk;
     let prevLevel = '';
+    let level_stat = '';
     let isCorrect = false;
 
     const bruhs_btn = document.getElementById('bruhs_btn');
@@ -120,23 +124,27 @@ const decisionTreeThompsonSampling = async () => {
     const checkReturnPrompt = (prompt) => {
         if (prompt == 'easy') {
             prevLevel = prompt;
+            level_stat = prompt;
             displayQuestion(getNextQuestion(easyQuestions));
         } else if (prompt == 'difficult') {
             prevLevel = prompt;
+            level_stat = prompt;
             displayQuestion(getNextQuestion(difficultQuestions));
         } else if (prompt == 'bonus') {
+            level_stat = prompt;
             displayBonus(getNextBonus(bonus));
         } else if (prompt == 'warning') {
+            level_stat = prompt;
             displayWarning();
         } else {
-            console.log('[error] simulateDTTS: Invalid difficulty level');
+            console.log(`[error] simulateDTTS: Invalid difficulty level ${prompt}`);
         }
     }
 
     const displayQuestion = (question) => {
         pmemeQUES.innerHTML = '';
-        const enemyQues = document.createElement('p');
-        enemyQues.textContent = question.question;
+        const enemyQues = document.createElement('img');
+        enemyQues.src = question.question;
         pmemeQUES.appendChild(enemyQues);
 
         userCHOICES.innerHTML = '';
@@ -146,7 +154,7 @@ const decisionTreeThompsonSampling = async () => {
         let currentRow;
 
         question.choices.forEach((choice, index) => {
-            if (index % 2 === 0) {
+            if (index % 1 === 0) {
                 // Create a new row every 2 items
                 currentRow = document.createElement('div');
                 currentRow.className = 'user-choices';
@@ -158,8 +166,8 @@ const decisionTreeThompsonSampling = async () => {
                 handleUserChoice(choice, question, currEnemy, currUser);
             });
 
-            const choiceSpanText = document.createElement('p');
-            choiceSpanText.textContent = choice;
+            const choiceSpanText = document.createElement('img');
+            choiceSpanText.src = choice;
 
             choiceSpan.appendChild(choiceSpanText);
             currentRow.appendChild(choiceSpan);
@@ -172,8 +180,8 @@ const decisionTreeThompsonSampling = async () => {
         }
         
         console.log(`You clicked on choice: ${choice}`);
-        let correctAnswerChecker = 0;
-        let wrongAnswerChecker = 0;
+        correctAnswerChecker = 0;
+        wrongAnswerChecker = 0;
         timeDifference = stopAnswerTimer();
 
         if (choice === question.answer) {
@@ -234,6 +242,7 @@ const decisionTreeThompsonSampling = async () => {
             await updateUserDataStageCleared(userChar, 'module1Lecture3');
             displayGameResult('WON');
         }
+        initValue(level_stat, timeDifference, correctAnswerChecker);
         nextQuestion();
     };
 

@@ -265,6 +265,10 @@ body {
     line-height: 1.5;
     border: 1px solid red;
 }
+.pques{
+    display: none;
+    font-size: 10px;
+}
 
 
 

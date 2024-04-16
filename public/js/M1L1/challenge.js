@@ -15,7 +15,8 @@ import {
     simulateDTTS,
     getNextQuestion,
     getNextBonus,
-    getFeedback
+    getFeedback,
+    initValue
 }from "../prelude/dtts.js" 
 
 
@@ -24,6 +25,8 @@ const gotoDashboardBTN = document.getElementById('gotoDashboardBTN');
 const gigaGuide = document.getElementById('gigaGuide');
 
 const battleCanvas = document.getElementById("battleCanvas");
+const pmemeQUES = document.getElementById('pmemeQUES');
+const pmemeQUES2 = document.getElementById('pmemeQUES2');
 const gigaGuide2 = document.getElementById('gigaGuide2');
 const gameResultCanvas = document.getElementById('gameResultCanvas');
 const script0 = document.getElementById("script0");
@@ -76,10 +79,11 @@ gotoDashboardBTN.addEventListener('click', async function () {
 
 
 const decisionTreeThompsonSampling = async () => {
-    const pmemeQUES = document.getElementById('pmemeQUES');
     const userCHOICES = document.getElementById('userCHOICES');
     pmemeQUES.innerHTML = '';
     userCHOICES.innerHTML = '';
+    pmemeQUES2.style.display = 'none';
+    pmemeQUES.style.display = 'none';
 
     const currUser = await getCurrentUserFromFirestore();
     const enemy = await getEnemyFromFirestore();
@@ -87,11 +91,15 @@ const decisionTreeThompsonSampling = async () => {
     // get instance of enemy and userChar details
     let currEnemy;
     let timeDifference = 0;
+    let correctAnswerChecker = 0;
+    let wrongAnswerChecker = 0;
     let scriptRunning = false;
     let immuneDMG = false;
     let origATK = currUser.user_bruhs[curr_bruh].bruh_atk;
     let prevLevel = '';
+    let level_stat = '';
     let isCorrect = false;
+    let curr_question;
 
     const bruhs_btn = document.getElementById('bruhs_btn');
     bruhs_btn.addEventListener('click', function() {
@@ -138,24 +146,37 @@ const decisionTreeThompsonSampling = async () => {
     const checkReturnPrompt = (prompt) => {
         if (prompt == 'easy') {
             prevLevel = prompt;
+            level_stat = prompt;
             displayQuestion(getNextQuestion(easyQuestions));
         } else if (prompt == 'difficult') {
             prevLevel = prompt;
+            level_stat = prompt;
             displayQuestion(getNextQuestion(difficultQuestions));
         } else if (prompt == 'bonus') {
+            level_stat = prompt;
             displayBonus(getNextBonus(bonus));
         } else if (prompt == 'warning') {
+            level_stat = prompt;
             displayWarning();
         } else {
-            console.log('[error] simulateDTTS: Invalid difficulty level');
+            console.log(`[error] simulateDTTS: Invalid difficulty level ${prompt}`);
         }
     }
 
     const displayQuestion = (question) => {
         pmemeQUES.innerHTML = '';
-        const enemyQues = document.createElement('p');
-        enemyQues.textContent = question.question;
-        pmemeQUES.appendChild(enemyQues);
+        // const enemyQues = document.createElement('p');
+        // enemyQues.textContent = question.question;
+        // pmemeQUES.appendChild(enemyQues);
+        pmemeQUES.style.display = 'none';
+        pmemeQUES2.style.display = 'flex';
+        const questionElement = document.getElementById(question.question);
+        curr_question = questionElement;
+        if (questionElement) {
+            questionElement.style.display = 'block';
+        } else {
+            console.log(`Invalid question: ${question.question}`);
+        }
 
         userCHOICES.innerHTML = '';
         answerStartTime = 0;
@@ -190,8 +211,8 @@ const decisionTreeThompsonSampling = async () => {
         }
         
         console.log(`You clicked on choice: ${choice}`);
-        let correctAnswerChecker = 0;
-        let wrongAnswerChecker = 0;
+        correctAnswerChecker = 0;
+        wrongAnswerChecker = 0;
         timeDifference = stopAnswerTimer();
 
         if (choice === question.answer) {
@@ -275,13 +296,17 @@ const decisionTreeThompsonSampling = async () => {
                 }, 1000);
             }
         }
+        curr_question.style.display = 'none';
+        initValue(level_stat, timeDifference, correctAnswerChecker);
         nextQuestion();
     };
 
     const displayBonus = (currBonus) => {
         pmemeQUES.innerHTML = '';
+        pmemeQUES2.style.display = 'none';
+        pmemeQUES.style.display = 'flex';
         const enemyQues = document.createElement('p');
-        enemyQues.textContent = 'GET SOME HANDICUF WEAKLING!';
+        enemyQues.textContent = 'GET SOME HANDI WEAKLING!';
         pmemeQUES.appendChild(enemyQues);
 
         userCHOICES.innerHTML = '';
@@ -324,6 +349,7 @@ const decisionTreeThompsonSampling = async () => {
         await updateUserData(userChar, 0, 0, 0, prevLevel, 'bonus');
         displayPokememe(currEnemy);
         displayBruh(userChar);
+        curr_question.style.display = 'none';
         checkReturnPrompt(simulateDTTS(userChar, 'bonus'));
     }
 
@@ -344,6 +370,7 @@ const decisionTreeThompsonSampling = async () => {
             script0A.style.display = 'none';
             gigaGuide2.classList.remove('bring-top');
             script0A.classList.remove('bring-top');
+            curr_question.style.display = 'none';
             checkReturnPrompt(simulateDTTS(currUser, 'warning'));
         }, 1000);
     }

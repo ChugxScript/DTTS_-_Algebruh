@@ -15,7 +15,8 @@ import {
     simulateDTTS,
     getNextQuestion,
     getNextBonus,
-    getFeedback
+    getFeedback,
+    initValue
 }from "./dtts.js"
 
 
@@ -136,6 +137,9 @@ const decisionTreeThompsonSampling = async () => {
     let clickSpam3 = false;
     let reviveIndex = -1;
     let reviveLen = revive_scripts.length;
+    let level_stat = '';
+    let correctAnswerChecker = 0;
+    let wrongAnswerChecker = 0;
 
     enemy.forEach((enemies) => {
         if (enemies.enememe_name == 'ni-bruh') {
@@ -154,16 +158,20 @@ const decisionTreeThompsonSampling = async () => {
     const checkReturnPrompt = (prompt) => {
         if (prompt == 'easy') {
             prevLevel = prompt;
+            level_stat = prompt;
             displayQuestion(getNextQuestion(easyQuestions));
         } else if (prompt == 'difficult') {
             prevLevel = prompt;
+            level_stat = prompt;
             displayQuestion(getNextQuestion(difficultQuestions));
         } else if (prompt == 'bonus') {
+            level_stat = prompt;
             displayBonus(getNextBonus(bonus));
         } else if (prompt == 'warning') {
+            level_stat = prompt;
             displayWarning();
         } else {
-            console.log('[error] simulateDTTS: Invalid difficulty level');
+            console.log(`[error] simulateDTTS: Invalid difficulty level ${prompt}`);
         }
     }
 
@@ -206,8 +214,8 @@ const decisionTreeThompsonSampling = async () => {
         }
         
         console.log(`You clicked on choice: ${choice}`);
-        let correctAnswerChecker = 0;
-        let wrongAnswerChecker = 0;
+        correctAnswerChecker = 0;
+        wrongAnswerChecker = 0;
         timeDifference = stopAnswerTimer();
 
         if (choice === question.answer) {
@@ -269,6 +277,7 @@ const decisionTreeThompsonSampling = async () => {
             await updateUserDataStageCleared(userChar, 'prelude');
             nextScript(userChar.currUser_uid);
         }
+        initValue(level_stat, timeDifference, correctAnswerChecker);
         nextQuestion();
     };
 

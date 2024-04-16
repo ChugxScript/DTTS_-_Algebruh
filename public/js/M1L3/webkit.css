@@ -1,17 +1,20 @@
 .bruh-list::-webkit-scrollbar,
 .item-list::-webkit-scrollbar,
-.user-choices-container::-webkit-scrollbar {
+.user-choices-container::-webkit-scrollbar,
+.pmeme-ques-container::-webkit-scrollbar {
     width: 1px;
 }
 
 .bruh-list::-webkit-scrollbar-track,
 .item-list::-webkit-scrollbar-track,
-.user-choices-container::-webkit-scrollbar-track {
+.user-choices-container::-webkit-scrollbar-track,
+.pmeme-ques-container::-webkit-scrollbar-track {
     background-color: #15ff00;
 }
 
 .bruh-list::-webkit-scrollbar-thumb,
 .item-list::-webkit-scrollbar-thumb,
-.user-choices-container::-webkit-scrollbar-thumb {
+.user-choices-container::-webkit-scrollbar-thumb,
+.pmeme-ques-container::-webkit-scrollbar-thumb {
     background-color: #000000;
 }
