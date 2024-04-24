@@ -249,16 +249,17 @@ const decisionTreeThompsonSampling = async () => {
         displayPokememe(currEnemy);
         displayBruh(userChar);
 
+        curr_question.style.display = 'none';
         if (userChar.user_bruhs[curr_bruh].bruh_hp <= 0) {
             scriptRunning = true;
             displayGameResult('LOSE');
         } else if (currEnemy.enememe_hp <= 0) {
             await updateUserDataStageCleared(userChar, 'module1Lecture2');
             displayGameResult('WON');
+        } else {
+            initValue(level_stat, timeDifference, correctAnswerChecker);
+            nextQuestion();
         }
-        curr_question.style.display = 'none';
-        initValue(level_stat, timeDifference, correctAnswerChecker);
-        nextQuestion();
     };
 
     const displayBonus = (currBonus) => {

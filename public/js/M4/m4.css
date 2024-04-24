@@ -1,0 +1,66 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  .slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .slides {
+    display: flex;
+    height: 100%; /* Ensure slides occupy full height of slider */
+  }
+
+  .slides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .prev,
+  .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    padding: 15px; /* Increased padding */
+    font-size: 24px; /* Increased font size */
+    z-index: 2;
+  }
+  
+
+  .prev {
+    left: 10px;
+  }
+
+  .next {
+    right: 10px;
+  }
+
+  @media screen and (max-width: 875px) {
+    img {
+        width: 100%;
+        height: 100vh;
+    }
+}
+
+@media screen and (min-width: 875px) and (max-width: 1024px) {
+    img{
+        width: 100%;
+        height: 100vh;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    img {
+        width: 100%;
+        height: 100vh;
+    }
+}

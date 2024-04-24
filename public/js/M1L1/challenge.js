@@ -268,6 +268,7 @@ const decisionTreeThompsonSampling = async () => {
         displayPokememe(currEnemy);
         displayBruh(userChar);
 
+        curr_question.style.display = 'none';
         if (userChar.user_bruhs[curr_bruh].bruh_hp <= 0) {
             scriptRunning = true;
             if(isSave){
@@ -295,10 +296,10 @@ const decisionTreeThompsonSampling = async () => {
                     gigaGuide.style.display = 'block';
                 }, 1000);
             }
+        } else {
+            initValue(level_stat, timeDifference, correctAnswerChecker);
+            nextQuestion();
         }
-        curr_question.style.display = 'none';
-        initValue(level_stat, timeDifference, correctAnswerChecker);
-        nextQuestion();
     };
 
     const displayBonus = (currBonus) => {

@@ -17,7 +17,15 @@ export const showJourneyStages = async () => {
     const stageList = [
         'module1Lecture1',
         'module1Lecture2',
-        'module1Lecture3'
+        'module1Lecture3',
+        'module2',
+        'module3',
+        'module4',
+        'module5',
+        'module6',
+        'module7',
+        'module8',
+        'module9',
     ]
 
     let stageClearedDiv;
@@ -57,6 +65,22 @@ function alterName(stageName) {
             return 'STAGE 1 | MODULE-1 LEC-2';
         case 'module1Lecture3':
             return 'STAGE 1 | MODULE-1 LEC-3';
+        case 'module2':
+            return 'STAGE 2 | MODULE-2';
+        case 'module3':
+            return 'STAGE 3 | MODULE-3';
+        case 'module4':
+            return 'STAGE 4 | MODULE-4';
+        case 'module5':
+            return 'STAGE 5 | MODULE-5';
+        case 'module6':
+            return 'STAGE 6 | MODULE-6';
+        case 'module7':
+            return 'STAGE 7 | MODULE-7';
+        case 'module8':
+            return 'STAGE 8 | MODULE-8';
+        case 'module69':
+            return 'STAGE 9 | MODULE-9';
         default:
             return '';
     }
@@ -73,6 +97,12 @@ function redirectToStage(user, stageUID) {
             break;
         case 'module1Lecture3':
             window.location.href = `../js/M1L3/M1L3.html${queryParams}`;
+            break;
+        case 'module4':
+            window.location.href = `../js/M4/m4.html${queryParams}`;
+            break;
+        case 'module5':
+            window.location.href = `../js/M5/m5.html${queryParams}`;
             break;
         default:
             console.log(`invalid stageUID: ${stageUID}`);
