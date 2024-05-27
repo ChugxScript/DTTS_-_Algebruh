@@ -79,7 +79,7 @@ function alterName(stageName) {
             return 'STAGE 7 | MODULE-7';
         case 'module8':
             return 'STAGE 8 | MODULE-8';
-        case 'module69':
+        case 'module9':
             return 'STAGE 9 | MODULE-9';
         default:
             return '';
@@ -103,6 +103,12 @@ function redirectToStage(user, stageUID) {
             break;
         case 'module5':
             window.location.href = `../js/M5/m5.html${queryParams}`;
+            break;
+        case 'module6':
+            window.location.href = `../js/M6/m6.html${queryParams}`;
+            break;
+        case 'module7':
+            window.location.href = `../js/M7/m7.html${queryParams}`;
             break;
         default:
             console.log(`invalid stageUID: ${stageUID}`);
