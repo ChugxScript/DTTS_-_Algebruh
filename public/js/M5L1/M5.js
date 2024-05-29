@@ -7,7 +7,7 @@ let scripts = [
   "./m5-img/31.png",
   "./m5-img/32.png",
   "./m5-img/33.png",
-  "./m5-img/34.png",
+  "./m5-img/34.png"
 
 ]
 
