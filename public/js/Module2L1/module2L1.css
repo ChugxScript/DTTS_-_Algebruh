@@ -1,0 +1,15 @@
+html, body {
+    height: 100%; /* Ensure the full height of the viewport is used */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    overflow: hidden; /* Prevents scrollbars */
+}
+#dynamic-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center center; /* Adjust as needed, e.g., 'top center' */
+}
