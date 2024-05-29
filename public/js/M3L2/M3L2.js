@@ -38,6 +38,8 @@ function setContent() {
     const battle_bruhs_option = document.getElementById("battle_bruhs_option");
     const battle_items_option = document.getElementById("battle_items_option");
     const gameResultCanvas = document.getElementById("gameResultCanvas");
+    const script3 = document.getElementById("script3");
+    const img_script = document.getElementById("img_script");
 
 
     M1L2Canvas.style.width = divWidth + "px";
@@ -51,6 +53,12 @@ function setContent() {
 
     gigaGuide2.style.width = divWidth + "px";
     gigaGuide2.style.height = divHeight + "px";
+
+    script3.style.width = divWidth + "px";
+    script3.style.height = divHeight + "px";
+
+    img_script.style.width = divWidth + "px";
+    img_script.style.height = divHeight + "px";
 
     battleCanvas.style.display = 'none';
     feedback_prompt.style.display = 'none';

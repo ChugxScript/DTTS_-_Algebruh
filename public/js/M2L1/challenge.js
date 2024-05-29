@@ -113,7 +113,7 @@ const decisionTreeThompsonSampling = async () => {
     });
 
     enemy.forEach((enemies) => {
-        if (enemies.enememe_name == 'Rain Bowman') {
+        if (enemies.enememe_name == 'The Great Wizard') {
             currEnemy = enemies;
         }
     })
