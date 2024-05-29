@@ -54,7 +54,7 @@ gotoDashboardBTN.addEventListener('click', async function () {
 
 window.onload = async () => {
     const user = await getCurrentUserFromFirestore();
-    if (user.user_stageCleared.includes("module5Lecture2")) {
+    if (user.user_stageCleared.includes("module6Lecture2")) {
         curr_script = 1;
     }
 };
@@ -113,7 +113,7 @@ const decisionTreeThompsonSampling = async () => {
     });
 
     enemy.forEach((enemies) => {
-        if (enemies.enememe_name == 'ni-bruh') {
+        if (enemies.enememe_name == 'eek eek eek') {
             currEnemy = enemies;
         }
     })
@@ -254,7 +254,7 @@ const decisionTreeThompsonSampling = async () => {
             scriptRunning = true;
             displayGameResult('LOSE');
         } else if (currEnemy.enememe_hp <= 0) {
-            await updateUserDataStageCleared(userChar, 'module5Lecture2');
+            await updateUserDataStageCleared(userChar, 'module6Lecture2');
             displayGameResult('WON');
         } else {
             initValue(level_stat, timeDifference, correctAnswerChecker);
@@ -542,7 +542,7 @@ const decisionTreeThompsonSampling = async () => {
         }
     }
 
-    if (currUser.user_stageCleared.includes("module5Lecture2")) {
+    if (currUser.user_stageCleared.includes("module6Lecture2")) {
         displayGameResult('CLEAR');
     } else {
         // Start with the first question
