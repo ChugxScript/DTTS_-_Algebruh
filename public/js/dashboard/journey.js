@@ -20,7 +20,7 @@ export const showJourneyStages = async () => {
         'module1Lecture3',
         'module2',
         'module3',
-        'module4',
+        'module4Lecture1',
         'module5',
         'module6',
         'module7',
@@ -69,8 +69,8 @@ function alterName(stageName) {
             return 'STAGE 2 | MODULE-2';
         case 'module3':
             return 'STAGE 3 | MODULE-3';
-        case 'module4':
-            return 'STAGE 4 | MODULE-4';
+        case 'module4Lecture1':
+            return 'STAGE 4 | MODULE-4 LEC-1';
         case 'module5':
             return 'STAGE 5 | MODULE-5';
         case 'module6':
@@ -98,8 +98,8 @@ function redirectToStage(user, stageUID) {
         case 'module1Lecture3':
             window.location.href = `../js/M1L3/M1L3.html${queryParams}`;
             break;
-        case 'module4':
-            window.location.href = `../js/M4/m4.html${queryParams}`;
+        case 'module4Lecture1':
+            window.location.href = `../js/M4L1/m4.html${queryParams}`;
             break;
         case 'module5':
             window.location.href = `../js/M5/m5.html${queryParams}`;
