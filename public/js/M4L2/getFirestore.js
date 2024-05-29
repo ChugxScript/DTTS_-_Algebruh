@@ -98,7 +98,7 @@ export const getEnemyFromFirestore = async () => {
 
 // Questions
 export const getEasyQuestionsFromFirestore = async () => {
-    const easyQuestionsRef = doc(db, 'stageQuestions', 'module4Lecture1');
+    const easyQuestionsRef = doc(db, 'stageQuestions', 'module4lecture2');
     const easyQuestionsSnap = await getDoc(easyQuestionsRef);
     let easyQuestions = [];
     
@@ -113,7 +113,7 @@ export const getEasyQuestionsFromFirestore = async () => {
     }
 };
 export const getDifficultQuestionsFromFirestore = async () => {
-    const difficultQuestionsRef = doc(db, 'stageQuestions', 'module4Lecture1');
+    const difficultQuestionsRef = doc(db, 'stageQuestions', 'module4lecture2');
     const difficultQuestionsSnap = await getDoc(difficultQuestionsRef);
     let difficultQuestions = [];
     
@@ -128,7 +128,7 @@ export const getDifficultQuestionsFromFirestore = async () => {
     }
 };
 export const getBonusFromFirestore = async () => {
-    const bonusRef = doc(db, 'stageQuestions', 'module4Lecture1');
+    const bonusRef = doc(db, 'stageQuestions', 'module4lecture2');
     const bonusSnap = await getDoc(bonusRef);
     let bonus = [];
     

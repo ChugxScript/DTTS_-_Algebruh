@@ -54,7 +54,7 @@ gotoDashboardBTN.addEventListener('click', async function () {
 
 window.onload = async () => {
     const user = await getCurrentUserFromFirestore();
-    if (user.user_stageCleared.includes("module4Lecture1")) {
+    if (user.user_stageCleared.includes("module4lecture2")) {
         curr_script = 1;
     }
 };
